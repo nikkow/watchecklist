@@ -72,10 +72,9 @@ function addTitle(references: References, id: string): void {
 export async function buildCatalog(
   references: References,
   client: TmdbClient,
-  now: Date = new Date(),
 ): Promise<SyncResult> {
   const result: SyncResult = {
-    catalog: { generatedAt: now.toISOString(), shows: {}, movies: {} },
+    catalog: { shows: {}, movies: {} },
     images: [],
     problems: [],
   };

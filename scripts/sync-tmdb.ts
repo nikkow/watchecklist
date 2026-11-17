@@ -1,13 +1,15 @@
 /// <reference types="node" />
 
-import { mkdir, rm, writeFile } from 'node:fs/promises';
+import { mkdir, rename, rm, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { loadLists } from '../src/lists/load.ts';
 import { createTmdbClient } from '../src/tmdb/client.ts';
 import { buildCatalog, collectReferences } from '../src/tmdb/sync.ts';
 
 const outputDirectory = join(import.meta.dirname, '..', 'src', 'generated', 'tmdb');
-const imagesDirectory = join(outputDirectory, 'images');
+/** Filled first, then swapped in, so a failed sync keeps the previous output whole. */
+const stagingDirectory = `${outputDirectory}.staging`;
+const imagesDirectory = join(stagingDirectory, 'images');
 
 const token = process.env['TMDB_READ_ACCESS_TOKEN'];
 if (!token) {
@@ -24,14 +26,16 @@ if (problems.length > 0) {
   process.exit(1);
 }
 
-await rm(outputDirectory, { recursive: true, force: true });
+await rm(stagingDirectory, { recursive: true, force: true });
 await mkdir(imagesDirectory, { recursive: true });
 await Promise.all(
   images.map(async ({ fileName, filePath, size }) => {
     await writeFile(join(imagesDirectory, fileName), await client.image(filePath, size));
   }),
 );
-await writeFile(join(outputDirectory, 'catalog.json'), `${JSON.stringify(catalog, null, 2)}\n`);
+await writeFile(join(stagingDirectory, 'catalog.json'), `${JSON.stringify(catalog, null, 2)}\n`);
+await rm(outputDirectory, { recursive: true, force: true });
+await rename(stagingDirectory, outputDirectory);
 
 const episodes = Object.values(catalog.shows).reduce(
   (total, show) => total + Object.keys(show.episodes).length,

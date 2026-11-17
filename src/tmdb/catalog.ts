@@ -6,7 +6,6 @@
  * episode code is enough to find it.
  */
 export interface Catalog {
-  generatedAt: string;
   /** Keyed by `tv:<tmdbId>`. */
   shows: Record<string, Show>;
   /** Keyed by `movie:<tmdbId>`. */

@@ -84,14 +84,9 @@ describe('collectReferences', () => {
 
 describe('buildCatalog', () => {
   it('builds the catalog, queues images and reports what TMDB does not know', async () => {
-    const result = await buildCatalog(
-      collectReferences([list]),
-      fakeClient,
-      new Date('2026-01-01T00:00:00Z'),
-    );
+    const result = await buildCatalog(collectReferences([list]), fakeClient);
 
     expect(result.catalog).toEqual({
-      generatedAt: '2026-01-01T00:00:00.000Z',
       shows: {
         'tv:1': {
           name: { en: 'The Show', fr: 'The Show' },
