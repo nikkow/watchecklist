@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ListCard from './list/ListCard.astro';
+import { listViews } from './list/listPaths';
 import { useTranslations, type Locale } from '../i18n';
 import { pages } from '../i18n/routes';
 import { suggestListUrl } from '../site';
@@ -10,6 +12,7 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = useTranslations(locale);
+const lists = await listViews(locale);
 ---
 
 <BaseLayout locale={locale} alternates={pages.home} current="home">
@@ -23,10 +26,18 @@ const t = useTranslations(locale);
     <h2 id="lists-title" class="wcl-display">
       {t.home.listsTitle}
     </h2>
-    <div class="empty">
-      <p>{t.home.listsEmpty}</p>
-      <a href={suggestListUrl}>{t.home.suggestList}</a>
-    </div>
+    {lists.length > 0 ? (
+      <ul class="cards">
+        {lists.map((view) => (
+          <ListCard locale={locale} view={view} />
+        ))}
+      </ul>
+    ) : (
+      <p class="empty-text">{t.home.listsEmpty}</p>
+    )}
+    <a class="suggest" href={suggestListUrl}>
+      {t.home.suggestList}
+    </a>
   </section>
 </BaseLayout>
 
@@ -54,18 +65,19 @@ const t = useTranslations(locale);
     font-size: 30px;
     line-height: 1;
   }
-  .empty {
-    padding: 18px;
-    border-radius: var(--wcl-radius-card);
-    background: var(--wcl-surface);
+  .cards {
+    margin: 0;
+    padding: 0;
+    list-style: none;
     display: grid;
-    gap: 8px;
+    gap: 32px;
   }
-  .empty p {
+  .empty-text {
     margin: 0;
     color: var(--wcl-text-soft);
   }
-  .empty a {
+  .suggest {
+    margin-top: 24px;
     min-height: 44px;
     display: inline-flex;
     align-items: center;
@@ -86,9 +98,8 @@ const t = useTranslations(locale);
       margin-bottom: 28px;
       font-size: 56px;
     }
-    .empty {
-      padding: 28px;
-      max-width: 50%;
+    .cards {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 </style>
