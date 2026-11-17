@@ -62,5 +62,10 @@ const canonical = new URL(alternates[locale], Astro.site);
       <slot />
     </main>
     <Footer locale={locale} alternates={alternates} />
+    <script>
+      import { registerServiceWorker } from '../pwa/register';
+      // A worker in development would serve stale pages over the dev server.
+      if (import.meta.env.PROD) registerServiceWorker();
+    </script>
   </body>
 </html>
