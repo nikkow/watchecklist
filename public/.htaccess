@@ -21,9 +21,8 @@
 </IfModule>
 
 <IfModule mod_headers.c>
-  # Browsers keep to HTTPS once they have seen the site. One day while the redirects settle;
-  # raise to a year once they are confirmed.
-  Header always set Strict-Transport-Security "max-age=86400"
+  # Browsers keep to HTTPS for a year once they have seen the site.
+  Header always set Strict-Transport-Security "max-age=31536000"
   Header always set X-Content-Type-Options "nosniff"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
 
