@@ -1,0 +1,59 @@
+name: Suggest a list
+description: Propose a shared universe (series and films) to add as a watch order. / Proposer un univers à ajouter.
+title: '[List] '
+labels: ['list request']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a list! English or French are both fine. / Merci ! Anglais ou français, au choix.
+
+        Keep it spoiler-free: episode codes (S02E07) are enough, never describe plot.
+  - type: input
+    id: universe
+    attributes:
+      label: Universe
+      description: Name of the shared universe.
+      placeholder: Arrowverse
+    validations:
+      required: true
+  - type: textarea
+    id: titles
+    attributes:
+      label: Series and films
+      description: One per line, with its TMDB link when you have it.
+      placeholder: |
+        Arrow: https://www.themoviedb.org/tv/1412
+        The Flash: https://www.themoviedb.org/tv/60735
+    validations:
+      required: true
+  - type: textarea
+    id: crossovers
+    attributes:
+      label: Crossovers
+      description: Name and episode codes of each crossover, in watch order.
+      placeholder: 'Flash vs. Arrow: The Flash S01E08, Arrow S03E08'
+  - type: textarea
+    id: sources
+    attributes:
+      label: Order sources
+      description: Where the order comes from (official guide, wiki, fan reference), with links.
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Optional episodes or films, alternative orders, anything worth knowing.
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched the existing lists and issues; this universe is not covered yet.
+          required: true
+        - label: My suggestion is spoiler-free.
+          required: true
+        - label: I agree that the curated order is published under CC BY-SA 4.0.
+          required: true
+        - label: I can help curate or review the order.

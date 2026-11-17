@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { useTranslations, type Locale } from '../i18n';
+import { suggestListUrl } from '../site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<BaseLayout locale={locale} page="home">
+  <section class="hero wcl-container">
+    <h1 class="wcl-page-title">{t.home.title}</h1>
+    <p class="subtitle">{t.home.subtitle}</p>
+    <p class="intro">{t.home.intro}</p>
+  </section>
+
+  <section class="lists wcl-container" aria-labelledby="lists-title">
+    <h2 id="lists-title" class="wcl-display">
+      {t.home.listsTitle}
+    </h2>
+    <div class="empty">
+      <p>{t.home.listsEmpty}</p>
+      <a href={suggestListUrl}>{t.home.suggestList}</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-top: 32px;
+    display: grid;
+    gap: 14px;
+  }
+  .subtitle {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 600;
+  }
+  .intro {
+    margin: 0;
+    max-width: 36em;
+    color: var(--wcl-text-soft);
+  }
+  .lists {
+    margin-top: var(--wcl-section-gap);
+  }
+  h2 {
+    margin: 0 0 16px;
+    font-size: 30px;
+    line-height: 1;
+  }
+  .empty {
+    padding: 18px;
+    border-radius: var(--wcl-radius-card);
+    background: var(--wcl-surface);
+    display: grid;
+    gap: 8px;
+  }
+  .empty p {
+    margin: 0;
+    color: var(--wcl-text-soft);
+  }
+  .empty a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    font-weight: 700;
+  }
+  @media (min-width: 1024px) {
+    .hero {
+      padding-top: 40px;
+      gap: 20px;
+    }
+    .subtitle {
+      font-size: 24px;
+    }
+    .intro {
+      font-size: 19px;
+    }
+    h2 {
+      margin-bottom: 28px;
+      font-size: 56px;
+    }
+    .empty {
+      padding: 28px;
+      max-width: 50%;
+    }
+  }
+</style>

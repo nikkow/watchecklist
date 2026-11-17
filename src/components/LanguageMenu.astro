@@ -1,0 +1,146 @@
+---
+import Flag from './Flag.astro';
+import { locales, useTranslations, type Locale } from '../i18n';
+import { pagePath, type PageKey } from '../i18n/routes';
+
+/**
+ * Language switcher built from the available locales, so a new language needs no layout change.
+ * Uses a native disclosure to work without JavaScript. `pill` floats from the desktop header,
+ * `row` opens in place in the mobile footer.
+ */
+interface Props {
+  locale: Locale;
+  page: PageKey;
+  variant: 'pill' | 'row';
+}
+
+const { locale, page, variant } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<details class:list={['language', variant]}>
+  <summary aria-label={t.language.current}>
+    <Flag locale={locale} />
+    <span>{variant === 'pill' ? t.language.code : t.language.current}</span>
+    <svg
+      class="chevron"
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke-width="2.2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M6 9l6 6 6-6"></path>
+    </svg>
+  </summary>
+  <ul aria-label={t.language.menuLabel}>
+    {locales.map((option) => {
+      const current = option === locale;
+      return (
+        <li>
+          <a
+            href={pagePath(page, option)}
+            lang={option}
+            hreflang={option}
+            aria-current={current ? 'true' : undefined}
+          >
+            <Flag locale={option} />
+            {useTranslations(option).language.name}
+            {current && (
+              <svg
+                class="tick"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke-width="2.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M5 12.5l4.5 4.5L19 7.5" />
+              </svg>
+            )}
+          </a>
+        </li>
+      );
+    })}
+  </ul>
+</details>
+
+<style>
+  .language {
+    position: relative;
+  }
+  summary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    list-style: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  .chevron {
+    stroke: var(--wcl-muted);
+  }
+  .pill summary {
+    height: 44px;
+    padding: 0 12px;
+    border-radius: var(--wcl-radius-pill);
+    background: var(--wcl-surface);
+    color: var(--wcl-text);
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .row summary {
+    min-height: 48px;
+    gap: 10px;
+    color: var(--wcl-muted);
+    font-size: 14px;
+  }
+  ul {
+    margin: 0;
+    padding: 6px;
+    list-style: none;
+    border-radius: var(--wcl-radius-button);
+    background: var(--wcl-surface);
+    font-size: 15px;
+  }
+  .pill ul {
+    position: absolute;
+    right: 0;
+    top: 52px;
+    z-index: 10;
+    width: 220px;
+    box-shadow: var(--wcl-menu-shadow);
+  }
+  .row ul {
+    margin-bottom: 8px;
+  }
+  a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+    padding: 0 12px;
+    border-radius: var(--wcl-radius-small);
+    color: var(--wcl-text);
+    text-decoration: none;
+  }
+  a:hover,
+  a[aria-current='true'] {
+    background: var(--wcl-surface-2);
+  }
+  a[aria-current='true'] {
+    font-weight: 600;
+  }
+  .tick {
+    margin-left: auto;
+    stroke: var(--wcl-text);
+  }
+</style>

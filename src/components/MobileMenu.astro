@@ -1,0 +1,85 @@
+---
+import { useTranslations, type Locale } from '../i18n';
+import { pagePath, type PageKey } from '../i18n/routes';
+import type { NavLink } from './nav';
+
+/** Phone navigation behind a menu button; a native disclosure so it works without JavaScript. */
+interface Props {
+  locale: Locale;
+  page: PageKey;
+  links: NavLink[];
+}
+
+const { locale, page, links } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<details class="menu">
+  <summary aria-label={t.header.openMenu}>
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke-width="2"
+      stroke-linecap="round"
+      aria-hidden="true"
+    >
+      <path d="M4 8h16M4 16h16"></path>
+    </svg>
+  </summary>
+  <nav aria-label={t.header.primaryNav}>
+    {links.map((link) => (
+      <a href={pagePath(link.key, locale)} aria-current={link.key === page ? 'page' : undefined}>
+        {link.label}
+      </a>
+    ))}
+  </nav>
+</details>
+
+<style>
+  .menu {
+    position: relative;
+  }
+  summary {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    list-style: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary svg {
+    stroke: var(--wcl-text);
+  }
+  nav {
+    position: absolute;
+    right: 0;
+    top: 52px;
+    z-index: 10;
+    width: 220px;
+    padding: 6px;
+    border-radius: var(--wcl-radius-button);
+    background: var(--wcl-surface);
+    box-shadow: var(--wcl-menu-shadow);
+    display: flex;
+    flex-direction: column;
+  }
+  a {
+    min-height: 44px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    border-radius: var(--wcl-radius-small);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  a:hover,
+  a[aria-current='page'] {
+    background: var(--wcl-surface-2);
+  }
+</style>

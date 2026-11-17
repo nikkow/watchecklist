@@ -1,0 +1,97 @@
+---
+import LanguageMenu from './LanguageMenu.astro';
+import Logo from './Logo.astro';
+import MobileMenu from './MobileMenu.astro';
+import type { NavLink } from './nav';
+import { useTranslations, type Locale } from '../i18n';
+import { pagePath, type PageKey } from '../i18n/routes';
+
+interface Props {
+  locale: Locale;
+  page: PageKey;
+}
+
+const { locale, page } = Astro.props;
+const t = useTranslations(locale);
+const links: NavLink[] = [
+  { key: 'home', label: t.header.lists },
+  { key: 'about', label: t.header.about },
+];
+---
+
+<header class="wcl-container">
+  <a class="home" href={pagePath('home', locale)} aria-label={t.header.home}>
+    <Logo />
+  </a>
+  <div class="desktop">
+    <nav aria-label={t.header.primaryNav}>
+      {links.map((link) => (
+        <a href={pagePath(link.key, locale)} aria-current={link.key === page ? 'page' : undefined}>
+          {link.label}
+        </a>
+      ))}
+    </nav>
+    <LanguageMenu locale={locale} page={page} variant="pill" />
+  </div>
+  <div class="mobile">
+    <MobileMenu locale={locale} page={page} links={links} />
+  </div>
+</header>
+
+<style>
+  header {
+    min-height: 64px;
+    padding-right: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .home {
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    text-decoration: none;
+  }
+  .desktop {
+    display: none;
+  }
+  /* Phones and tablets get the menu button; the language switcher moves to the footer. */
+  @media (min-width: 1024px) {
+    header {
+      min-height: 88px;
+      padding-right: var(--wcl-gutter);
+      justify-content: flex-start;
+      gap: 56px;
+    }
+    .desktop {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 56px;
+    }
+    .mobile {
+      display: none;
+    }
+  }
+  nav {
+    flex: 1;
+    display: flex;
+    gap: 28px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  nav a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    text-decoration: none;
+    opacity: 0.75;
+    transition: opacity 0.2s;
+  }
+  nav a:hover,
+  nav a[aria-current='page'] {
+    opacity: 1;
+  }
+</style>

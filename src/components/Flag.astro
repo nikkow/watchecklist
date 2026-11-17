@@ -1,0 +1,21 @@
+---
+import en from '../assets/flags/en.svg';
+import fr from '../assets/flags/fr.svg';
+import type { Locale } from '../i18n';
+
+/** Small flag drawn for a locale in the language menu; national colours live in the SVG assets. */
+interface Props {
+  locale: Locale;
+}
+
+const flags = { en, fr } satisfies Record<Locale, typeof en>;
+const { locale } = Astro.props;
+---
+
+<img class="flag" src={flags[locale].src} width="21" height="14" alt="" />
+
+<style>
+  .flag {
+    flex: none;
+  }
+</style>
