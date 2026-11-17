@@ -1,3 +1,4 @@
+import { episodeCode, parseId } from '../lists/ids.ts';
 import type { List } from '../lists/schema.ts';
 import type { Catalog, LocalizedName, Movie, Show } from './catalog.ts';
 import { mapWithLimit, type TmdbClient } from './client.ts';
@@ -10,8 +11,8 @@ export const backdropSize = 'w1280';
 
 /** What the lists point at on TMDB. */
 export interface References {
-  /** Episode codes (`sXXeYY`) per show id. */
-  shows: Map<number, Set<string>>;
+  /** Episode numbers per season number, per show id. */
+  shows: Map<number, Map<number, Set<number>>>;
   movies: Set<number>;
   /** Cover ids (`tv:<id>` or `movie:<id>`), whose backdrops are downloaded. */
   covers: Set<string>;
@@ -50,14 +51,16 @@ export function collectReferences(lists: Iterable<List>): References {
 }
 
 function addTitle(references: References, id: string): void {
-  const [type, tmdbId, episode] = id.split(':');
-  if (type === 'movie') {
-    references.movies.add(Number(tmdbId));
+  const parsed = parseId(id);
+  if (parsed.type === 'movie') {
+    references.movies.add(parsed.movieId);
     return;
   }
-  const episodes = references.shows.get(Number(tmdbId)) ?? new Set<string>();
-  if (episode !== undefined) episodes.add(episode);
-  references.shows.set(Number(tmdbId), episodes);
+  const seasons = references.shows.get(parsed.showId) ?? new Map<number, Set<number>>();
+  references.shows.set(parsed.showId, seasons);
+  if (parsed.type === 'show') return;
+  const episodes = seasons.get(parsed.season) ?? new Set<number>();
+  seasons.set(parsed.season, episodes.add(parsed.episode));
 }
 
 /**
@@ -78,7 +81,7 @@ export async function buildCatalog(
     problems: [],
   };
 
-  await mapWithLimit([...references.shows], concurrency, async ([id, codes]) => {
+  await mapWithLimit([...references.shows], concurrency, async ([id, referenced]) => {
     const key = `tv:${id}`;
     const [en, fr] = await Promise.all([
       client.get<TmdbShow>(`/tv/${id}`, { language: 'en-US' }),
@@ -89,21 +92,24 @@ export async function buildCatalog(
       ...images(result, key, en, references.covers.has(key)),
       episodes: {},
     };
-    const seasons = [...new Set([...codes].map((code) => Number(code.slice(1, 3))))];
+    const seasons = [...referenced.keys()];
     const aired = await mapWithLimit(seasons, 2, (season) =>
       client.get<TmdbSeason>(`/tv/${id}/season/${season}`, { language: 'en-US' }),
     );
     const known = new Map(
       aired.flatMap((season) =>
         season.episodes.map((episode) => [
-          code(episode.season_number, episode.episode_number),
+          episodeCode(episode.season_number, episode.episode_number),
           episode.air_date || null,
         ]),
       ),
     );
-    for (const episodeCode of [...codes].sort()) {
-      if (!known.has(episodeCode)) result.problems.push(`${key}:${episodeCode} is not on TMDB`);
-      else show.episodes[episodeCode] = { airDate: known.get(episodeCode) ?? null };
+    const codes = [...referenced].flatMap(([season, episodes]) =>
+      [...episodes].map((episode) => episodeCode(season, episode)),
+    );
+    for (const code of codes.sort()) {
+      if (!known.has(code)) result.problems.push(`${key}:${code} is not on TMDB`);
+      else show.episodes[code] = { airDate: known.get(code) ?? null };
     }
     result.catalog.shows[key] = show;
   });
@@ -131,10 +137,6 @@ export async function buildCatalog(
 
 function localized(en: string, fr: string, original: string): LocalizedName {
   return { en: en || original, fr: fr || original };
-}
-
-function code(season: number, episode: number): string {
-  return `s${String(season).padStart(2, '0')}e${String(episode).padStart(2, '0')}`;
 }
 
 /** Queues the poster, and the backdrop for a cover, and returns their local file names. */

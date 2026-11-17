@@ -8,7 +8,9 @@ const list = listSchema.parse({
   description: 'Test',
   authors: ['nikkow'],
   cover: { backdrop: 'tv:1' },
-  sections: [{ title: 'A', items: ['tv:1:s01e01', 'tv:1:s01e02', 'tv:1:s02e01', 'movie:7'] }],
+  sections: [
+    { title: 'A', items: ['tv:1:s01e01', 'tv:1:s01e02', 'tv:1:s02e01', 'tv:1:s100e01', 'movie:7'] },
+  ],
 });
 
 /** Answers like TMDB for one show (two seasons, the second with one episode) and one movie. */
@@ -29,6 +31,9 @@ const fakeClient: TmdbClient = {
         ],
       },
       '/tv/1/season/2': { episodes: [] },
+      '/tv/1/season/100': {
+        episodes: [{ season_number: 100, episode_number: 1, air_date: '2030-01-01' }],
+      },
       '/movie/7': {
         title: french ? 'Le Film' : 'The Movie',
         original_title: 'The Movie',
@@ -45,7 +50,13 @@ const fakeClient: TmdbClient = {
 describe('collectReferences', () => {
   it('groups episodes by show and keeps covers apart', () => {
     const references = collectReferences([list]);
-    expect([...(references.shows.get(1) ?? [])]).toEqual(['s01e01', 's01e02', 's02e01']);
+    expect(references.shows.get(1)).toEqual(
+      new Map([
+        [1, new Set([1, 2])],
+        [2, new Set([1])],
+        [100, new Set([1])],
+      ]),
+    );
     expect([...references.movies]).toEqual([7]);
     expect([...references.covers]).toEqual(['tv:1']);
   });
@@ -66,7 +77,11 @@ describe('buildCatalog', () => {
           name: { en: 'The Show', fr: 'The Show' },
           poster: 'tv-1-poster.jpg',
           backdrop: 'tv-1-backdrop.jpg',
-          episodes: { s01e01: { airDate: '2012-10-10' }, s01e02: { airDate: null } },
+          episodes: {
+            s01e01: { airDate: '2012-10-10' },
+            s01e02: { airDate: null },
+            s100e01: { airDate: '2030-01-01' },
+          },
         },
       },
       movies: {
