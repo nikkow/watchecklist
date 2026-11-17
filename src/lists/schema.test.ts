@@ -4,6 +4,7 @@ import { isListSlug, listSchema } from './schema';
 const validList = {
   title: { en: 'Crossovers', fr: 'Les crossovers' },
   description: 'Two series, one event.',
+  authors: ['nikkow'],
   cover: { backdrop: 'tv:1412', focus: '50% 32%' },
   crossovers: { event: 'The Event' },
   sections: [
@@ -49,6 +50,23 @@ describe('listSchema', () => {
 
   it('rejects an unknown field', () => {
     expect(problemsOf((list) => ({ ...list, poster: 'tv:1412' }))).not.toEqual([]);
+  });
+
+  it('rejects a list without authors', () => {
+    expect(problemsOf((list) => ({ ...list, authors: [] }))).not.toEqual([]);
+  });
+
+  it.each(['@nikkow', 'nik_kow', '-nikkow', 'nik--kow'])(
+    'rejects the GitHub user name %s',
+    (handle) => {
+      expect(problemsOf((list) => ({ ...list, curators: [handle] }))).not.toEqual([]);
+    },
+  );
+
+  it('rejects a GitHub user name listed twice, whatever its case', () => {
+    expect(problemsOf((list) => ({ ...list, authors: ['nikkow', 'Nikkow'] }))).toEqual([
+      'Duplicate GitHub user name',
+    ]);
   });
 
   it('rejects a duplicate item', () => {

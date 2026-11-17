@@ -29,6 +29,17 @@ const item = z.union([
   }),
 ]);
 
+/** GitHub user names, without "@", compared case-insensitively as GitHub does. */
+const githubHandles = z
+  .array(
+    z
+      .string()
+      .regex(/^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i, 'Expected a GitHub user name without "@"'),
+  )
+  .refine((handles) => new Set(handles.map((h) => h.toLowerCase())).size === handles.length, {
+    message: 'Duplicate GitHub user name',
+  });
+
 const section = z.strictObject({
   title: text,
   note: text.optional(),
@@ -40,12 +51,15 @@ const section = z.strictObject({
  *
  * Items are TMDB ids only: titles, dates and images come from TMDB at build time and are
  * never written here. A bare id is an essential item. Items of one crossover must follow
- * each other, and every declared crossover must be used.
+ * each other, and every declared crossover must be used. Authors wrote the list; curators
+ * keep it up to date. Both are named by their GitHub user name, for credit.
  */
 export const listSchema = z
   .strictObject({
     title: text,
     description: text,
+    authors: githubHandles.min(1),
+    curators: githubHandles.default([]),
     cover: z.strictObject({
       backdrop: z.string().regex(coverIdPattern, 'Expected tv:<tmdbId> or movie:<tmdbId>'),
       focus: z
