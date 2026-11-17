@@ -9,6 +9,7 @@ export interface ListView {
   /** Summary pieces, such as "11 series" and "2012 to 2024", joined by the page. */
   stats: string[];
   series: SeriesView[];
+  crossovers: CrossoverView[];
   sections: SectionView[];
   itemCount: number;
   authors: string[];
@@ -21,6 +22,16 @@ export interface SeriesView {
   key: string;
   name: string;
   poster: string | null;
+  itemCount: number;
+}
+
+/** A crossover of the list, for the crossover map. */
+export interface CrossoverView {
+  slug: string;
+  name: string;
+  /** Title of the section where it starts. */
+  sectionTitle: string;
+  itemCount: number;
 }
 
 export interface SectionView {

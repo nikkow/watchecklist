@@ -2,7 +2,14 @@ import type { Dictionary, Locale } from '../i18n/index.ts';
 import type { Catalog, TitleImages } from '../tmdb/catalog.ts';
 import { episodeCode, parseId } from './ids.ts';
 import type { List, ListText } from './schema.ts';
-import type { BlockView, ItemView, ListView, SectionView, SeriesView } from './view-types.ts';
+import type {
+  BlockView,
+  CrossoverView,
+  ItemView,
+  ListView,
+  SectionView,
+  SeriesView,
+} from './view-types.ts';
 
 /** One list item once its title is resolved, before it is laid out. */
 interface ResolvedItem extends ItemView {
@@ -83,7 +90,22 @@ export function buildListView(
     key,
     name: title(key).name,
     poster: title(key).images.poster,
+    itemCount: items.filter((item) => item.seriesKey === key).length,
   }));
+  const crossovers = Object.entries(list.crossovers).map(([slug, name]): CrossoverView => {
+    const sectionIndex = sections.findIndex((section) =>
+      section.some((item) => item.crossover === slug),
+    );
+    return {
+      slug,
+      name: localize(name, locale),
+      sectionTitle: localize(list.sections[sectionIndex]?.title ?? '', locale),
+      itemCount: items.filter((item) => item.crossover === slug).length,
+    };
+  });
+  // The map follows the watch order, whatever order the crossovers are declared in.
+  const firstIndex = (slug: string) => items.findIndex((item) => item.crossover === slug);
+  crossovers.sort((a, b) => firstIndex(a.slug) - firstIndex(b.slug));
   const cover = title(list.cover.backdrop);
 
   return {
@@ -93,6 +115,7 @@ export function buildListView(
     cover: { image: cover.images.backdrop, focus: list.cover.focus ?? '50% 50%' },
     stats: stats(items, list, t),
     series,
+    crossovers,
     sections: list.sections.map((section, index): SectionView => ({
       title: localize(section.title, locale),
       note: section.note === undefined ? null : localize(section.note, locale),

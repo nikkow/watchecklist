@@ -59,7 +59,14 @@ describe('buildListView', () => {
     expect(view.title).toBe('Test universe');
     expect(view.stats).toEqual(['2 series', '1 crossover', '3 episodes', '1 film', '2012 to 2016']);
     expect(view.cover).toEqual({ image: 'tv-1-backdrop.jpg', focus: '50% 50%' });
-    expect(view.series.map((series) => series.name)).toEqual(['Alpha', 'Beta', 'Gamma']);
+    expect(view.series.map((series) => [series.name, series.itemCount])).toEqual([
+      ['Alpha', 2],
+      ['Beta', 1],
+      ['Gamma', 1],
+    ]);
+    expect(view.crossovers).toEqual([
+      { slug: 'meet', name: 'The Meeting', sectionTitle: 'Part one', itemCount: 2 },
+    ]);
   });
 
   it('names the seasons a section covers', () => {
