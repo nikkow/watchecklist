@@ -1,19 +1,21 @@
 ---
+import LanguageMenu from './LanguageMenu.astro';
 import { useTranslations, type Locale } from '../i18n';
-import { pagePath } from '../i18n/routes';
+import { pagePath, type PageKey } from '../i18n/routes';
 import { repositoryUrl, suggestListUrl } from '../site';
 
 interface Props {
   locale: Locale;
+  page: PageKey;
 }
 
-const { locale } = Astro.props;
+const { locale, page } = Astro.props;
 const t = useTranslations(locale);
 const year = new Date().getFullYear();
 ---
 
 <footer class="wcl-container">
-  <div class="about">
+  <div class="intro">
     <p class="local">{t.footer.localProgress}</p>
     <p class="notice">
       {t.footer.tmdbNotice} {t.footer.licences}
@@ -22,6 +24,9 @@ const year = new Date().getFullYear();
   <nav aria-label={t.footer.nav}>
     <a href={suggestListUrl}>{t.footer.suggestList}</a>
     <a href={pagePath('about', locale)}>{t.footer.about}</a>
+    <div class="language">
+      <LanguageMenu locale={locale} page={page} variant="row" />
+    </div>
   </nav>
   <div class="bottom">
     <span>© {year} watchecklist</span>
@@ -44,7 +49,7 @@ const year = new Date().getFullYear();
     font-size: 14px;
     color: var(--wcl-muted);
   }
-  .about {
+  .intro {
     display: grid;
     gap: 12px;
   }
@@ -92,7 +97,7 @@ const year = new Date().getFullYear();
       column-gap: 32px;
       padding-bottom: 48px;
     }
-    .about {
+    .intro {
       grid-column: 1 / span 6;
     }
     .local {
@@ -103,6 +108,10 @@ const year = new Date().getFullYear();
     }
     nav {
       grid-column: 9 / span 4;
+    }
+    /* On desktop the language switcher lives in the header. */
+    .language {
+      display: none;
     }
     .bottom {
       grid-column: 1 / -1;

@@ -4,14 +4,11 @@
   --wcl-surface: #17171a;
   --wcl-surface-2: #26262a;
   --wcl-surface-selected: #3a3a3f;
-  --wcl-menu: #1f1f23;
-  --wcl-menu-selected: #2a2a2f;
   --wcl-text: #f5f3ef;
   --wcl-text-soft: #d6d3ce;
   --wcl-muted: #a1a1a6;
   --wcl-vermilion: #e0452b;
   --wcl-vermilion-strong: #c93a22;
-  --wcl-on-vermilion: #ffffff;
 
   --wcl-ink: #161514;
   --wcl-paper: #f3efe7;
@@ -21,7 +18,7 @@
   --wcl-font-display: 'Big Shoulders Display', 'Arial Narrow', sans-serif;
   --wcl-font-ui: 'Schibsted Grotesk', system-ui, sans-serif;
 
-  --wcl-radius-poster: 8px;
+  --wcl-radius-small: 8px; /* posters in rows, menu items */
   --wcl-radius-check: 9px;
   --wcl-radius-button: 16px;
   --wcl-radius-card: 22px;

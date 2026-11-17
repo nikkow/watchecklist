@@ -5,22 +5,25 @@ import { pagePath, type PageKey } from '../i18n/routes';
 
 /**
  * Language switcher built from the available locales, so a new language needs no layout change.
- * Uses a native disclosure to work without JavaScript.
+ * Uses a native disclosure to work without JavaScript. `pill` floats from the desktop header,
+ * `row` opens in place in the mobile footer.
  */
 interface Props {
   locale: Locale;
   page: PageKey;
+  variant: 'pill' | 'row';
 }
 
-const { locale, page } = Astro.props;
+const { locale, page, variant } = Astro.props;
 const t = useTranslations(locale);
 ---
 
-<details class="language">
+<details class:list={['language', variant]}>
   <summary aria-label={t.language.current}>
     <Flag locale={locale} />
-    {t.language.code}
+    <span>{variant === 'pill' ? t.language.code : t.language.current}</span>
     <svg
+      class="chevron"
       width="14"
       height="14"
       viewBox="0 0 24 24"
@@ -73,14 +76,7 @@ const t = useTranslations(locale);
     position: relative;
   }
   summary {
-    height: 44px;
-    padding: 0 12px;
-    border-radius: var(--wcl-radius-pill);
-    background: var(--wcl-surface);
-    color: var(--wcl-text);
-    font-size: 14px;
-    font-weight: 600;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 8px;
     cursor: pointer;
@@ -89,22 +85,42 @@ const t = useTranslations(locale);
   summary::-webkit-details-marker {
     display: none;
   }
-  summary svg {
+  .chevron {
     stroke: var(--wcl-muted);
   }
+  .pill summary {
+    height: 44px;
+    padding: 0 12px;
+    border-radius: var(--wcl-radius-pill);
+    background: var(--wcl-surface);
+    color: var(--wcl-text);
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .row summary {
+    min-height: 48px;
+    gap: 10px;
+    color: var(--wcl-muted);
+    font-size: 14px;
+  }
   ul {
+    margin: 0;
+    padding: 6px;
+    list-style: none;
+    border-radius: var(--wcl-radius-button);
+    background: var(--wcl-surface);
+    font-size: 15px;
+  }
+  .pill ul {
     position: absolute;
     right: 0;
     top: 52px;
     z-index: 10;
     width: 220px;
-    margin: 0;
-    padding: 6px;
-    list-style: none;
-    border-radius: var(--wcl-radius-button);
-    background: var(--wcl-menu);
     box-shadow: var(--wcl-menu-shadow);
-    font-size: 15px;
+  }
+  .row ul {
+    margin-bottom: 8px;
   }
   a {
     display: flex;
@@ -112,12 +128,13 @@ const t = useTranslations(locale);
     gap: 12px;
     min-height: 44px;
     padding: 0 12px;
-    border-radius: 10px;
+    border-radius: var(--wcl-radius-small);
+    color: var(--wcl-text);
     text-decoration: none;
   }
   a:hover,
   a[aria-current='true'] {
-    background: var(--wcl-menu-selected);
+    background: var(--wcl-surface-2);
   }
   a[aria-current='true'] {
     font-weight: 600;

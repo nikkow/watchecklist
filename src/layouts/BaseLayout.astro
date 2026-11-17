@@ -51,6 +51,6 @@ const canonical = new URL(pagePath(page, locale), Astro.site);
     <main>
       <slot />
     </main>
-    <Footer locale={locale} />
+    <Footer locale={locale} page={page} />
   </body>
 </html>

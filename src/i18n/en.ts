@@ -11,6 +11,7 @@ export const en = {
   },
   header: {
     home: 'watchecklist, home',
+    openMenu: 'Open menu',
     primaryNav: 'Main',
     lists: 'Lists',
     about: 'About',

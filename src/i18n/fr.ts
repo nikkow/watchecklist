@@ -13,6 +13,7 @@ export const fr: Dictionary = {
   },
   header: {
     home: 'watchecklist, accueil',
+    openMenu: 'Ouvrir le menu',
     primaryNav: 'Principale',
     lists: 'Listes',
     about: 'À propos',
