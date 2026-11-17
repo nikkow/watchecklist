@@ -6,6 +6,8 @@ const imageBase = 'https://image.tmdb.org/t/p';
 const maxAttempts = 4;
 /** TMDB calls in flight, well under its documented rate limit. */
 const maxInFlight = 6;
+/** Time allowed for one call, body included, before it is retried. */
+const timeoutMs = 15_000;
 
 export type Fetch = typeof fetch;
 
@@ -19,8 +21,9 @@ export interface TmdbClient {
 /**
  * Creates a TMDB client authenticated with a v4 read access token.
  *
- * At most six calls are in flight at once. Rate-limited (429) and server error responses are
- * retried with a growing delay, as TMDB asks; any other error status is thrown.
+ * At most six calls are in flight at once. Network failures, timeouts, rate-limited (429) and
+ * server error responses are retried with a growing delay, as TMDB asks; any other error
+ * status is thrown.
  *
  * @param token - TMDB API read access token.
  * @param fetchImpl - Fetch implementation, replaced in tests.
@@ -33,18 +36,32 @@ export function createTmdbClient(
 ): TmdbClient {
   const limit = createLimiter(maxInFlight);
 
-  async function request(url: string, headers: Record<string, string>): Promise<Response> {
-    return limit(() => send(url, headers));
+  function request<T>(
+    url: string,
+    headers: Record<string, string>,
+    read: (response: Response) => Promise<T>,
+  ): Promise<T> {
+    return limit(() => send(url, headers, read));
   }
 
-  async function send(url: string, headers: Record<string, string>): Promise<Response> {
+  async function send<T>(
+    url: string,
+    headers: Record<string, string>,
+    read: (response: Response) => Promise<T>,
+  ): Promise<T> {
     for (let attempt = 1; ; attempt += 1) {
-      const response = await fetchImpl(url, { headers });
-      if (response.ok) return response;
-      const retryable = response.status === 429 || response.status >= 500;
-      if (!retryable || attempt === maxAttempts) {
-        throw new TmdbError(response.status, url.replace(apiBase, ''));
+      const last = attempt === maxAttempts;
+      let response: Response;
+      try {
+        response = await fetchImpl(url, { headers, signal: AbortSignal.timeout(timeoutMs) });
+        if (response.ok) return await read(response);
+      } catch (error) {
+        if (last) throw error;
+        await wait(500 * attempt);
+        continue;
       }
+      const retryable = response.status === 429 || response.status >= 500;
+      if (!retryable || last) throw new TmdbError(response.status, url.replace(apiBase, ''));
       const retryAfter = Number(response.headers.get('retry-after'));
       await wait(retryAfter > 0 ? retryAfter * 1000 : 500 * attempt);
     }
@@ -54,15 +71,15 @@ export function createTmdbClient(
     async get<T>(path: string, params: Record<string, string> = {}): Promise<T> {
       const query = new URLSearchParams(params).toString();
       const url = `${apiBase}${path}${query ? `?${query}` : ''}`;
-      const response = await request(url, {
-        accept: 'application/json',
-        authorization: `Bearer ${token}`,
-      });
-      return (await response.json()) as T;
+      const headers = { accept: 'application/json', authorization: `Bearer ${token}` };
+      return request(url, headers, async (response) => (await response.json()) as T);
     },
     async image(filePath: string, size: string): Promise<Uint8Array> {
-      const response = await request(`${imageBase}/${size}${filePath}`, {});
-      return new Uint8Array(await response.arrayBuffer());
+      return request(
+        `${imageBase}/${size}${filePath}`,
+        {},
+        async (response) => new Uint8Array(await response.arrayBuffer()),
+      );
     },
   };
 }

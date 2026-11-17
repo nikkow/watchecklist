@@ -42,6 +42,18 @@ describe('createTmdbClient', () => {
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
+  it('retries a network failure', async () => {
+    const fetchMock = vi
+      .fn<Fetch>()
+      .mockRejectedValueOnce(new TypeError('fetch failed'))
+      .mockResolvedValueOnce(respond(200, { ok: true }));
+
+    await expect(
+      createTmdbClient('t', fetchMock, () => Promise.resolve()).get('/tv/1'),
+    ).resolves.toEqual({ ok: true });
+    expect(fetchMock.mock.calls[0]?.[1]?.signal).toBeInstanceOf(AbortSignal);
+  });
+
   it('gives up after repeated server errors', async () => {
     const fetchMock = vi.fn<Fetch>().mockImplementation(() => Promise.resolve(respond(503)));
 
