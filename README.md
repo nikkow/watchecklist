@@ -20,8 +20,8 @@ universes with crossovers (episodes from several series interleaved with films).
 
 ## Architecture
 
-- Static site: [Astro](https://astro.build) with React islands, strict TypeScript, no backend.
-- List pages are pre-rendered for search engines; only the checklist is hydrated on the client.
+- Static site: [Astro](https://astro.build), strict TypeScript, no backend.
+- List pages are pre-rendered for search engines; a small script adds ticking and filters.
 - Progress is stored in `localStorage`, keyed by stable item ids (`tv:<id>:sXXeYY`,
   `movie:<id>`) so editing an order never loses ticks.
 - Lists are hand-curated YAML files in `data/lists/`, validated at build time.
@@ -33,7 +33,7 @@ universes with crossovers (episodes from several series interleaved with films).
 ## Planned layout
 
 ```text
-src/            Astro site and React islands
+src/            Astro site and its browser scripts
 data/lists/     curated watch orders (YAML)
 scripts/        list tooling, TMDB sync, data validation
 ```
