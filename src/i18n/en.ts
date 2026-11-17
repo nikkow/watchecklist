@@ -30,7 +30,7 @@ export const en = {
       'watchecklist is a free checklist for watching the episodes and films of a shared universe in the right order, crossovers included.',
     privacyTitle: 'No account, no tracking',
     privacy:
-      'Your progress is stored in this browser only. There is no account, no analytics and no tracker. Export your progress to keep a backup or move it to another device.',
+      'Your progress is stored in this browser only. There is no account, no analytics and no tracker.',
     dataTitle: 'Data sources',
     data: 'Watch orders are edited by hand and published under CC BY-SA 4.0. Titles, dates and images come from TMDB.',
     tmdbLink: 'The Movie Database (TMDB)',

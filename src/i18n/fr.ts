@@ -32,7 +32,7 @@ export const fr: Dictionary = {
       'watchecklist est une checklist gratuite pour regarder les épisodes et les films d’un univers partagé dans le bon ordre, crossovers compris.',
     privacyTitle: 'Sans compte, sans pistage',
     privacy:
-      'Votre progression est enregistrée uniquement dans ce navigateur. Pas de compte, pas de mesure d’audience, pas de traceur. Exportez votre progression pour la sauvegarder ou la retrouver sur un autre appareil.',
+      'Votre progression est enregistrée uniquement dans ce navigateur. Pas de compte, pas de mesure d’audience, pas de traceur.',
     dataTitle: 'Sources des données',
     data: 'Les ordres de visionnage sont édités à la main et publiés sous CC BY-SA 4.0. Les titres, dates et images viennent de TMDB.',
     tmdbLink: 'The Movie Database (TMDB)',
