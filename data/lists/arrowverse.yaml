@@ -1,0 +1,909 @@
+title: Arrowverse
+description:
+  en: Every episode of the Arrowverse series in airing order, with each crossover kept in one piece.
+  fr: Tous les épisodes des séries de l’Arrowverse dans l’ordre de diffusion, chaque crossover d’un seul tenant.
+cover:
+  backdrop: tv:1412
+
+crossovers:
+  flash-vs-arrow: Flash vs. Arrow
+  heroes-join-forces: Heroes Join Forces
+  invasion: Invasion!
+  duet: Duet
+  crisis-on-earth-x: Crisis on Earth-X
+  elseworlds: Elseworlds
+  crisis-on-infinite-earths: Crisis on Infinite Earths
+
+sections:
+  - title:
+      en: Season 2012-2013
+      fr: Saison 2012-2013
+    items:
+      - tv:1412:s01e01
+      - tv:1412:s01e02
+      - tv:1412:s01e03
+      - tv:1412:s01e04
+      - tv:1412:s01e05
+      - tv:1412:s01e06
+      - tv:1412:s01e07
+      - tv:1412:s01e08
+      - tv:1412:s01e09
+      - tv:1412:s01e10
+      - tv:1412:s01e11
+      - tv:1412:s01e12
+      - tv:1412:s01e13
+      - tv:1412:s01e14
+      - tv:1412:s01e15
+      - tv:1412:s01e16
+      - tv:1412:s01e17
+      - tv:1412:s01e18
+      - tv:1412:s01e19
+      - tv:1412:s01e20
+      - tv:1412:s01e21
+      - tv:1412:s01e22
+      - tv:1412:s01e23
+  - title:
+      en: Season 2013-2014
+      fr: Saison 2013-2014
+    items:
+      - tv:1412:s02e01
+      - tv:1412:s02e02
+      - tv:1412:s02e03
+      - tv:1412:s02e04
+      - tv:1412:s02e05
+      - tv:1412:s02e06
+      - tv:1412:s02e07
+      - tv:1412:s02e08
+      - tv:1412:s02e09
+      - tv:1412:s02e10
+      - tv:1412:s02e11
+      - tv:1412:s02e12
+      - tv:1412:s02e13
+      - tv:1412:s02e14
+      - tv:1412:s02e15
+      - tv:1412:s02e16
+      - tv:1412:s02e17
+      - tv:1412:s02e18
+      - tv:1412:s02e19
+      - tv:1412:s02e20
+      - tv:1412:s02e21
+      - tv:1412:s02e22
+      - tv:1412:s02e23
+  - title:
+      en: Season 2014-2015
+      fr: Saison 2014-2015
+    items:
+      - tv:60735:s01e01
+      - tv:1412:s03e01
+      - tv:60735:s01e02
+      - tv:1412:s03e02
+      - tv:60735:s01e03
+      - tv:1412:s03e03
+      - { id: tv:60743:s01e01, importance: optional }
+      - tv:60735:s01e04
+      - tv:1412:s03e04
+      - { id: tv:60743:s01e02, importance: optional }
+      - tv:1412:s03e05
+      - { id: tv:60743:s01e03, importance: optional }
+      - tv:60735:s01e05
+      - tv:1412:s03e06
+      - { id: tv:60743:s01e04, importance: optional }
+      - tv:60735:s01e06
+      - tv:1412:s03e07
+      - { id: tv:60743:s01e05, importance: optional }
+      - tv:60735:s01e07
+      - { id: tv:60743:s01e06, importance: optional }
+      - { id: tv:60735:s01e08, crossover: flash-vs-arrow }
+      - { id: tv:1412:s03e08, crossover: flash-vs-arrow }
+      - { id: tv:60743:s01e07, importance: optional }
+      - tv:60735:s01e09
+      - tv:1412:s03e09
+      - { id: tv:60743:s01e08, importance: optional }
+      - { id: tv:60743:s01e09, importance: optional }
+      - tv:60735:s01e10
+      - tv:1412:s03e10
+      - { id: tv:60743:s01e10, importance: optional }
+      - tv:60735:s01e11
+      - tv:1412:s03e11
+      - { id: tv:60743:s01e11, importance: optional }
+      - tv:60735:s01e12
+      - tv:1412:s03e12
+      - { id: tv:60743:s01e12, importance: optional }
+      - tv:60735:s01e13
+      - tv:1412:s03e13
+      - { id: tv:60743:s01e13, importance: optional }
+      - tv:60735:s01e14
+      - tv:1412:s03e14
+      - tv:1412:s03e15
+      - tv:60735:s01e15
+      - tv:1412:s03e16
+      - tv:60735:s01e16
+      - tv:1412:s03e17
+      - tv:60735:s01e17
+      - tv:1412:s03e18
+      - tv:60735:s01e18
+      - tv:1412:s03e19
+      - tv:60735:s01e19
+      - tv:1412:s03e20
+      - tv:60735:s01e20
+      - tv:1412:s03e21
+      - tv:60735:s01e21
+      - tv:1412:s03e22
+      - tv:60735:s01e22
+      - tv:1412:s03e23
+      - tv:60735:s01e23
+  - title:
+      en: Season 2015-2016
+      fr: Saison 2015-2016
+    items:
+      - {
+          id: tv:62125:s01e01,
+          importance: optional,
+          note: { en: 'Animated web series.', fr: 'Websérie d’animation.' },
+        }
+      - { id: tv:62125:s01e02, importance: optional }
+      - { id: tv:62125:s01e03, importance: optional }
+      - { id: tv:62125:s01e04, importance: optional }
+      - { id: tv:62125:s01e05, importance: optional }
+      - { id: tv:62125:s01e06, importance: optional }
+      - tv:60735:s02e01
+      - tv:1412:s04e01
+      - tv:60735:s02e02
+      - tv:1412:s04e02
+      - tv:60735:s02e03
+      - tv:1412:s04e03
+      - tv:62688:s01e01
+      - tv:60735:s02e04
+      - tv:1412:s04e04
+      - tv:62688:s01e02
+      - tv:60735:s02e05
+      - tv:1412:s04e05
+      - tv:62688:s01e03
+      - tv:60735:s02e06
+      - tv:1412:s04e06
+      - tv:62688:s01e04
+      - tv:60735:s02e07
+      - tv:1412:s04e07
+      - tv:62688:s01e05
+      - tv:62688:s01e06
+      - { id: tv:60735:s02e08, crossover: heroes-join-forces }
+      - { id: tv:1412:s04e08, crossover: heroes-join-forces }
+      - tv:62688:s01e07
+      - tv:60735:s02e09
+      - tv:1412:s04e09
+      - tv:62688:s01e08
+      - tv:62688:s01e09
+      - tv:62688:s01e10
+      - tv:60735:s02e10
+      - tv:1412:s04e10
+      - tv:62643:s01e01
+      - tv:62688:s01e11
+      - tv:60735:s02e11
+      - tv:1412:s04e11
+      - tv:62643:s01e02
+      - tv:62688:s01e12
+      - tv:60735:s02e12
+      - tv:1412:s04e12
+      - tv:62643:s01e03
+      - tv:62688:s01e13
+      - tv:60735:s02e13
+      - tv:1412:s04e13
+      - tv:62643:s01e04
+      - tv:60735:s02e14
+      - tv:1412:s04e14
+      - tv:62643:s01e05
+      - tv:62688:s01e14
+      - tv:60735:s02e15
+      - tv:1412:s04e15
+      - tv:62643:s01e06
+      - tv:62688:s01e15
+      - tv:62643:s01e07
+      - tv:62643:s01e08
+      - tv:62688:s01e16
+      - tv:62688:s01e17
+      - tv:60735:s02e16
+      - tv:1412:s04e16
+      - tv:62688:s01e18
+      - tv:60735:s02e17
+      - tv:1412:s04e17
+      - tv:62643:s01e09
+      - tv:1412:s04e18
+      - tv:62643:s01e10
+      - tv:62688:s01e19
+      - tv:62643:s01e11
+      - tv:62688:s01e20
+      - tv:60735:s02e18
+      - tv:62643:s01e12
+      - tv:60735:s02e19
+      - tv:1412:s04e19
+      - tv:62643:s01e13
+      - tv:60735:s02e20
+      - tv:1412:s04e20
+      - tv:62643:s01e14
+      - tv:60735:s02e21
+      - tv:1412:s04e21
+      - tv:62643:s01e15
+      - tv:60735:s02e22
+      - tv:1412:s04e22
+      - tv:62643:s01e16
+      - tv:60735:s02e23
+      - tv:1412:s04e23
+  - title:
+      en: Season 2016-2017
+      fr: Saison 2016-2017
+    items:
+      - tv:60735:s03e01
+      - tv:1412:s05e01
+      - tv:62688:s02e01
+      - tv:60735:s03e02
+      - tv:1412:s05e02
+      - tv:62643:s02e01
+      - { id: tv:62125:s02e01, importance: optional }
+      - tv:62688:s02e02
+      - tv:60735:s03e03
+      - tv:1412:s05e03
+      - tv:62643:s02e02
+      - { id: tv:62125:s02e02, importance: optional }
+      - tv:62688:s02e03
+      - tv:60735:s03e04
+      - tv:1412:s05e04
+      - tv:62643:s02e03
+      - { id: tv:62125:s02e03, importance: optional }
+      - tv:62688:s02e04
+      - tv:60735:s03e05
+      - tv:1412:s05e05
+      - tv:62643:s02e04
+      - { id: tv:62125:s02e04, importance: optional }
+      - tv:62688:s02e05
+      - tv:1412:s05e06
+      - tv:62643:s02e05
+      - { id: tv:62125:s02e05, importance: optional }
+      - tv:62688:s02e06
+      - tv:60735:s03e06
+      - tv:1412:s05e07
+      - tv:62643:s02e06
+      - { id: tv:62125:s02e06, importance: optional }
+      - tv:62688:s02e07
+      - tv:60735:s03e07
+      - { id: tv:62688:s02e08, crossover: invasion }
+      - { id: tv:60735:s03e08, crossover: invasion }
+      - { id: tv:1412:s05e08, crossover: invasion }
+      - { id: tv:62643:s02e07, crossover: invasion }
+      - tv:60735:s03e09
+      - tv:1412:s05e09
+      - tv:62643:s02e08
+      - tv:62688:s02e09
+      - tv:60735:s03e10
+      - tv:62643:s02e09
+      - tv:1412:s05e10
+      - tv:62688:s02e10
+      - tv:60735:s03e11
+      - tv:62643:s02e10
+      - tv:1412:s05e11
+      - tv:62688:s02e11
+      - tv:60735:s03e12
+      - tv:62643:s02e11
+      - tv:1412:s05e12
+      - tv:62688:s02e12
+      - tv:1412:s05e13
+      - tv:62688:s02e13
+      - tv:60735:s03e13
+      - tv:62643:s02e12
+      - tv:1412:s05e14
+      - tv:62688:s02e14
+      - tv:60735:s03e14
+      - tv:1412:s05e15
+      - tv:62688:s02e15
+      - tv:60735:s03e15
+      - tv:62643:s02e13
+      - tv:60735:s03e16
+      - tv:62643:s02e14
+      - tv:1412:s05e16
+      - { id: tv:62688:s02e16, crossover: duet }
+      - { id: tv:60735:s03e17, crossover: duet }
+      - tv:62643:s02e15
+      - tv:1412:s05e17
+      - tv:62688:s02e17
+      - tv:60735:s03e18
+      - tv:62643:s02e16
+      - tv:1412:s05e18
+      - tv:62643:s02e17
+      - tv:62688:s02e18
+      - tv:60735:s03e19
+      - tv:1412:s05e19
+      - tv:62688:s02e19
+      - tv:60735:s03e20
+      - tv:1412:s05e20
+      - tv:62688:s02e20
+      - tv:60735:s03e21
+      - tv:1412:s05e21
+      - tv:62688:s02e21
+      - tv:60735:s03e22
+      - tv:1412:s05e22
+      - tv:62688:s02e22
+      - tv:60735:s03e23
+      - tv:1412:s05e23
+  - title:
+      en: Season 2017-2018
+      fr: Saison 2017-2018
+    items:
+      - tv:62688:s03e01
+      - tv:60735:s04e01
+      - tv:62643:s03e01
+      - tv:1412:s06e01
+      - tv:62688:s03e02
+      - tv:60735:s04e02
+      - tv:62643:s03e02
+      - tv:1412:s06e02
+      - tv:62688:s03e03
+      - tv:60735:s04e03
+      - tv:62643:s03e03
+      - tv:1412:s06e03
+      - tv:62688:s03e04
+      - tv:60735:s04e04
+      - tv:62643:s03e04
+      - tv:1412:s06e04
+      - tv:62688:s03e05
+      - tv:60735:s04e05
+      - tv:62643:s03e05
+      - tv:1412:s06e05
+      - tv:62688:s03e06
+      - tv:60735:s04e06
+      - tv:62643:s03e06
+      - tv:1412:s06e06
+      - tv:62688:s03e07
+      - tv:60735:s04e07
+      - tv:62643:s03e07
+      - tv:1412:s06e07
+      - { id: tv:62688:s03e08, crossover: crisis-on-earth-x }
+      - { id: tv:1412:s06e08, crossover: crisis-on-earth-x }
+      - { id: tv:60735:s04e08, crossover: crisis-on-earth-x }
+      - { id: tv:62643:s03e08, crossover: crisis-on-earth-x }
+      - tv:62688:s03e09
+      - tv:60735:s04e09
+      - tv:62643:s03e09
+      - tv:1412:s06e09
+      - {
+          id: tv:75486:s01e01,
+          importance: optional,
+          note: { en: 'Animated web series.', fr: 'Websérie d’animation.' },
+        }
+      - { id: tv:75486:s01e02, importance: optional }
+      - { id: tv:75486:s01e03, importance: optional }
+      - { id: tv:75486:s01e04, importance: optional }
+      - { id: tv:75486:s01e05, importance: optional }
+      - { id: tv:75486:s01e06, importance: optional }
+      - tv:62688:s03e10
+      - tv:60735:s04e10
+      - { id: tv:71663:s01e01, importance: recommended }
+      - tv:1412:s06e10
+      - tv:62688:s03e11
+      - tv:60735:s04e11
+      - { id: tv:71663:s01e02, importance: recommended }
+      - tv:1412:s06e11
+      - tv:62688:s03e12
+      - tv:60735:s04e12
+      - { id: tv:71663:s01e03, importance: recommended }
+      - tv:1412:s06e12
+      - tv:62688:s03e13
+      - tv:60735:s04e13
+      - { id: tv:71663:s01e04, importance: recommended }
+      - tv:1412:s06e13
+      - tv:62643:s03e10
+      - { id: tv:71663:s01e05, importance: recommended }
+      - tv:62643:s03e11
+      - tv:62643:s03e12
+      - tv:60735:s04e14
+      - { id: tv:71663:s01e06, importance: recommended }
+      - tv:1412:s06e14
+      - tv:62643:s03e13
+      - tv:60735:s04e15
+      - { id: tv:71663:s01e07, importance: recommended }
+      - tv:1412:s06e15
+      - tv:62643:s03e14
+      - tv:60735:s04e16
+      - { id: tv:71663:s01e08, importance: recommended }
+      - tv:62643:s03e15
+      - { id: tv:71663:s01e09, importance: recommended }
+      - tv:62643:s03e16
+      - { id: tv:71663:s01e10, importance: recommended }
+      - tv:1412:s06e16
+      - tv:62643:s03e17
+      - { id: tv:71663:s01e11, importance: recommended }
+      - tv:1412:s06e17
+      - tv:62643:s03e18
+      - tv:60735:s04e17
+      - { id: tv:71663:s01e12, importance: recommended }
+      - tv:1412:s06e18
+      - tv:62688:s03e14
+      - tv:60735:s04e18
+      - { id: tv:71663:s01e13, importance: recommended }
+      - tv:1412:s06e19
+      - tv:62688:s03e15
+      - tv:60735:s04e19
+      - tv:1412:s06e20
+      - tv:62688:s03e16
+      - tv:60735:s04e20
+      - tv:1412:s06e21
+      - tv:62688:s03e17
+      - tv:60735:s04e21
+      - tv:1412:s06e22
+      - tv:62688:s03e18
+      - tv:60735:s04e22
+      - tv:1412:s06e23
+      - tv:62688:s03e19
+      - tv:60735:s04e23
+      - tv:62688:s03e20
+      - tv:62688:s03e21
+      - tv:62688:s03e22
+      - tv:62688:s03e23
+      - { id: tv:75486:s02e01, importance: optional }
+      - { id: tv:75486:s02e02, importance: optional }
+      - { id: tv:75486:s02e03, importance: optional }
+      - { id: tv:75486:s02e04, importance: optional }
+      - { id: tv:75486:s02e05, importance: optional }
+      - { id: tv:75486:s02e06, importance: optional }
+  - title:
+      en: Season 2018-2019
+      fr: Saison 2018-2019
+    items:
+      - tv:60735:s05e01
+      - { id: tv:71663:s02e01, importance: recommended }
+      - tv:62688:s04e01
+      - tv:1412:s07e01
+      - tv:60735:s05e02
+      - { id: tv:71663:s02e02, importance: recommended }
+      - tv:62688:s04e02
+      - tv:1412:s07e02
+      - tv:62643:s04e01
+      - tv:60735:s05e03
+      - { id: tv:71663:s02e03, importance: recommended }
+      - tv:62688:s04e03
+      - tv:1412:s07e03
+      - tv:62643:s04e02
+      - tv:60735:s05e04
+      - { id: tv:71663:s02e04, importance: recommended }
+      - tv:62688:s04e04
+      - tv:1412:s07e04
+      - tv:62643:s04e03
+      - tv:62688:s04e05
+      - tv:1412:s07e05
+      - tv:62643:s04e04
+      - tv:60735:s05e05
+      - { id: tv:71663:s02e05, importance: recommended }
+      - tv:62688:s04e06
+      - tv:1412:s07e06
+      - tv:62643:s04e05
+      - tv:60735:s05e06
+      - { id: tv:71663:s02e06, importance: recommended }
+      - tv:62688:s04e07
+      - tv:1412:s07e07
+      - tv:62643:s04e06
+      - tv:60735:s05e07
+      - { id: tv:71663:s02e07, importance: recommended }
+      - tv:62688:s04e08
+      - tv:1412:s07e08
+      - tv:62643:s04e07
+      - tv:60735:s05e08
+      - { id: tv:71663:s02e08, importance: recommended }
+      - { id: tv:60735:s05e09, crossover: elseworlds }
+      - { id: tv:1412:s07e09, crossover: elseworlds }
+      - { id: tv:62688:s04e09, crossover: elseworlds }
+      - tv:62643:s04e08
+      - { id: tv:71663:s02e09, importance: recommended }
+      - tv:60735:s05e10
+      - tv:62688:s04e10
+      - tv:1412:s07e10
+      - { id: tv:71663:s02e10, importance: recommended }
+      - tv:60735:s05e11
+      - tv:62688:s04e11
+      - tv:1412:s07e11
+      - { id: tv:71663:s02e11, importance: recommended }
+      - tv:60735:s05e12
+      - tv:1412:s07e12
+      - { id: tv:71663:s02e12, importance: recommended }
+      - tv:60735:s05e13
+      - tv:1412:s07e13
+      - { id: tv:71663:s02e13, importance: recommended }
+      - tv:60735:s05e14
+      - tv:62688:s04e12
+      - tv:62688:s04e13
+      - tv:1412:s07e14
+      - { id: tv:71663:s02e14, importance: recommended }
+      - tv:60735:s05e15
+      - tv:62688:s04e14
+      - tv:1412:s07e15
+      - { id: tv:71663:s02e15, importance: recommended }
+      - tv:60735:s05e16
+      - tv:62688:s04e15
+      - tv:1412:s07e16
+      - { id: tv:71663:s02e16, importance: recommended }
+      - tv:60735:s05e17
+      - tv:62688:s04e16
+      - tv:1412:s07e17
+      - tv:62688:s04e17
+      - tv:62643:s04e09
+      - tv:62643:s04e10
+      - tv:62643:s04e11
+      - tv:1412:s07e18
+      - tv:60735:s05e18
+      - tv:62688:s04e18
+      - tv:62643:s04e12
+      - tv:1412:s07e19
+      - tv:60735:s05e19
+      - tv:62688:s04e19
+      - tv:62643:s04e13
+      - tv:1412:s07e20
+      - tv:60735:s05e20
+      - tv:62688:s04e20
+      - tv:62643:s04e14
+      - tv:1412:s07e21
+      - tv:60735:s05e21
+      - tv:62688:s04e21
+      - tv:62643:s04e15
+      - tv:1412:s07e22
+      - tv:60735:s05e22
+      - tv:62688:s04e22
+      - tv:62643:s04e16
+  - title:
+      en: Season 2019-2020
+      fr: Saison 2019-2020
+    items:
+      - { id: tv:89247:s01e01, importance: recommended }
+      - tv:62688:s05e01
+      - { id: tv:71663:s03e01, importance: recommended }
+      - tv:60735:s06e01
+      - { id: tv:89247:s01e02, importance: recommended }
+      - tv:62688:s05e02
+      - { id: tv:71663:s03e02, importance: recommended }
+      - tv:60735:s06e02
+      - tv:1412:s08e01
+      - { id: tv:89247:s01e03, importance: recommended }
+      - tv:62688:s05e03
+      - { id: tv:71663:s03e03, importance: recommended }
+      - tv:60735:s06e03
+      - tv:1412:s08e02
+      - { id: tv:89247:s01e04, importance: recommended }
+      - tv:62688:s05e04
+      - { id: tv:71663:s03e04, importance: recommended }
+      - tv:60735:s06e04
+      - tv:1412:s08e03
+      - { id: tv:89247:s01e05, importance: recommended }
+      - tv:62688:s05e05
+      - tv:60735:s06e05
+      - tv:1412:s08e04
+      - { id: tv:89247:s01e06, importance: recommended }
+      - tv:62688:s05e06
+      - { id: tv:71663:s03e05, importance: recommended }
+      - { id: tv:89247:s01e07, importance: recommended }
+      - tv:62688:s05e07
+      - { id: tv:71663:s03e06, importance: recommended }
+      - tv:60735:s06e06
+      - tv:1412:s08e05
+      - { id: tv:71663:s03e07, importance: recommended }
+      - tv:60735:s06e07
+      - tv:1412:s08e06
+      - { id: tv:89247:s01e08, importance: recommended }
+      - tv:62688:s05e08
+      - { id: tv:71663:s03e08, importance: recommended }
+      - tv:60735:s06e08
+      - tv:1412:s08e07
+      - { id: tv:62688:s05e09, crossover: crisis-on-infinite-earths }
+      - { id: tv:89247:s01e09, crossover: crisis-on-infinite-earths }
+      - { id: tv:60735:s06e09, crossover: crisis-on-infinite-earths }
+      - { id: tv:1412:s08e08, crossover: crisis-on-infinite-earths }
+      - { id: tv:62643:s05e01, crossover: crisis-on-infinite-earths }
+      - {
+          id: tv:71663:s03e09,
+          importance: recommended,
+          note:
+            {
+              en: 'Tie-in to the crossover, best watched right after it.',
+              fr: 'Épisode lié au crossover, à voir juste après.',
+            },
+        }
+      - { id: tv:89247:s01e10, importance: recommended }
+      - tv:62688:s05e10
+      - { id: tv:71663:s03e10, importance: recommended }
+      - tv:1412:s08e09
+      - tv:62643:s05e02
+      - { id: tv:89247:s01e11, importance: recommended }
+      - tv:62688:s05e11
+      - { id: tv:71663:s03e11, importance: recommended }
+      - tv:1412:s08e10
+      - { id: tv:71663:s03e12, importance: recommended }
+      - tv:60735:s06e10
+      - tv:62643:s05e03
+      - { id: tv:71663:s03e13, importance: recommended }
+      - tv:60735:s06e11
+      - tv:62643:s05e04
+      - { id: tv:89247:s01e12, importance: recommended }
+      - tv:62688:s05e12
+      - tv:60735:s06e12
+      - tv:62643:s05e05
+      - { id: tv:89247:s01e13, importance: recommended }
+      - tv:62688:s05e13
+      - { id: tv:71663:s03e14, importance: recommended }
+      - tv:60735:s06e13
+      - tv:62643:s05e06
+      - { id: tv:71663:s03e15, importance: recommended }
+      - { id: tv:89247:s01e14, importance: recommended }
+      - tv:62688:s05e14
+      - { id: tv:71663:s03e16, importance: recommended }
+      - tv:60735:s06e14
+      - tv:62643:s05e07
+      - { id: tv:89247:s01e15, importance: recommended }
+      - tv:62688:s05e15
+      - tv:60735:s06e15
+      - tv:62643:s05e08
+      - { id: tv:89247:s01e16, importance: recommended }
+      - tv:62688:s05e16
+      - tv:60735:s06e16
+      - tv:62643:s05e09
+      - { id: tv:89247:s01e17, importance: recommended }
+      - tv:60735:s06e17
+      - tv:62643:s05e10
+      - { id: tv:89247:s01e18, importance: recommended }
+      - tv:62688:s05e17
+      - tv:60735:s06e18
+      - tv:62643:s05e11
+      - { id: tv:89247:s01e19, importance: recommended }
+      - tv:62688:s05e18
+      - tv:60735:s06e19
+      - tv:62643:s05e12
+      - { id: tv:89247:s01e20, importance: recommended }
+      - tv:62688:s05e19
+      - { id: tv:80986:s01e01, importance: recommended }
+      - tv:62643:s05e13
+      - { id: tv:80986:s01e02, importance: recommended }
+      - tv:62643:s05e14
+      - { id: tv:80986:s01e03, importance: recommended }
+      - tv:62643:s05e15
+      - { id: tv:80986:s01e04, importance: recommended }
+      - { id: tv:80986:s01e05, importance: recommended }
+      - { id: tv:80986:s01e06, importance: recommended }
+      - { id: tv:80986:s01e07, importance: recommended }
+      - { id: tv:80986:s01e08, importance: recommended }
+      - { id: tv:80986:s01e09, importance: recommended }
+      - { id: tv:80986:s01e10, importance: recommended }
+      - { id: tv:80986:s01e11, importance: recommended }
+  - title:
+      en: Season 2020-2021
+      fr: Saison 2020-2021
+    items:
+      - { id: tv:80986:s01e12, importance: recommended }
+      - { id: tv:80986:s01e13, importance: recommended }
+      - { id: tv:89247:s02e01, importance: recommended }
+      - { id: tv:89247:s02e02, importance: recommended }
+      - { id: tv:89247:s02e03, importance: recommended }
+      - { id: tv:71663:s04e01, importance: recommended }
+      - { id: tv:89247:s02e04, importance: recommended }
+      - { id: tv:71663:s04e02, importance: recommended }
+      - { id: tv:89247:s02e05, importance: recommended }
+      - { id: tv:71663:s04e03, importance: recommended }
+      - { id: tv:95057:s01e01, importance: recommended }
+      - { id: tv:89247:s02e06, importance: recommended }
+      - { id: tv:71663:s04e04, importance: recommended }
+      - tv:60735:s07e01
+      - { id: tv:95057:s01e02, importance: recommended }
+      - { id: tv:71663:s04e05, importance: recommended }
+      - tv:60735:s07e02
+      - { id: tv:95057:s01e03, importance: recommended }
+      - { id: tv:89247:s02e07, importance: recommended }
+      - { id: tv:71663:s04e06, importance: recommended }
+      - tv:60735:s07e03
+      - { id: tv:95057:s01e04, importance: recommended }
+      - { id: tv:89247:s02e08, importance: recommended }
+      - tv:60735:s07e04
+      - { id: tv:95057:s01e05, importance: recommended }
+      - { id: tv:89247:s02e09, importance: recommended }
+      - tv:60735:s07e05
+      - tv:62688:s06e01
+      - tv:60735:s07e06
+      - tv:62688:s06e02
+      - { id: tv:89247:s02e10, importance: recommended }
+      - { id: tv:71663:s04e07, importance: recommended }
+      - tv:60735:s07e07
+      - tv:62688:s06e03
+      - { id: tv:89247:s02e11, importance: recommended }
+      - { id: tv:71663:s04e08, importance: recommended }
+      - tv:62688:s06e04
+      - { id: tv:71663:s04e09, importance: recommended }
+      - tv:62688:s06e05
+      - { id: tv:89247:s02e12, importance: recommended }
+      - tv:62643:s06e01
+      - { id: tv:71663:s04e10, importance: recommended }
+      - tv:60735:s07e08
+      - tv:62688:s06e06
+      - { id: tv:89247:s02e13, importance: recommended }
+      - tv:62643:s06e02
+      - { id: tv:71663:s04e11, importance: recommended }
+      - tv:60735:s07e09
+      - tv:62688:s06e07
+      - { id: tv:89247:s02e14, importance: recommended }
+      - tv:62643:s06e03
+      - { id: tv:71663:s04e12, importance: recommended }
+      - tv:60735:s07e10
+      - { id: tv:95057:s01e06, importance: recommended }
+      - { id: tv:71663:s04e13, importance: recommended }
+      - tv:60735:s07e11
+      - tv:62643:s06e04
+      - { id: tv:95057:s01e07, importance: recommended }
+      - { id: tv:95057:s01e08, importance: recommended }
+      - { id: tv:89247:s02e15, importance: recommended }
+      - tv:62643:s06e05
+      - tv:60735:s07e12
+      - { id: tv:95057:s01e09, importance: recommended }
+      - { id: tv:89247:s02e16, importance: recommended }
+      - tv:62643:s06e06
+      - tv:60735:s07e13
+      - { id: tv:95057:s01e10, importance: recommended }
+      - { id: tv:89247:s02e17, importance: recommended }
+      - tv:62643:s06e07
+      - tv:60735:s07e14
+      - { id: tv:95057:s01e11, importance: recommended }
+      - { id: tv:89247:s02e18, importance: recommended }
+      - tv:62643:s06e08
+      - tv:60735:s07e15
+      - tv:60735:s07e16
+      - tv:62643:s06e09
+      - tv:60735:s07e17
+      - { id: tv:95057:s01e12, importance: recommended }
+      - tv:62643:s06e10
+      - tv:60735:s07e18
+      - { id: tv:95057:s01e13, importance: recommended }
+  - title:
+      en: Season 2021-2022
+      fr: Saison 2021-2022
+    items:
+      - tv:62643:s06e11
+      - { id: tv:80986:s02e01, importance: recommended }
+      - { id: tv:95057:s01e14, importance: recommended }
+      - tv:62643:s06e12
+      - { id: tv:80986:s02e02, importance: recommended }
+      - { id: tv:95057:s01e15, importance: recommended }
+      - tv:62643:s06e13
+      - tv:62688:s06e08
+      - { id: tv:80986:s02e03, importance: recommended }
+      - tv:62643:s06e14
+      - tv:62688:s06e09
+      - { id: tv:80986:s02e04, importance: recommended }
+      - tv:62643:s06e15
+      - tv:62688:s06e10
+      - { id: tv:80986:s02e05, importance: recommended }
+      - tv:62688:s06e11
+      - { id: tv:80986:s02e06, importance: recommended }
+      - tv:62688:s06e12
+      - { id: tv:80986:s02e07, importance: recommended }
+      - tv:62688:s06e13
+      - { id: tv:80986:s02e08, importance: recommended }
+      - tv:62688:s06e14
+      - { id: tv:80986:s02e09, importance: recommended }
+      - tv:62688:s06e15
+      - { id: tv:80986:s02e10, importance: recommended }
+      - { id: tv:89247:s03e01, importance: recommended }
+      - tv:62643:s07e01
+      - tv:62688:s06e16
+      - { id: tv:80986:s02e11, importance: recommended }
+      - { id: tv:89247:s03e02, importance: recommended }
+      - tv:62643:s07e02
+      - tv:62688:s06e17
+      - { id: tv:80986:s02e12, importance: recommended }
+      - { id: tv:89247:s03e03, importance: recommended }
+      - tv:62643:s07e03
+      - tv:62688:s06e18
+      - { id: tv:80986:s02e13, importance: recommended }
+      - { id: tv:89247:s03e04, importance: recommended }
+      - tv:62643:s07e04
+      - tv:62688:s06e19
+      - tv:62688:s06e20
+      - { id: tv:89247:s03e05, importance: recommended }
+      - tv:62643:s07e05
+      - tv:60735:s08e01
+      - { id: tv:89247:s03e06, importance: recommended }
+      - tv:62643:s07e06
+      - tv:60735:s08e02
+      - { id: tv:89247:s03e07, importance: recommended }
+      - tv:62643:s07e07
+      - tv:60735:s08e03
+      - tv:60735:s08e04
+      - tv:60735:s08e05
+      - { id: tv:95057:s02e01, importance: recommended }
+      - { id: tv:89247:s03e08, importance: recommended }
+      - tv:62643:s07e08
+      - { id: tv:95057:s02e02, importance: recommended }
+      - { id: tv:89247:s03e09, importance: recommended }
+      - tv:62643:s07e09
+      - { id: tv:95057:s02e03, importance: recommended }
+      - { id: tv:89247:s03e10, importance: recommended }
+      - tv:62643:s07e10
+      - { id: tv:95057:s02e04, importance: recommended }
+      - { id: tv:89247:s03e11, importance: recommended }
+      - tv:62643:s07e11
+      - { id: tv:95057:s02e05, importance: recommended }
+      - { id: tv:89247:s03e12, importance: recommended }
+      - tv:62643:s07e12
+      - { id: tv:95057:s02e06, importance: recommended }
+      - { id: tv:89247:s03e13, importance: recommended }
+      - tv:62643:s07e13
+      - { id: tv:95057:s02e07, importance: recommended }
+      - tv:60735:s08e06
+      - tv:60735:s08e07
+      - { id: tv:95057:s02e08, importance: recommended }
+      - tv:60735:s08e08
+      - { id: tv:95057:s02e09, importance: recommended }
+      - tv:60735:s08e09
+      - tv:60735:s08e10
+      - tv:60735:s08e11
+      - { id: tv:95057:s02e10, importance: recommended }
+      - tv:60735:s08e12
+      - { id: tv:95057:s02e11, importance: recommended }
+      - tv:60735:s08e13
+      - tv:60735:s08e14
+      - tv:60735:s08e15
+      - tv:60735:s08e16
+      - { id: tv:95057:s02e12, importance: recommended }
+      - { id: tv:95057:s02e13, importance: recommended }
+      - tv:60735:s08e17
+      - tv:60735:s08e18
+      - { id: tv:95057:s02e14, importance: recommended }
+      - tv:60735:s08e19
+      - { id: tv:95057:s02e15, importance: recommended }
+      - tv:60735:s08e20
+  - title:
+      en: Season 2022-2023
+      fr: Saison 2022-2023
+    items:
+      - { id: tv:80986:s03e01, importance: recommended }
+      - { id: tv:80986:s03e02, importance: recommended }
+      - { id: tv:80986:s03e03, importance: recommended }
+      - { id: tv:80986:s03e04, importance: recommended }
+      - { id: tv:80986:s03e05, importance: recommended }
+      - { id: tv:80986:s03e06, importance: recommended }
+      - { id: tv:80986:s03e07, importance: recommended }
+      - { id: tv:80986:s03e08, importance: recommended }
+      - { id: tv:80986:s03e09, importance: recommended }
+      - { id: tv:80986:s03e10, importance: recommended }
+      - { id: tv:80986:s03e11, importance: recommended }
+      - { id: tv:80986:s03e12, importance: recommended }
+      - { id: tv:80986:s03e13, importance: recommended }
+      - tv:60735:s09e01
+      - tv:60735:s09e02
+      - tv:60735:s09e03
+      - tv:60735:s09e04
+      - tv:60735:s09e05
+      - { id: tv:95057:s03e01, importance: recommended }
+      - tv:60735:s09e06
+      - { id: tv:95057:s03e02, importance: recommended }
+      - { id: tv:95057:s03e03, importance: recommended }
+      - tv:60735:s09e07
+      - { id: tv:95057:s03e04, importance: recommended }
+      - tv:60735:s09e08
+      - { id: tv:95057:s03e05, importance: recommended }
+      - { id: tv:95057:s03e06, importance: recommended }
+      - tv:60735:s09e09
+      - { id: tv:95057:s03e07, importance: recommended }
+      - tv:60735:s09e10
+      - { id: tv:95057:s03e08, importance: recommended }
+      - tv:60735:s09e11
+      - tv:60735:s09e12
+      - { id: tv:95057:s03e09, importance: recommended }
+      - tv:60735:s09e13
+      - { id: tv:95057:s03e10, importance: recommended }
+      - { id: tv:95057:s03e11, importance: recommended }
+      - { id: tv:95057:s03e12, importance: recommended }
+      - { id: tv:95057:s03e13, importance: recommended }
+  - title:
+      en: Season 2024-2025
+      fr: Saison 2024-2025
+    items:
+      - { id: tv:95057:s04e01, importance: recommended }
+      - { id: tv:95057:s04e02, importance: recommended }
+      - { id: tv:95057:s04e03, importance: recommended }
+      - { id: tv:95057:s04e04, importance: recommended }
+      - { id: tv:95057:s04e05, importance: recommended }
+      - { id: tv:95057:s04e06, importance: recommended }
+      - { id: tv:95057:s04e07, importance: recommended }
+      - { id: tv:95057:s04e08, importance: recommended }
+      - { id: tv:95057:s04e09, importance: recommended }
+      - { id: tv:95057:s04e10, importance: recommended }
