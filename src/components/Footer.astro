@@ -37,9 +37,8 @@ const year = new Date().getFullYear();
 <style>
   footer {
     margin-top: auto;
-    padding-top: 28px;
+    padding-top: var(--wcl-section-gap);
     padding-bottom: 40px;
-    border-top: 1px solid var(--wcl-hairline);
     display: grid;
     gap: 18px;
     font-size: 14px;
@@ -76,8 +75,7 @@ const year = new Date().getFullYear();
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-    padding-top: 16px;
-    border-top: 1px solid var(--wcl-hairline);
+    padding-top: 8px;
     font-size: 13px;
   }
   .source {
@@ -92,7 +90,6 @@ const year = new Date().getFullYear();
     footer {
       grid-template-columns: repeat(12, minmax(0, 1fr));
       column-gap: 32px;
-      padding-top: 40px;
       padding-bottom: 48px;
     }
     .about {
