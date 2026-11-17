@@ -1,0 +1,87 @@
+import { describe, expect, it } from 'vitest';
+import { listSchema } from '../lists/schema';
+import type { TmdbClient } from './client';
+import { buildCatalog, collectReferences } from './sync';
+
+const list = listSchema.parse({
+  title: 'Test',
+  description: 'Test',
+  authors: ['nikkow'],
+  cover: { backdrop: 'tv:1' },
+  sections: [{ title: 'A', items: ['tv:1:s01e01', 'tv:1:s01e02', 'tv:1:s02e01', 'movie:7'] }],
+});
+
+/** Answers like TMDB for one show (two seasons, the second with one episode) and one movie. */
+const fakeClient: TmdbClient = {
+  get: <T>(path: string, params: Record<string, string> = {}) => {
+    const french = params['language'] === 'fr-FR';
+    const responses: Record<string, unknown> = {
+      '/tv/1': {
+        name: french ? '' : 'The Show',
+        original_name: 'The Show',
+        poster_path: '/poster.jpg',
+        backdrop_path: '/backdrop.jpg',
+      },
+      '/tv/1/season/1': {
+        episodes: [
+          { season_number: 1, episode_number: 1, air_date: '2012-10-10' },
+          { season_number: 1, episode_number: 2, air_date: '' },
+        ],
+      },
+      '/tv/1/season/2': { episodes: [] },
+      '/movie/7': {
+        title: french ? 'Le Film' : 'The Movie',
+        original_title: 'The Movie',
+        release_date: '2020-01-01',
+        poster_path: null,
+        backdrop_path: '/movie-backdrop.png',
+      },
+    };
+    return Promise.resolve(responses[path] as T);
+  },
+  image: () => Promise.resolve(new Uint8Array()),
+};
+
+describe('collectReferences', () => {
+  it('groups episodes by show and keeps covers apart', () => {
+    const references = collectReferences([list]);
+    expect([...(references.shows.get(1) ?? [])]).toEqual(['s01e01', 's01e02', 's02e01']);
+    expect([...references.movies]).toEqual([7]);
+    expect([...references.covers]).toEqual(['tv:1']);
+  });
+});
+
+describe('buildCatalog', () => {
+  it('builds the catalog, queues images and reports unknown episodes', async () => {
+    const result = await buildCatalog(
+      collectReferences([list]),
+      fakeClient,
+      new Date('2026-01-01T00:00:00Z'),
+    );
+
+    expect(result.catalog).toEqual({
+      generatedAt: '2026-01-01T00:00:00.000Z',
+      shows: {
+        'tv:1': {
+          name: { en: 'The Show', fr: 'The Show' },
+          poster: 'tv-1-poster.jpg',
+          backdrop: 'tv-1-backdrop.jpg',
+          episodes: { s01e01: { airDate: '2012-10-10' }, s01e02: { airDate: null } },
+        },
+      },
+      movies: {
+        'movie:7': {
+          title: { en: 'The Movie', fr: 'Le Film' },
+          releaseDate: '2020-01-01',
+          poster: null,
+          backdrop: null,
+        },
+      },
+    });
+    expect(result.images).toEqual([
+      { fileName: 'tv-1-backdrop.jpg', filePath: '/backdrop.jpg', size: 'w1280' },
+      { fileName: 'tv-1-poster.jpg', filePath: '/poster.jpg', size: 'w342' },
+    ]);
+    expect(result.problems).toEqual(['tv:1:s02e01 is not on TMDB']);
+  });
+});
