@@ -1,0 +1,55 @@
+---
+import '@fontsource/big-shoulders-display/latin-800';
+import '@fontsource/big-shoulders-display/latin-900';
+import '@fontsource/schibsted-grotesk/latin-400.css';
+import '@fontsource/schibsted-grotesk/latin-600.css';
+import '@fontsource/schibsted-grotesk/latin-700.css';
+import '../styles/global.css';
+import wordmarkFont from '@fontsource/big-shoulders-display/files/big-shoulders-display-latin-900-normal.woff2?url';
+import navFont from '@fontsource/schibsted-grotesk/files/schibsted-grotesk-latin-600-normal.woff2?url';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { locales, useTranslations, type Locale } from '../i18n';
+import { pagePath, type PageKey } from '../i18n/routes';
+
+interface Props {
+  locale: Locale;
+  page: PageKey;
+  title?: string;
+}
+
+const { locale, page, title } = Astro.props;
+const t = useTranslations(locale);
+const fullTitle = title ? `${title} · watchecklist` : `watchecklist · ${t.home.title}`;
+const canonical = new URL(pagePath(page, locale), Astro.site);
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0b0b0d" />
+    {
+      /* Header fonts are preloaded so the wordmark and nav never render in a fallback face first. */
+      [wordmarkFont, navFont].map((href) => (
+        <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />
+      ))
+    }
+    <title>{fullTitle}</title>
+    <meta name="description" content={t.meta.description} />
+    <link rel="canonical" href={canonical} />
+    {locales.map((option) => (
+      <link rel="alternate" hreflang={option} href={new URL(pagePath(page, option), Astro.site)} />
+    ))}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <Header locale={locale} page={page} />
+    <main>
+      <slot />
+    </main>
+    <Footer locale={locale} />
+  </body>
+</html>
