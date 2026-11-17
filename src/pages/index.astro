@@ -1,0 +1,30 @@
+---
+import { locales, useTranslations, defaultLocale } from '../i18n';
+import { pagePath } from '../i18n/routes';
+
+// Static hosting has no server redirect here, so the root forwards to the default locale at once.
+const target = pagePath('home', defaultLocale);
+---
+
+<!doctype html>
+<html lang={defaultLocale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="refresh" content={`0;url=${target}`} />
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={new URL(target, Astro.site)} />
+    <title>watchecklist</title>
+  </head>
+  <body>
+    <ul>
+      {locales.map((locale) => (
+        <li>
+          <a href={pagePath('home', locale)} lang={locale}>
+            {useTranslations(locale).language.name}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </body>
+</html>
