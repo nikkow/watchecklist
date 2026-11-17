@@ -1,12 +1,10 @@
 import { episodeCode, parseId } from '../lists/ids.ts';
 import type { List } from '../lists/schema.ts';
 import type { Catalog, LocalizedName, Movie, Show } from './catalog.ts';
-import { mapWithLimit, type TmdbClient } from './client.ts';
+import type { TmdbClient } from './client.ts';
 import { orNotFound } from './errors.ts';
 import type { TmdbMovie, TmdbSeason, TmdbShow } from './responses.ts';
 
-/** Concurrent TMDB calls, well under its documented rate limit. */
-const concurrency = 6;
 export const posterSize = 'w342';
 export const backdropSize = 'w1280';
 
@@ -82,7 +80,7 @@ export async function buildCatalog(
     problems: [],
   };
 
-  await mapWithLimit([...references.shows], concurrency, async ([id, referenced]) => {
+  const shows = [...references.shows].map(async ([id, referenced]) => {
     const key = `tv:${id}`;
     const [en, fr] = await Promise.all([
       orNotFound(client.get<TmdbShow>(`/tv/${id}`, { language: 'en-US' })),
@@ -98,8 +96,10 @@ export async function buildCatalog(
       episodes: {},
     };
     const seasons = [...referenced.keys()];
-    const aired = await mapWithLimit(seasons, 2, (season) =>
-      orNotFound(client.get<TmdbSeason>(`/tv/${id}/season/${season}`, { language: 'en-US' })),
+    const aired = await Promise.all(
+      seasons.map((season) =>
+        orNotFound(client.get<TmdbSeason>(`/tv/${id}/season/${season}`, { language: 'en-US' })),
+      ),
     );
     const known = new Map(
       aired.flatMap((season) =>
@@ -119,7 +119,7 @@ export async function buildCatalog(
     result.catalog.shows[key] = show;
   });
 
-  await mapWithLimit([...references.movies], concurrency, async (id) => {
+  const movies = [...references.movies].map(async (id) => {
     const key = `movie:${id}`;
     const [en, fr] = await Promise.all([
       orNotFound(client.get<TmdbMovie>(`/movie/${id}`, { language: 'en-US' })),
@@ -136,6 +136,7 @@ export async function buildCatalog(
     };
     result.catalog.movies[key] = movie;
   });
+  await Promise.all([...shows, ...movies]);
 
   result.catalog.shows = sortKeys(result.catalog.shows);
   result.catalog.movies = sortKeys(result.catalog.movies);

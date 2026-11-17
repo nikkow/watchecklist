@@ -3,7 +3,7 @@
 import { mkdir, rm, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { loadLists } from '../src/lists/load.ts';
-import { createTmdbClient, mapWithLimit } from '../src/tmdb/client.ts';
+import { createTmdbClient } from '../src/tmdb/client.ts';
 import { buildCatalog, collectReferences } from '../src/tmdb/sync.ts';
 
 const outputDirectory = join(import.meta.dirname, '..', 'src', 'generated', 'tmdb');
@@ -26,9 +26,11 @@ if (problems.length > 0) {
 
 await rm(outputDirectory, { recursive: true, force: true });
 await mkdir(imagesDirectory, { recursive: true });
-await mapWithLimit(images, 6, async ({ fileName, filePath, size }) => {
-  await writeFile(join(imagesDirectory, fileName), await client.image(filePath, size));
-});
+await Promise.all(
+  images.map(async ({ fileName, filePath, size }) => {
+    await writeFile(join(imagesDirectory, fileName), await client.image(filePath, size));
+  }),
+);
 await writeFile(join(outputDirectory, 'catalog.json'), `${JSON.stringify(catalog, null, 2)}\n`);
 
 const episodes = Object.values(catalog.shows).reduce(

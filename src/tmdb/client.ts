@@ -1,8 +1,11 @@
 import { TmdbError } from './errors.ts';
+import { createLimiter } from './limiter.ts';
 
 const apiBase = 'https://api.themoviedb.org/3';
 const imageBase = 'https://image.tmdb.org/t/p';
 const maxAttempts = 4;
+/** TMDB calls in flight, well under its documented rate limit. */
+const maxInFlight = 6;
 
 export type Fetch = typeof fetch;
 
@@ -16,8 +19,8 @@ export interface TmdbClient {
 /**
  * Creates a TMDB client authenticated with a v4 read access token.
  *
- * Rate-limited (429) and server error responses are retried with a growing delay, as TMDB
- * asks; any other error status is thrown.
+ * At most six calls are in flight at once. Rate-limited (429) and server error responses are
+ * retried with a growing delay, as TMDB asks; any other error status is thrown.
  *
  * @param token - TMDB API read access token.
  * @param fetchImpl - Fetch implementation, replaced in tests.
@@ -28,7 +31,13 @@ export function createTmdbClient(
   fetchImpl: Fetch = fetch,
   wait: (ms: number) => Promise<void> = (ms) => new Promise((resolve) => setTimeout(resolve, ms)),
 ): TmdbClient {
+  const limit = createLimiter(maxInFlight);
+
   async function request(url: string, headers: Record<string, string>): Promise<Response> {
+    return limit(() => send(url, headers));
+  }
+
+  async function send(url: string, headers: Record<string, string>): Promise<Response> {
     for (let attempt = 1; ; attempt += 1) {
       const response = await fetchImpl(url, { headers });
       if (response.ok) return response;
@@ -56,30 +65,4 @@ export function createTmdbClient(
       return new Uint8Array(await response.arrayBuffer());
     },
   };
-}
-
-/**
- * Maps items with at most `limit` calls in flight, keeping the input order.
- *
- * @param items - Inputs.
- * @param limit - Highest number of pending calls.
- * @param map - Async mapping.
- * @returns The mapped values, in input order.
- */
-export async function mapWithLimit<T, R>(
-  items: readonly T[],
-  limit: number,
-  map: (item: T) => Promise<R>,
-): Promise<R[]> {
-  const results = new Array<R>(items.length);
-  let next = 0;
-  async function worker(): Promise<void> {
-    while (next < items.length) {
-      const index = next;
-      next += 1;
-      results[index] = await map(items[index] as T);
-    }
-  }
-  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, worker));
-  return results;
 }

@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { createTmdbClient, mapWithLimit, type Fetch } from './client';
+import { createTmdbClient, type Fetch } from './client';
 
 function respond(
   status: number,
@@ -52,19 +52,21 @@ describe('createTmdbClient', () => {
   });
 });
 
-describe('mapWithLimit', () => {
-  it('keeps the input order and the concurrency limit', async () => {
+describe('createTmdbClient concurrency', () => {
+  it('keeps at most six calls in flight', async () => {
     let running = 0;
     let peak = 0;
-    const result = await mapWithLimit([30, 10, 20, 0], 2, async (delay) => {
+    const fetchMock = vi.fn<Fetch>().mockImplementation(async () => {
       running += 1;
       peak = Math.max(peak, running);
-      await new Promise((resolve) => setTimeout(resolve, delay));
+      await new Promise((resolve) => setTimeout(resolve, 5));
       running -= 1;
-      return delay * 2;
+      return respond(200);
     });
+    const client = createTmdbClient('t', fetchMock);
 
-    expect(result).toEqual([60, 20, 40, 0]);
-    expect(peak).toBe(2);
+    await Promise.all(Array.from({ length: 20 }, (_, i) => client.get(`/tv/${i}`)));
+    expect(fetchMock).toHaveBeenCalledTimes(20);
+    expect(peak).toBe(6);
   });
 });
