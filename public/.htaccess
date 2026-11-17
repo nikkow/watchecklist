@@ -1,0 +1,30 @@
+# Apache rules for the OVH shared hosting that serves watchecklist.com.
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # One canonical address: www and plain HTTP both move permanently to https://watchecklist.com,
+  # keeping the path.
+  RewriteCond %{HTTP_HOST} ^www\.watchecklist\.com$ [NC]
+  RewriteRule ^ https://watchecklist.com%{REQUEST_URI} [R=301,L]
+
+  # TLS may end in front of Apache, so a request counts as plain HTTP only when no sign says
+  # otherwise; trusting a single one could loop.
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteCond %{SERVER_PORT} !=443
+  RewriteRule ^ https://watchecklist.com%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Browsers keep to HTTPS once they have seen the site. One day while the redirects settle;
+  # raise to a year once they are confirmed.
+  Header always set Strict-Transport-Security "max-age=86400"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # Built assets carry a content hash in their name, so they never change once published.
+  <If "%{REQUEST_URI} =~ m#^/_astro/#">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </If>
+</IfModule>
