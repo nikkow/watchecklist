@@ -64,6 +64,7 @@ export const en = {
     essentialOnly: 'Essentials',
     hideWatched: 'Hide watched',
     showTitles: 'Show titles',
+    crossoverMap: 'Crossovers',
     crossoversOnly: 'Crossovers only',
     noMatch: 'Nothing with these filters.',
     curatedBy: 'Curated by',

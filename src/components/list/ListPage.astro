@@ -126,93 +126,156 @@ const githubUrl = (handle: string) => `https://github.com/${handle}`;
       </div>
     </section>
 
-    <section class="filters wcl-container" aria-label={t.list.filters} data-filters hidden>
-      <div class="series" role="group" aria-label={t.list.seriesFilter}>
-        {view.series.map((series) => {
-          const poster = tmdbImage(series.poster);
-          return (
-            <button type="button" aria-pressed="true" data-series-filter={series.key}>
-              {poster ? (
-                <Image src={poster} alt="" widths={[72, 108]} sizes="36px" />
-              ) : (
-                <span class="avatar" aria-hidden="true" />
-              )}
-              {series.name}
-            </button>
-          );
-        })}
-      </div>
-      <div class="toggles">
-        <div class="segments" role="group" aria-label={t.list.importanceFilter}>
-          {importanceFilters.map((filter) => (
-            <button
-              type="button"
-              aria-pressed={filter.value === 'all' ? 'true' : 'false'}
-              data-importance-filter={filter.value}
-            >
-              {filter.label}
-            </button>
-          ))}
-        </div>
-        <div class="switches">
-          {[
-            { key: 'crossoversOnly', label: t.list.crossoversOnly },
-            { key: 'hideWatched', label: t.list.hideWatched },
-            { key: 'showTitles', label: t.list.showTitles },
-          ].map((option) => (
-            <button class="switch" type="button" aria-pressed="false" data-switch={option.key}>
-              {option.label}
-              <span class="knob" aria-hidden="true">
-                <span />
-              </span>
-            </button>
-          ))}
-        </div>
-      </div>
-    </section>
+    <div class="list-body wcl-container">
+      <div class="list-main">
+        <section class="filters" aria-label={t.list.filters} data-filters hidden>
+          <div class="series" role="group" aria-label={t.list.seriesFilter}>
+            {view.series.map((series) => {
+              const poster = tmdbImage(series.poster);
+              return (
+                <button type="button" aria-pressed="true" data-series-filter={series.key}>
+                  {poster ? (
+                    <Image src={poster} alt="" widths={[72, 108]} sizes="36px" />
+                  ) : (
+                    <span class="avatar" aria-hidden="true" />
+                  )}
+                  {series.name}
+                </button>
+              );
+            })}
+          </div>
+          <div class="toggles">
+            <div class="segments" role="group" aria-label={t.list.importanceFilter}>
+              {importanceFilters.map((filter) => (
+                <button
+                  type="button"
+                  aria-pressed={filter.value === 'all' ? 'true' : 'false'}
+                  data-importance-filter={filter.value}
+                >
+                  {filter.label}
+                </button>
+              ))}
+            </div>
+            <div class="switches">
+              {[
+                { key: 'crossoversOnly', label: t.list.crossoversOnly },
+                { key: 'hideWatched', label: t.list.hideWatched },
+                { key: 'showTitles', label: t.list.showTitles },
+              ].map((option) => (
+                <button class="switch" type="button" aria-pressed="false" data-switch={option.key}>
+                  {option.label}
+                  <span class="knob" aria-hidden="true">
+                    <span />
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
 
-    <div class="sections wcl-container">
-      {view.sections.map((section) => (
-        <details class="section" data-section>
-          <summary>
-            <span class="heading">
-              <h2 class="wcl-display">{section.title}</h2>
-              <span class="seasons">{section.seasons}</span>
-            </span>
-            <span class="section-count" data-section-count>
-              0 / {section.itemCount}
-            </span>
-            <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M6 9l6 6 6-6" />
-            </svg>
-          </summary>
-          {section.note && <p class="section-note">{section.note}</p>}
-          <ol class="items">
-            {section.blocks.map((block) =>
-              block.type === 'item' ? (
-                <ListItem item={block.item} />
-              ) : (
-                <li class="crossover" data-crossover>
-                  <p class="crossover-header">
-                    <span class="bar" aria-hidden="true" />
-                    {block.header}
-                  </p>
-                  <ol class="items">
-                    {block.items.map((item) => (
-                      <ListItem item={item} />
-                    ))}
-                  </ol>
+        <div class="sections">
+          {view.sections.map((section) => (
+            <details class="section" data-section>
+              <summary>
+                <span class="heading">
+                  <h2 class="wcl-display">{section.title}</h2>
+                  <span class="seasons">{section.seasons}</span>
+                </span>
+                <span class="section-count" data-section-count>
+                  0 / {section.itemCount}
+                </span>
+                <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </summary>
+              {section.note && <p class="section-note">{section.note}</p>}
+              <ol class="items">
+                {section.blocks.map((block) =>
+                  block.type === 'item' ? (
+                    <ListItem item={block.item} />
+                  ) : (
+                    <li class="crossover" data-crossover data-crossover-slug={block.slug}>
+                      <p class="crossover-header">
+                        <span class="bar" aria-hidden="true" />
+                        {block.header}
+                      </p>
+                      <ol class="items">
+                        {block.items.map((item) => (
+                          <ListItem item={item} />
+                        ))}
+                      </ol>
+                    </li>
+                  ),
+                )}
+              </ol>
+            </details>
+          ))}
+        </div>
+
+        <p class="no-match" data-no-match hidden>
+          {t.list.noMatch}
+        </p>
+      </div>
+
+      <aside class="aside" data-aside hidden>
+        <section aria-labelledby="aside-series">
+          <h2 id="aside-series" class="wcl-display">
+            {t.list.seriesFilter}
+          </h2>
+          <div class="aside-series" role="group" aria-label={t.list.seriesFilter}>
+            {view.series.map((series) => {
+              const poster = tmdbImage(series.poster);
+              return (
+                <button type="button" aria-pressed="true" data-series-filter={series.key}>
+                  {poster ? (
+                    <Image
+                      class="aside-poster"
+                      src={poster}
+                      alt=""
+                      widths={[64, 96]}
+                      sizes="32px"
+                    />
+                  ) : (
+                    <span class="aside-poster" aria-hidden="true" />
+                  )}
+                  <span class="aside-text">
+                    <span class="aside-line">
+                      <span class="aside-name">{series.name}</span>
+                      <span class="aside-count" data-series-count={series.key}>
+                        0 / {series.itemCount}
+                      </span>
+                    </span>
+                    <span class="aside-track" aria-hidden="true">
+                      <span class="aside-fill" data-series-bar={series.key} />
+                    </span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+        {view.crossovers.length > 0 && (
+          <section aria-labelledby="aside-crossovers">
+            <h2 id="aside-crossovers" class="wcl-display">
+              {t.list.crossoverMap}
+            </h2>
+            <ol class="map">
+              {view.crossovers.map((crossover) => (
+                <li data-crossover-station={crossover.slug}>
+                  <button type="button" data-crossover-jump={crossover.slug}>
+                    <span class="dot" aria-hidden="true" />
+                    <span class="station">
+                      <span class="station-name">{crossover.name}</span>
+                      <span class="station-section">{crossover.sectionTitle}</span>
+                    </span>
+                  </button>
                 </li>
-              ),
-            )}
-          </ol>
-        </details>
-      ))}
+              ))}
+            </ol>
+          </section>
+        )}
+      </aside>
     </div>
-
-    <p class="no-match wcl-container" data-no-match hidden>
-      {t.list.noMatch}
-    </p>
 
     <p class="credits wcl-container">
       {t.list.authors}{' '}
@@ -588,6 +651,7 @@ const githubUrl = (handle: string) => `https://github.com/${handle}`;
     margin-inline: -8px;
   }
   .crossover {
+    scroll-margin-top: 24px;
     margin: 6px 0;
     padding-bottom: 4px;
     border-radius: var(--wcl-radius-card);
@@ -620,6 +684,148 @@ const githubUrl = (handle: string) => `https://github.com/${handle}`;
     flex-wrap: wrap;
     gap: 4px 20px;
   }
+  .aside {
+    display: none;
+    margin-top: 36px;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .aside h2 {
+    margin: 0 0 12px;
+    font-size: 28px;
+  }
+  .aside-series {
+    display: grid;
+    gap: 4px;
+  }
+  .aside-series button {
+    padding: 8px 10px 8px 8px;
+    border: 0;
+    border-radius: var(--wcl-radius-button);
+    background: transparent;
+    color: var(--wcl-text);
+    font: inherit;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+  }
+  .aside-series button[aria-pressed='false'] {
+    opacity: 0.35;
+    filter: grayscale(1);
+  }
+  .aside-poster {
+    flex: none;
+    width: 32px;
+    height: 48px;
+    border-radius: var(--wcl-radius-small);
+    object-fit: cover;
+    background: var(--wcl-surface-2);
+  }
+  .aside-text {
+    flex: 1;
+    min-width: 0;
+    display: grid;
+    gap: 6px;
+  }
+  .aside-line {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 14px;
+  }
+  .aside-name {
+    min-width: 0;
+    overflow: hidden;
+    font-weight: 600;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .aside-count {
+    flex: none;
+    color: var(--wcl-muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .aside-track {
+    height: 3px;
+    border-radius: var(--wcl-radius-pill);
+    background: var(--wcl-surface-2);
+    overflow: hidden;
+  }
+  .aside-fill {
+    display: block;
+    width: var(--progress, 0%);
+    height: 100%;
+    background: var(--wcl-text);
+  }
+  /* Viewing map: one station per crossover on a line, the next one in vermilion. */
+  .map {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .map::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 14px;
+    bottom: 14px;
+    width: 3px;
+    border-radius: 2px;
+    background: var(--wcl-surface-2);
+  }
+  .map button {
+    position: relative;
+    width: 100%;
+    min-height: 44px;
+    padding: 6px 0;
+    border: 0;
+    background: transparent;
+    color: var(--wcl-text);
+    font: inherit;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+  }
+  .dot {
+    flex: none;
+    width: 19px;
+    height: 19px;
+    border-radius: 50%;
+    background: var(--wcl-bg);
+    box-shadow: inset 0 0 0 3px var(--wcl-surface-selected);
+  }
+  [data-state='done'] .dot {
+    background: var(--wcl-text);
+    box-shadow: none;
+  }
+  [data-state='next'] .dot {
+    background: var(--wcl-vermilion);
+    box-shadow: 0 0 0 4px var(--wcl-bg);
+  }
+  .station {
+    display: grid;
+  }
+  .station-name {
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .station-section {
+    font-size: 13px;
+    color: var(--wcl-muted);
+  }
+  @media (hover: hover) {
+    .aside-series button:hover {
+      background: var(--wcl-surface);
+    }
+    .map button:hover .station-name {
+      text-decoration: underline;
+    }
+  }
   .credits {
     margin-top: 40px;
     font-size: 14px;
@@ -644,16 +850,20 @@ const githubUrl = (handle: string) => `https://github.com/${handle}`;
     .intro .wcl-page-title {
       font-size: clamp(48px, 18cqi, 128px);
     }
-    /* Rows keep a readable width while the page stays aligned with the header. */
-    .filters > *,
-    .sections > * {
-      max-width: 880px;
+    /* Rows keep a readable width; the aside takes the rest of the row. */
+    .list-body {
+      display: grid;
+      grid-template-columns: minmax(0, 880px) minmax(240px, 320px);
+      justify-content: space-between;
+      column-gap: 64px;
+      align-items: start;
     }
+    .aside:not([hidden]) {
+      display: flex;
+    }
+    /* The aside lists the series with their progress, so the chips are not needed here. */
     .series {
-      flex-wrap: wrap;
-      overflow: visible;
-      margin-inline: 0;
-      padding-inline: 0;
+      display: none;
     }
   }
 </style>

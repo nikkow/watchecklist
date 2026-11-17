@@ -69,7 +69,39 @@ export function startListPage(): void {
     const noMatch = root?.querySelector<HTMLElement>('[data-no-match]');
     if (noMatch) noMatch.hidden = anyVisible;
     renderProgress();
+    renderAside();
     renderNext(next);
+  }
+
+  /** Per-series progress and the crossover map, shown in the desktop aside. */
+  function renderAside(): void {
+    const counts = new Map<string, { watched: number; total: number }>();
+    for (const row of rows) {
+      const count = counts.get(row.series) ?? { watched: 0, total: 0 };
+      count.total += 1;
+      if (isWatched(row.id)) count.watched += 1;
+      counts.set(row.series, count);
+    }
+    for (const [key, { watched, total }] of counts) {
+      setText(root?.querySelector(`[data-series-count="${key}"]`) ?? null, `${watched} / ${total}`);
+      root
+        ?.querySelector<HTMLElement>(`[data-series-bar="${key}"]`)
+        ?.style.setProperty('--progress', `${(watched / total) * 100}%`);
+    }
+    let nextFound = false;
+    for (const station of root?.querySelectorAll<HTMLElement>('[data-crossover-station]') ?? []) {
+      const slug = station.dataset['crossoverStation'] ?? '';
+      const own = root?.querySelectorAll<HTMLElement>(
+        `[data-crossover-slug="${slug}"] [data-item]`,
+      );
+      const done = [...(own ?? [])].every((item) => isWatched(item.dataset['item'] ?? ''));
+      const state: 'done' | 'next' | 'todo' = done ? 'done' : nextFound ? 'todo' : 'next';
+      nextFound ||= state === 'next';
+      station.dataset['state'] = state;
+      station
+        .querySelector('[data-crossover-jump]')
+        ?.toggleAttribute('aria-current', state === 'next');
+    }
   }
 
   function renderProgress(): void {
@@ -109,6 +141,11 @@ export function startListPage(): void {
 
   root.addEventListener('click', (event) => {
     const target = event.target as Element;
+    const jump = target.closest<HTMLElement>('[data-crossover-jump]');
+    if (jump) {
+      jumpToCrossover(jump.dataset['crossoverJump'] ?? '');
+      return;
+    }
     const check = target.closest('.list-row-check');
     const item = check?.closest<HTMLElement>('[data-item]');
     if (item) {
@@ -127,7 +164,10 @@ export function startListPage(): void {
       const shown = hiddenSeries.has(key);
       if (shown) hiddenSeries.delete(key);
       else hiddenSeries.add(key);
-      series.setAttribute('aria-pressed', String(shown));
+      // The same filter shows as chips on phones and in the aside on desktop.
+      for (const button of root.querySelectorAll(`[data-series-filter="${key}"]`)) {
+        button.setAttribute('aria-pressed', String(shown));
+      }
       render();
       return;
     }
@@ -168,6 +208,8 @@ export function startListPage(): void {
 
   const filtersPanel = root.querySelector<HTMLElement>('[data-filters]');
   if (filtersPanel) filtersPanel.hidden = false;
+  const aside = root.querySelector<HTMLElement>('[data-aside]');
+  if (aside) aside.hidden = false;
   setShowTitles(storage !== null && readShowTitles(storage));
   render();
   openSectionOf(nextRow(rows, isWatched));
@@ -177,6 +219,16 @@ export function startListPage(): void {
     showTitles = show;
     root?.toggleAttribute('data-show-titles', show);
     root?.querySelector('[data-switch="showTitles"]')?.setAttribute('aria-pressed', String(show));
+  }
+
+  /** Opens the section of a crossover and brings its first block into view. */
+  function jumpToCrossover(slug: string): void {
+    const block = root?.querySelector<HTMLElement>(`[data-crossover-slug="${slug}"]`);
+    const section = block?.closest('details');
+    if (!block || !section) return;
+    section.open = true;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    block.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
   }
 
   function sections(): HTMLDetailsElement[] {
