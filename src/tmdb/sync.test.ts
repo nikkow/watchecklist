@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { listSchema } from '../lists/schema';
 import type { TmdbClient } from './client';
+import { TmdbError } from './errors';
 import { buildCatalog, collectReferences } from './sync';
 
 const list = listSchema.parse({
@@ -9,11 +10,22 @@ const list = listSchema.parse({
   authors: ['nikkow'],
   cover: { backdrop: 'tv:1' },
   sections: [
-    { title: 'A', items: ['tv:1:s01e01', 'tv:1:s01e02', 'tv:1:s02e01', 'tv:1:s100e01', 'movie:7'] },
+    {
+      title: 'A',
+      items: [
+        'tv:1:s01e01',
+        'tv:1:s01e02',
+        'tv:1:s02e01',
+        'tv:1:s100e01',
+        'tv:2:s01e01',
+        'movie:7',
+        'movie:8',
+      ],
+    },
   ],
 });
 
-/** Answers like TMDB for one show (two seasons, the second with one episode) and one movie. */
+/** Answers like TMDB for one show and one movie, with a 404 for anything else. */
 const fakeClient: TmdbClient = {
   get: <T>(path: string, params: Record<string, string> = {}) => {
     const french = params['language'] === 'fr-FR';
@@ -30,7 +42,6 @@ const fakeClient: TmdbClient = {
           { season_number: 1, episode_number: 2, air_date: '' },
         ],
       },
-      '/tv/1/season/2': { episodes: [] },
       '/tv/1/season/100': {
         episodes: [{ season_number: 100, episode_number: 1, air_date: '2030-01-01' }],
       },
@@ -41,8 +52,17 @@ const fakeClient: TmdbClient = {
         poster_path: null,
         backdrop_path: '/movie-backdrop.png',
       },
+      '/tv/3': {
+        name: 'No Backdrop',
+        original_name: 'No Backdrop',
+        poster_path: null,
+        backdrop_path: null,
+      },
     };
-    return Promise.resolve(responses[path] as T);
+    const response = responses[path];
+    return response === undefined
+      ? Promise.reject(new TmdbError(404, path))
+      : Promise.resolve(response as T);
   },
   image: () => Promise.resolve(new Uint8Array()),
 };
@@ -57,13 +77,13 @@ describe('collectReferences', () => {
         [100, new Set([1])],
       ]),
     );
-    expect([...references.movies]).toEqual([7]);
+    expect([...references.movies]).toEqual([7, 8]);
     expect([...references.covers]).toEqual(['tv:1']);
   });
 });
 
 describe('buildCatalog', () => {
-  it('builds the catalog, queues images and reports unknown episodes', async () => {
+  it('builds the catalog, queues images and reports what TMDB does not know', async () => {
     const result = await buildCatalog(
       collectReferences([list]),
       fakeClient,
@@ -97,6 +117,16 @@ describe('buildCatalog', () => {
       { fileName: 'tv-1-backdrop.jpg', filePath: '/backdrop.jpg', size: 'w1280' },
       { fileName: 'tv-1-poster.jpg', filePath: '/poster.jpg', size: 'w342' },
     ]);
-    expect(result.problems).toEqual(['tv:1:s02e01 is not on TMDB']);
+    expect(result.problems).toEqual([
+      'movie:8 is not on TMDB',
+      'tv:1:s02e01 is not on TMDB',
+      'tv:2 is not on TMDB',
+    ]);
+  });
+
+  it('reports a list cover without a backdrop', async () => {
+    const references = collectReferences([{ ...list, cover: { backdrop: 'tv:3' }, sections: [] }]);
+    const result = await buildCatalog(references, fakeClient);
+    expect(result.problems).toEqual(['tv:3 has no backdrop for its list cover']);
   });
 });

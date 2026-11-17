@@ -2,6 +2,7 @@ import { episodeCode, parseId } from '../lists/ids.ts';
 import type { List } from '../lists/schema.ts';
 import type { Catalog, LocalizedName, Movie, Show } from './catalog.ts';
 import { mapWithLimit, type TmdbClient } from './client.ts';
+import { orNotFound } from './errors.ts';
 import type { TmdbMovie, TmdbSeason, TmdbShow } from './responses.ts';
 
 /** Concurrent TMDB calls, well under its documented rate limit. */
@@ -84,9 +85,13 @@ export async function buildCatalog(
   await mapWithLimit([...references.shows], concurrency, async ([id, referenced]) => {
     const key = `tv:${id}`;
     const [en, fr] = await Promise.all([
-      client.get<TmdbShow>(`/tv/${id}`, { language: 'en-US' }),
-      client.get<TmdbShow>(`/tv/${id}`, { language: 'fr-FR' }),
+      orNotFound(client.get<TmdbShow>(`/tv/${id}`, { language: 'en-US' })),
+      orNotFound(client.get<TmdbShow>(`/tv/${id}`, { language: 'fr-FR' })),
     ]);
+    if (en === null || fr === null) {
+      result.problems.push(`${key} is not on TMDB`);
+      return;
+    }
     const show: Show = {
       name: localized(en.name, fr.name, en.original_name),
       ...images(result, key, en, references.covers.has(key)),
@@ -94,11 +99,11 @@ export async function buildCatalog(
     };
     const seasons = [...referenced.keys()];
     const aired = await mapWithLimit(seasons, 2, (season) =>
-      client.get<TmdbSeason>(`/tv/${id}/season/${season}`, { language: 'en-US' }),
+      orNotFound(client.get<TmdbSeason>(`/tv/${id}/season/${season}`, { language: 'en-US' })),
     );
     const known = new Map(
       aired.flatMap((season) =>
-        season.episodes.map((episode) => [
+        (season?.episodes ?? []).map((episode) => [
           episodeCode(episode.season_number, episode.episode_number),
           episode.air_date || null,
         ]),
@@ -117,9 +122,13 @@ export async function buildCatalog(
   await mapWithLimit([...references.movies], concurrency, async (id) => {
     const key = `movie:${id}`;
     const [en, fr] = await Promise.all([
-      client.get<TmdbMovie>(`/movie/${id}`, { language: 'en-US' }),
-      client.get<TmdbMovie>(`/movie/${id}`, { language: 'fr-FR' }),
+      orNotFound(client.get<TmdbMovie>(`/movie/${id}`, { language: 'en-US' })),
+      orNotFound(client.get<TmdbMovie>(`/movie/${id}`, { language: 'fr-FR' })),
     ]);
+    if (en === null || fr === null) {
+      result.problems.push(`${key} is not on TMDB`);
+      return;
+    }
     const movie: Movie = {
       title: localized(en.title, fr.title, en.original_title),
       releaseDate: en.release_date || null,
@@ -146,6 +155,9 @@ function images(
   title: { poster_path: string | null; backdrop_path: string | null },
   isCover: boolean,
 ): { poster: string | null; backdrop: string | null } {
+  if (isCover && title.backdrop_path === null) {
+    result.problems.push(`${key} has no backdrop for its list cover`);
+  }
   const slug = key.replace(':', '-');
   const queue = (filePath: string | null, kind: string, size: string): string | null => {
     if (filePath === null) return null;

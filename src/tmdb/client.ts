@@ -1,3 +1,5 @@
+import { TmdbError } from './errors.ts';
+
 const apiBase = 'https://api.themoviedb.org/3';
 const imageBase = 'https://image.tmdb.org/t/p';
 const maxAttempts = 4;
@@ -32,7 +34,7 @@ export function createTmdbClient(
       if (response.ok) return response;
       const retryable = response.status === 429 || response.status >= 500;
       if (!retryable || attempt === maxAttempts) {
-        throw new Error(`TMDB ${response.status} for ${url.replace(apiBase, '')}`);
+        throw new TmdbError(response.status, url.replace(apiBase, ''));
       }
       const retryAfter = Number(response.headers.get('retry-after'));
       await wait(retryAfter > 0 ? retryAfter * 1000 : 500 * attempt);
