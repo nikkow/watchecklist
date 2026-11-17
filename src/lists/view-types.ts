@@ -51,6 +51,8 @@ export interface ItemView {
   importance: Importance;
   importanceLabel: string;
   note: string | null;
+  /** Episode title in the page locale, hidden until the viewer asks; null for a film. */
+  title: string | null;
   inCrossover: boolean;
   /** Shown in the next-up card when the item is part of a crossover. */
   crossoverHint: string | null;

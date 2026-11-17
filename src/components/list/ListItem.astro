@@ -34,6 +34,7 @@ const poster = tmdbImage(item.poster);
   )}
   <span class="list-row-text">
     <span class="list-row-label">{item.label}</span>
+    {item.title && <span class="list-row-title">{item.title}</span>}
     <span class="list-row-meta">
       {item.seriesName} · {item.importanceLabel}
     </span>
@@ -66,12 +67,14 @@ const poster = tmdbImage(item.poster);
     object-fit: cover;
     background: var(--wcl-surface-2);
   }
+  /* Code, title and meta fit in the poster's 60px, so showing titles keeps the row height. */
   .list-row-text {
     flex: 1;
     min-width: 0;
     display: flex;
     flex-direction: column;
     gap: 2px;
+    line-height: 1.25;
   }
   .list-row-label {
     font-weight: 700;
@@ -84,6 +87,18 @@ const poster = tmdbImage(item.poster);
   }
   .list-row-note {
     color: var(--wcl-text-soft);
+  }
+  /* Titles can spoil: they stay hidden until the viewer turns them on. */
+  .list-row-title {
+    display: none;
+    overflow: hidden;
+    font-size: 14px;
+    color: var(--wcl-text-soft);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  [data-show-titles] .list-row-title {
+    display: block;
   }
   .list-row-check {
     position: relative;

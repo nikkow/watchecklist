@@ -1,5 +1,5 @@
 import type { Importance } from '../lists/schema.ts';
-import { storageKey } from './constants.ts';
+import { showTitlesKey, storageKey } from './constants.ts';
 import { isVisible, nextRow } from './list-logic.ts';
 import type { Filters, ImportanceFilter, Row } from './list-types.ts';
 import {
@@ -35,6 +35,7 @@ export function startListPage(): void {
     crossoversOnly: false,
   };
   const isWatched = (id: string) => progress.watched[id] === true;
+  let showTitles = false;
   const warning = root.querySelector<HTMLElement>('[data-storage-warning]');
   if (warning) warning.hidden = storage !== null;
 
@@ -88,6 +89,11 @@ export function startListPage(): void {
     const item = next && items[rows.indexOf(next)];
     if (!item) return;
     setText(card.querySelector('[data-next-name]'), item.dataset['name'] ?? '');
+    const title = card.querySelector<HTMLElement>('[data-next-title]');
+    if (title) {
+      title.textContent = item.querySelector('.list-row-title')?.textContent ?? '';
+      title.hidden = !showTitles || !title.textContent;
+    }
     const hint = card.querySelector<HTMLElement>('[data-next-hint]');
     if (hint) {
       hint.textContent = item.dataset['hint'] ?? '';
@@ -136,6 +142,12 @@ export function startListPage(): void {
     }
     const toggleSwitch = target.closest<HTMLElement>('[data-switch]');
     const key = toggleSwitch?.dataset['switch'];
+    if (key === 'showTitles') {
+      setShowTitles(!showTitles);
+      if (storage) rememberShowTitles(storage, showTitles);
+      render();
+      return;
+    }
     if (toggleSwitch && (key === 'hideWatched' || key === 'crossoversOnly')) {
       filters[key] = !filters[key];
       toggleSwitch.setAttribute('aria-pressed', String(filters[key]));
@@ -156,8 +168,16 @@ export function startListPage(): void {
 
   const filtersPanel = root.querySelector<HTMLElement>('[data-filters]');
   if (filtersPanel) filtersPanel.hidden = false;
+  setShowTitles(storage !== null && readShowTitles(storage));
   render();
   openSectionOf(nextRow(rows, isWatched));
+
+  /** Shows or hides every episode title; titles can spoil, so they start hidden. */
+  function setShowTitles(show: boolean): void {
+    showTitles = show;
+    root?.toggleAttribute('data-show-titles', show);
+    root?.querySelector('[data-switch="showTitles"]')?.setAttribute('aria-pressed', String(show));
+  }
 
   function sections(): HTMLDetailsElement[] {
     return [...(root?.querySelectorAll<HTMLDetailsElement>('[data-section]') ?? [])];
@@ -190,4 +210,32 @@ function browserStorage(): ProgressStorage | null {
  */
 function setText(element: Element | null, text: string): void {
   if (element) element.textContent = text;
+}
+
+/**
+ * Reads whether the viewer chose to see episode titles.
+ *
+ * @param storage - Where preferences are kept.
+ * @returns Whether titles are shown; false when unknown or unreadable.
+ */
+function readShowTitles(storage: ProgressStorage): boolean {
+  try {
+    return storage.getItem(showTitlesKey) === 'true';
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Remembers whether the viewer wants to see episode titles.
+ *
+ * @param storage - Where preferences are kept.
+ * @param show - The viewer's choice.
+ */
+function rememberShowTitles(storage: ProgressStorage, show: boolean): void {
+  try {
+    storage.setItem(showTitlesKey, String(show));
+  } catch {
+    // The choice then lasts for this visit only.
+  }
 }

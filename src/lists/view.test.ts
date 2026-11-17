@@ -83,6 +83,7 @@ describe('buildListView', () => {
     expect(film?.type === 'item' && film.item).toMatchObject({
       label: 'Gamma',
       seriesName: 'Film',
+      title: null,
       importanceLabel: 'Optional',
       note: 'A film.',
     });
@@ -90,6 +91,7 @@ describe('buildListView', () => {
     expect(first?.type === 'item' && first.item).toMatchObject({
       label: 'S01E01',
       fullName: 'Alpha S01E01',
+      title: 'Pilot',
       inCrossover: false,
     });
     expect(
@@ -103,6 +105,8 @@ describe('buildListView', () => {
     expect(french.title).toBe('Univers test');
     expect(french.series[0]?.name).toBe('Alpha FR');
     expect(french.stats[0]).toBe('2 séries');
+    const first = french.sections[0]?.blocks[0];
+    expect(first?.type === 'item' && first.item.title).toBe('Pilote');
   });
 
   it('fails when the catalog lacks a title', () => {

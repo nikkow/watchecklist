@@ -62,6 +62,8 @@ export function buildListView(
         importance,
         importanceLabel: t.list.importance[importance],
         note: note === undefined ? null : localize(note, locale),
+        title:
+          episode === null ? null : (catalog.shows[key]?.episodes[episode]?.name[locale] ?? null),
         inCrossover: crossover !== undefined,
         crossoverHint: null,
         crossover: crossover ?? null,
@@ -183,6 +185,7 @@ function toItemView(item: ResolvedItem): ItemView {
     importance: item.importance,
     importanceLabel: item.importanceLabel,
     note: item.note,
+    title: item.title,
     inCrossover: item.crossover !== null,
     crossoverHint: item.crossoverHint,
   };

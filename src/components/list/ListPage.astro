@@ -101,6 +101,9 @@ const githubUrl = (handle: string) => `https://github.com/${handle}`;
               <span class="next-name" data-next-name>
                 {firstItem?.fullName}
               </span>
+              <span class="next-episode-title" data-next-title hidden>
+                {firstItem?.title}
+              </span>
               <span class="next-hint" data-next-hint hidden={!firstItem?.crossoverHint}>
                 {firstItem?.crossoverHint}
               </span>
@@ -154,6 +157,7 @@ const githubUrl = (handle: string) => `https://github.com/${handle}`;
           {[
             { key: 'crossoversOnly', label: t.list.crossoversOnly },
             { key: 'hideWatched', label: t.list.hideWatched },
+            { key: 'showTitles', label: t.list.showTitles },
           ].map((option) => (
             <button class="switch" type="button" aria-pressed="false" data-switch={option.key}>
               {option.label}
@@ -378,6 +382,9 @@ const githubUrl = (handle: string) => `https://github.com/${handle}`;
     font-size: 19px;
     font-weight: 700;
     font-variant-numeric: tabular-nums;
+  }
+  .next-episode-title {
+    color: var(--wcl-text-soft);
   }
   .next-hint {
     font-size: 14px;

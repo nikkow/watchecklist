@@ -63,6 +63,7 @@ export const en = {
     withoutOptional: 'No optional',
     essentialOnly: 'Essentials',
     hideWatched: 'Hide watched',
+    showTitles: 'Show titles',
     crossoversOnly: 'Crossovers only',
     noMatch: 'Nothing with these filters.',
     curatedBy: 'Curated by',
