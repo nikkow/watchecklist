@@ -1,0 +1,56 @@
+import type { Importance } from './schema.ts';
+
+/** A list ready to render in one locale: TMDB names resolved, crossovers grouped. */
+export interface ListView {
+  slug: string;
+  title: string;
+  description: string;
+  cover: { image: string | null; focus: string };
+  /** Summary pieces, such as "11 series" and "2012 to 2024", joined by the page. */
+  stats: string[];
+  series: SeriesView[];
+  sections: SectionView[];
+  itemCount: number;
+  authors: string[];
+  curators: string[];
+}
+
+/** A show or film of the list, used by the series filter. */
+export interface SeriesView {
+  /** Title id, such as `tv:1412`. */
+  key: string;
+  name: string;
+  poster: string | null;
+}
+
+export interface SectionView {
+  title: string;
+  note: string | null;
+  /** The show seasons the section covers, such as "Arrow 3 · The Flash 1". */
+  seasons: string;
+  blocks: BlockView[];
+  itemCount: number;
+}
+
+/** A section shows items one by one, or grouped when they form a crossover. */
+export type BlockView =
+  | { type: 'item'; item: ItemView }
+  | { type: 'crossover'; slug: string; header: string; items: ItemView[] };
+
+export interface ItemView {
+  id: string;
+  /** Title id of its show or film, such as `tv:1412`. */
+  seriesKey: string;
+  /** Episode code (`S03E08`), or the film name. */
+  label: string;
+  /** Show name for an episode, "Film" for a film. */
+  seriesName: string;
+  /** Show and code, such as "Arrow S03E08", for screen readers and the next-up card. */
+  fullName: string;
+  poster: string | null;
+  importance: Importance;
+  importanceLabel: string;
+  note: string | null;
+  /** Shown in the next-up card when the item is part of a crossover. */
+  crossoverHint: string | null;
+}

@@ -4,6 +4,8 @@ import { episodeIdPattern, movieIdPattern, showIdPattern } from './ids.ts';
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 /** Editorial text: one string when both locales read the same (proper names), else one per locale. */
+const importance = z.enum(['essential', 'recommended', 'optional']);
+
 const text = z.union([
   z.string().trim().min(1),
   z.strictObject({ en: z.string().trim().min(1), fr: z.string().trim().min(1) }),
@@ -17,7 +19,7 @@ const item = z.union([
   itemId,
   z.strictObject({
     id: itemId,
-    importance: z.enum(['essential', 'recommended', 'optional']).default('essential'),
+    importance: importance.default('essential'),
     crossover: z.string().regex(slugPattern).optional(),
     note: text.optional(),
   }),
@@ -108,6 +110,11 @@ export const listSchema = z
 
 /** A list after validation, with defaults applied. */
 export type List = z.output<typeof listSchema>;
+
+/** Editorial text as written: one string, or one per locale. */
+export type ListText = z.output<typeof text>;
+
+export type Importance = z.output<typeof importance>;
 
 /** Whether a list file name, without its extension, is a valid slug. */
 export function isListSlug(slug: string): boolean {
