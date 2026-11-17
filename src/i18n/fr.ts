@@ -66,6 +66,7 @@ export const fr: Dictionary = {
     essentialOnly: 'Essentiels',
     hideWatched: 'Masquer les vus',
     showTitles: 'Afficher les titres',
+    crossoverMap: 'Crossovers',
     crossoversOnly: 'Crossovers uniquement',
     noMatch: 'Rien avec ces filtres.',
     curatedBy: 'Mise à jour par',
