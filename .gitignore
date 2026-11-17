@@ -6,3 +6,6 @@ coverage/
 .env.*
 !.env.example
 .DS_Store
+
+# TMDB data is fetched at build time and never committed
+src/generated/

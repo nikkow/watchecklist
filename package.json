@@ -12,7 +12,8 @@
     "lint": "eslint . && prettier --check .",
     "format": "prettier --write .",
     "test": "vitest run",
-    "validate:data": "node scripts/validate-data.ts"
+    "validate:data": "node scripts/validate-data.ts",
+    "sync:tmdb": "node --env-file-if-exists=.env scripts/sync-tmdb.ts"
   },
   "dependencies": {
     "@fontsource/big-shoulders-display": "^5.3.0",

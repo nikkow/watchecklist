@@ -1,12 +1,6 @@
 import { z } from 'astro/zod';
+import { episodeIdPattern, movieIdPattern, showIdPattern } from './ids.ts';
 
-/** Season or episode number, zero-padded to two digits so ids sort and never change form. */
-const paddedNumber = String.raw`(?:0\d|[1-9]\d+)`;
-const tmdbNumber = String.raw`[1-9]\d*`;
-
-const episodeIdPattern = new RegExp(`^tv:${tmdbNumber}:s${paddedNumber}e${paddedNumber}$`);
-const movieIdPattern = new RegExp(`^movie:${tmdbNumber}$`);
-const coverIdPattern = new RegExp(`^(?:tv|movie):${tmdbNumber}$`);
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 /** Editorial text: one string when both locales read the same (proper names), else one per locale. */
@@ -61,7 +55,9 @@ export const listSchema = z
     authors: githubHandles.min(1),
     curators: githubHandles.default([]),
     cover: z.strictObject({
-      backdrop: z.string().regex(coverIdPattern, 'Expected tv:<tmdbId> or movie:<tmdbId>'),
+      backdrop: z.string().refine((id) => showIdPattern.test(id) || movieIdPattern.test(id), {
+        message: 'Expected tv:<tmdbId> or movie:<tmdbId>',
+      }),
       focus: z
         .string()
         .regex(/^\d{1,3}% \d{1,3}%$/, 'Expected "<x>% <y>%"')
