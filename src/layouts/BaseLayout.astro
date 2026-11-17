@@ -52,6 +52,9 @@ const canonical = new URL(alternates[locale], Astro.site);
       <link rel="alternate" hreflang={option} href={new URL(alternates[option], Astro.site)} />
     ))}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="watchecklist" />
   </head>
   <body>
     <Header locale={locale} alternates={alternates} current={current} />
