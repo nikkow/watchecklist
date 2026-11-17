@@ -10,4 +10,5 @@ export default defineConfig(
   tseslint.configs.strict,
   astro.configs.recommended,
   { languageOptions: { globals: { ...globals.browser, ...globals.node } } },
+  { files: ['public/sw.js'], languageOptions: { globals: globals.serviceworker } },
 );
