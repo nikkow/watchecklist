@@ -33,7 +33,7 @@ describe('dictionaries', () => {
   it('never contain an em dash', () => {
     for (const locale of locales) {
       for (const value of Object.values(flatten(useTranslations(locale)))) {
-        expect(String(value)).not.toContain('—');
+        expect(String(value)).not.toContain('\u2014');
       }
     }
   });
