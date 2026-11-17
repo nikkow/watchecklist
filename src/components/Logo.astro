@@ -3,16 +3,11 @@
  * Brand mark and wordmark on the dark site: Papier frame and short arm, Vermillon long arm,
  * knockout in the page background. Geometry copied from `brand/variant-b/mark.svg`.
  */
-interface Props {
-  size?: number;
-}
-
-const { size = 28 } = Astro.props;
 const clipId = 'wcl-logo-long-arm';
 ---
 
 <span class="logo">
-  <svg width={size} height={size} viewBox="0 0 120 120" aria-hidden="true">
+  <svg width="28" height="28" viewBox="0 0 120 120" aria-hidden="true">
     <defs>
       <clipPath id={clipId}>
         <polygon points="45.6,-10 130,-10 130,130 55.5,130"></polygon>
