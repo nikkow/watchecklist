@@ -13,7 +13,7 @@ const t = useTranslations(locale);
 
 <BaseLayout locale={locale} page="about" title={t.about.title}>
   <article class="wcl-container">
-    <h1 class="wcl-display">{t.about.title}</h1>
+    <h1 class="wcl-page-title">{t.about.title}</h1>
     <p class="intro">{t.about.intro}</p>
 
     <h2>{t.about.privacyTitle}</h2>
@@ -42,10 +42,7 @@ const t = useTranslations(locale);
     max-width: 44em;
   }
   h1 {
-    margin: 0 0 20px;
-    font-weight: 900;
-    font-size: 64px;
-    line-height: 0.9;
+    margin-bottom: 20px;
   }
   h2 {
     margin: 36px 0 8px;
@@ -59,10 +56,5 @@ const t = useTranslations(locale);
   .intro {
     color: var(--wcl-text);
     font-size: 19px;
-  }
-  @media (min-width: 1024px) {
-    h1 {
-      font-size: 96px;
-    }
   }
 </style>

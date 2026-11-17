@@ -13,7 +13,7 @@ const t = useTranslations(locale);
 
 <BaseLayout locale={locale} page="home">
   <section class="hero wcl-container">
-    <h1 class="wcl-display">{t.home.title}</h1>
+    <h1 class="wcl-page-title">{t.home.title}</h1>
     <p class="subtitle">{t.home.subtitle}</p>
     <p class="intro">{t.home.intro}</p>
   </section>
@@ -34,12 +34,6 @@ const t = useTranslations(locale);
     padding-top: 32px;
     display: grid;
     gap: 14px;
-  }
-  h1 {
-    margin: 0;
-    font-weight: 900;
-    font-size: 64px;
-    line-height: 0.9;
   }
   .subtitle {
     margin: 0;
@@ -81,10 +75,6 @@ const t = useTranslations(locale);
     .hero {
       padding-top: 40px;
       gap: 20px;
-    }
-    h1 {
-      font-size: 128px;
-      line-height: 0.85;
     }
     .subtitle {
       font-size: 24px;
