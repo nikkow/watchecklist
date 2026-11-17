@@ -44,16 +44,19 @@ jobs:
           TMDB_READ_ACCESS_TOKEN: ${{ secrets.TMDB_READ_ACCESS_TOKEN }}
         run: pnpm build
 
-      # SFTP, since the hosting refuses FTPS. The server key is pinned so the password only ever
-      # goes to OVH; lftp reads the password from LFTP_PASSWORD, never from the command line.
+      # SFTP, since the hosting refuses FTPS. The host and its public key are repository
+      # variables; the key is pinned so the password only ever goes to OVH. lftp reads the
+      # password from LFTP_PASSWORD, never from the command line.
       # Files are added and replaced, never deleted, so nothing else in www/ is touched.
       - name: Upload over SFTP
         env:
-          SFTP_HOST: ftp.cluster129.hosting.ovh.net
-          SFTP_HOST_KEY: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPHzGPnvg+XUpaMELjQ4AIj/6pkjvvHYCUxDVpcdaC8T
+          SFTP_HOST: ${{ vars.OVH_SFTP_HOST }}
+          SFTP_HOST_KEY: ${{ vars.OVH_SFTP_HOST_KEY }}
           SFTP_USER: ${{ secrets.OVH_FTP_USERNAME }}
           LFTP_PASSWORD: ${{ secrets.OVH_FTP_PASSWORD }}
         run: |
+          : "${SFTP_HOST:?Set the OVH_SFTP_HOST repository variable}"
+          : "${SFTP_HOST_KEY:?Set the OVH_SFTP_HOST_KEY repository variable}"
           sudo apt-get update -qq
           sudo apt-get install --yes --no-install-recommends lftp
           mkdir -p ~/.ssh
