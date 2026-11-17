@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { listSchema } from '../lists/schema';
-import type { TmdbClient } from './client';
+import type { TmdbClient } from './types';
 import { TmdbError } from './errors';
 import { buildCatalog, collectReferences } from './sync';
 
@@ -101,7 +101,7 @@ describe('buildCatalog', () => {
       },
       movies: {
         'movie:7': {
-          title: { en: 'The Movie', fr: 'Le Film' },
+          name: { en: 'The Movie', fr: 'Le Film' },
           releaseDate: '2020-01-01',
           poster: null,
           backdrop: null,

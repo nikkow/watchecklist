@@ -1,22 +1,7 @@
+import { apiBase, imageBase, maxAttempts, maxInFlight, timeoutMs } from './constants.ts';
 import { TmdbError } from './errors.ts';
 import { createLimiter } from './limiter.ts';
-
-const apiBase = 'https://api.themoviedb.org/3';
-const imageBase = 'https://image.tmdb.org/t/p';
-const maxAttempts = 4;
-/** TMDB calls in flight, well under its documented rate limit. */
-const maxInFlight = 6;
-/** Time allowed for one call, body included, before it is retried. */
-const timeoutMs = 15_000;
-
-export type Fetch = typeof fetch;
-
-export interface TmdbClient {
-  /** Reads one API resource, such as `/tv/1412`, as JSON. */
-  get: <T>(path: string, params?: Record<string, string>) => Promise<T>;
-  /** Downloads one image from its TMDB `file_path` at the given width, such as `w342`. */
-  image: (filePath: string, size: string) => Promise<Uint8Array>;
-}
+import type { Fetch, TmdbClient } from './types.ts';
 
 /**
  * Creates a TMDB client authenticated with a v4 read access token.
@@ -28,6 +13,8 @@ export interface TmdbClient {
  * @param token - TMDB API read access token.
  * @param fetchImpl - Fetch implementation, replaced in tests.
  * @param wait - Delay implementation, replaced in tests.
+ * @returns A client whose calls throw {@link TmdbError} for a non-retried error status, and the
+ *   last network error once every attempt failed.
  */
 export function createTmdbClient(
   token: string,
@@ -36,6 +23,7 @@ export function createTmdbClient(
 ): TmdbClient {
   const limit = createLimiter(maxInFlight);
 
+  /** Runs one call when a slot is free. */
   function request<T>(
     url: string,
     headers: Record<string, string>,
@@ -44,6 +32,7 @@ export function createTmdbClient(
     return limit(() => send(url, headers, read));
   }
 
+  /** Sends one call, retrying it as documented above, and reads its body with `read`. */
   async function send<T>(
     url: string,
     headers: Record<string, string>,

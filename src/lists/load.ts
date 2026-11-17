@@ -5,14 +5,23 @@ import { basename, join } from 'node:path';
 import { parse } from 'yaml';
 import { listSchema, type List } from './schema.ts';
 
-export const listsDirectory = join(import.meta.dirname, '..', '..', 'data', 'lists');
+const listsDirectory = join(import.meta.dirname, '..', '..', 'data', 'lists');
 
-/** Names of the list files, sorted, such as `arrowverse.yaml`. */
+/**
+ * Lists the list files.
+ *
+ * @returns File names in `data/lists/`, sorted, such as `arrowverse.yaml`.
+ */
 export async function listFileNames(): Promise<string[]> {
   return (await readdir(listsDirectory)).filter((file) => file.endsWith('.yaml')).sort();
 }
 
-/** Parses one list file without validating it. */
+/**
+ * Parses one list file without validating it.
+ *
+ * @param fileName - File name in `data/lists/`.
+ * @returns The parsed YAML.
+ */
 export async function readListFile(fileName: string): Promise<unknown> {
   return parse(await readFile(join(listsDirectory, fileName), 'utf8'));
 }

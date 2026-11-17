@@ -18,12 +18,15 @@ export interface LocalizedName {
   fr: string;
 }
 
-export interface Show {
-  name: LocalizedName;
-  /** File name in `src/generated/tmdb/images/`. */
+/** Image file names in `src/generated/tmdb/images/`. */
+export interface TitleImages {
   poster: string | null;
-  /** Downloaded only when a list uses the show as its cover. */
+  /** Downloaded only when a list uses the title as its cover. */
   backdrop: string | null;
+}
+
+export interface Show extends TitleImages {
+  name: LocalizedName;
   /** Only the episodes the lists reference, keyed by `sXXeYY`. */
   episodes: Record<string, Episode>;
 }
@@ -33,9 +36,7 @@ export interface Episode {
   airDate: string | null;
 }
 
-export interface Movie {
-  title: LocalizedName;
+export interface Movie extends TitleImages {
+  name: LocalizedName;
   releaseDate: string | null;
-  poster: string | null;
-  backdrop: string | null;
 }

@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
-import { createTmdbClient, type Fetch } from './client';
+import { createTmdbClient } from './client';
+import type { Fetch } from './types';
 
 function respond(
   status: number,
