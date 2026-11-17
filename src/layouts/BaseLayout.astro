@@ -11,6 +11,7 @@ import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { locales, useTranslations, type Locale } from '../i18n';
 import { pagePath, type PageKey } from '../i18n/routes';
+import { backgroundColor } from '../site';
 
 interface Props {
   locale: Locale;
@@ -30,7 +31,7 @@ const canonical = new URL(pagePath(page, locale), Astro.site);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="dark" />
-    <meta name="theme-color" content="#0b0b0d" />
+    <meta name="theme-color" content={backgroundColor} />
     {
       /* Header fonts are preloaded so the wordmark and nav never render in a fallback face first. */
       [wordmarkFont, navFont].map((href) => (
