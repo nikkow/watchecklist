@@ -1,0 +1,64 @@
+---
+import { Image } from 'astro:assets';
+import type { Locale } from '../../i18n';
+import { listPath } from '../../i18n/routes';
+import type { ListView } from '../../lists/view-types';
+import { tmdbImage } from '../../tmdb/images';
+
+/** A list on the home page: its cover, title and summary, linking to the list. */
+interface Props {
+  locale: Locale;
+  view: ListView;
+}
+
+const { locale, view } = Astro.props;
+const cover = tmdbImage(view.cover.image);
+---
+
+<li class="card">
+  <a href={listPath(view.slug, locale)}>
+    {cover ? (
+      <Image
+        src={cover}
+        alt=""
+        widths={[400, 800]}
+        sizes="(min-width: 1024px) 30vw, 100vw"
+        style={`object-position: ${view.cover.focus}`}
+      />
+    ) : (
+      <span class="placeholder" aria-hidden="true" />
+    )}
+    <span class="title wcl-display">{view.title}</span>
+    <span class="stats">{view.stats.join(' · ')}</span>
+  </a>
+</li>
+
+<style>
+  a {
+    display: grid;
+    gap: 10px;
+    text-decoration: none;
+  }
+  img,
+  .placeholder {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--wcl-radius-card);
+    background: var(--wcl-surface);
+  }
+  .title {
+    font-size: 34px;
+  }
+  .stats {
+    font-size: 14px;
+    color: var(--wcl-muted);
+    font-variant-numeric: tabular-nums;
+  }
+  @media (hover: hover) {
+    a:hover img {
+      opacity: 0.9;
+    }
+  }
+</style>

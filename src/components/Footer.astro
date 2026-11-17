@@ -1,15 +1,15 @@
 ---
 import LanguageMenu from './LanguageMenu.astro';
 import { useTranslations, type Locale } from '../i18n';
-import { pagePath, type PageKey } from '../i18n/routes';
+import { pagePath, type Alternates } from '../i18n/routes';
 import { repositoryUrl, suggestListUrl } from '../site';
 
 interface Props {
   locale: Locale;
-  page: PageKey;
+  alternates: Alternates;
 }
 
-const { locale, page } = Astro.props;
+const { locale, alternates } = Astro.props;
 const t = useTranslations(locale);
 const year = new Date().getFullYear();
 ---
@@ -25,7 +25,7 @@ const year = new Date().getFullYear();
     <a href={suggestListUrl}>{t.footer.suggestList}</a>
     <a href={pagePath('about', locale)}>{t.footer.about}</a>
     <div class="language">
-      <LanguageMenu locale={locale} page={page} variant="row" />
+      <LanguageMenu locale={locale} alternates={alternates} variant="row" />
     </div>
   </nav>
   <div class="bottom">

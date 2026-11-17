@@ -1,6 +1,6 @@
 import { episodeCode, parseId } from '../lists/ids.ts';
 import type { List } from '../lists/schema.ts';
-import type { LocalizedName, Movie, Show, TitleImages } from './catalog.ts';
+import type { Episode, LocalizedName, Movie, Show, TitleImages } from './catalog.ts';
 import { backdropSize, posterSize } from './constants.ts';
 import { orNotFound } from './errors.ts';
 import type { TmdbImagePaths, TmdbMovie, TmdbSeason, TmdbShow } from './responses.ts';
@@ -74,24 +74,26 @@ export async function buildCatalog(
     };
     const seasons = await Promise.all(
       [...referenced.keys()].map((season) =>
-        orNotFound(client.get<TmdbSeason>(`/tv/${id}/season/${season}`, { language: 'en-US' })),
+        getInBothLocales<TmdbSeason>(client, `/tv/${id}/season/${season}`),
       ),
     );
-    const airDates = new Map(
-      seasons.flatMap((season) =>
-        (season?.episodes ?? []).map((episode) => [
-          episodeCode(episode.season_number, episode.episode_number),
-          episode.air_date || null,
-        ]),
-      ),
-    );
+    const known = new Map<string, Episode>();
+    for (const [en, fr] of seasons.filter((season) => season !== null)) {
+      const french = new Map(fr.episodes.map((episode) => [episode.episode_number, episode.name]));
+      for (const episode of en.episodes) {
+        known.set(episodeCode(episode.season_number, episode.episode_number), {
+          airDate: episode.air_date || null,
+          name: episodeName(episode.name, french.get(episode.episode_number) ?? ''),
+        });
+      }
+    }
     const codes = [...referenced].flatMap(([season, episodes]) =>
       [...episodes].map((episode) => episodeCode(season, episode)),
     );
     for (const code of codes.sort()) {
-      const airDate = airDates.get(code);
-      if (airDate === undefined) result.problems.push(`${key}:${code} is not on TMDB`);
-      else show.episodes[code] = { airDate };
+      const episode = known.get(code);
+      if (episode === undefined) result.problems.push(`${key}:${code} is not on TMDB`);
+      else show.episodes[code] = episode;
     }
     result.catalog.shows[key] = show;
   });
@@ -145,6 +147,19 @@ async function getInBothLocales<T>(client: TmdbClient, path: string): Promise<[T
  */
 function localizedName(en: string, fr: string, original: string): LocalizedName {
   return { en: en || original, fr: fr || original };
+}
+
+/**
+ * Builds an episode's localized title. TMDB fills untranslated French titles with
+ * "Épisode <n>", which says nothing: those fall back to the English title, as missing ones do.
+ *
+ * @param en - English title.
+ * @param fr - French title, possibly empty or generic.
+ * @returns The title in both site locales.
+ */
+export function episodeName(en: string, fr: string): LocalizedName {
+  const untranslated = fr.trim() === '' || /^[ÉE]pisode\s+\d+$/i.test(fr.trim());
+  return { en, fr: untranslated ? en : fr };
 }
 
 /**

@@ -2,8 +2,8 @@
  * TMDB metadata for every title the lists reference, written at build time by
  * `pnpm sync:tmdb` into `src/generated/tmdb/` and never committed.
  *
- * Episode titles and overviews are left out on purpose: lists stay spoiler-free and an
- * episode code is enough to find it.
+ * Overviews are left out on purpose. Episode titles are kept for the list pages, which hide
+ * them until the viewer asks for them: lists stay spoiler-free by default.
  */
 export interface Catalog {
   /** Keyed by `tv:<tmdbId>`. */
@@ -34,6 +34,8 @@ export interface Show extends TitleImages {
 export interface Episode {
   /** ISO date, null when TMDB has none yet. */
   airDate: string | null;
+  /** The French title falls back to the English one when TMDB has none. */
+  name: LocalizedName;
 }
 
 export interface Movie extends TitleImages {

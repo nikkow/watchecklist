@@ -5,7 +5,8 @@ import { basename, join } from 'node:path';
 import { parse } from 'yaml';
 import { listSchema, type List } from './schema.ts';
 
-const listsDirectory = join(import.meta.dirname, '..', '..', 'data', 'lists');
+/** Resolved from the project root, where pnpm scripts and the Astro build run. */
+const listsDirectory = join(process.cwd(), 'data', 'lists');
 
 /**
  * Lists the list files.

@@ -1,0 +1,15 @@
+---
+import ListPage from '../../../components/list/ListPage.astro';
+import { listStaticPaths } from '../../../components/list/listPaths';
+import type { ListView } from '../../../lists/view-types';
+
+export const getStaticPaths = () => listStaticPaths('en');
+
+interface Props {
+  view: ListView;
+}
+
+const { view } = Astro.props;
+---
+
+<ListPage locale="en" view={view} />
