@@ -6,11 +6,12 @@ import type { NavLink } from './nav';
 /** Phone navigation behind a menu button; a native disclosure so it works without JavaScript. */
 interface Props {
   locale: Locale;
-  page: PageKey;
+  /** Navigation entry of the current page, marked as such. */
+  current: PageKey | undefined;
   links: NavLink[];
 }
 
-const { locale, page, links } = Astro.props;
+const { locale, current, links } = Astro.props;
 const t = useTranslations(locale);
 ---
 
@@ -30,7 +31,7 @@ const t = useTranslations(locale);
   </summary>
   <nav aria-label={t.header.primaryNav}>
     {links.map((link) => (
-      <a href={pagePath(link.key, locale)} aria-current={link.key === page ? 'page' : undefined}>
+      <a href={pagePath(link.key, locale)} aria-current={link.key === current ? 'page' : undefined}>
         {link.label}
       </a>
     ))}

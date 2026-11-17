@@ -1,7 +1,7 @@
 ---
 import Flag from './Flag.astro';
 import { locales, useTranslations, type Locale } from '../i18n';
-import { pagePath, type PageKey } from '../i18n/routes';
+import type { Alternates } from '../i18n/routes';
 
 /**
  * Language switcher built from the available locales, so a new language needs no layout change.
@@ -10,11 +10,11 @@ import { pagePath, type PageKey } from '../i18n/routes';
  */
 interface Props {
   locale: Locale;
-  page: PageKey;
+  alternates: Alternates;
   variant: 'pill' | 'row';
 }
 
-const { locale, page, variant } = Astro.props;
+const { locale, alternates, variant } = Astro.props;
 const t = useTranslations(locale);
 ---
 
@@ -42,7 +42,7 @@ const t = useTranslations(locale);
       return (
         <li>
           <a
-            href={pagePath(page, option)}
+            href={alternates[option]}
             lang={option}
             hreflang={option}
             aria-current={current ? 'true' : undefined}

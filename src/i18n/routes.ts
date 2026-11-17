@@ -8,6 +8,9 @@ export const pages = {
 
 export type PageKey = keyof typeof pages;
 
+/** One page's path in every locale, for its canonical URL, hreflang links and language menu. */
+export type Alternates = Readonly<Record<Locale, string>>;
+
 const listSegment: Record<Locale, string> = { en: 'lists', fr: 'listes' };
 
 /**
@@ -30,4 +33,14 @@ export function pagePath(page: PageKey, locale: Locale): string {
  */
 export function listPath(slug: string, locale: Locale): string {
   return `/${locale}/${listSegment[locale]}/${slug}/`;
+}
+
+/**
+ * Builds the paths of a watch list in every locale.
+ *
+ * @param slug - List slug, shared by every locale.
+ * @returns The list path per locale.
+ */
+export function listAlternates(slug: string): Alternates {
+  return { en: listPath(slug, 'en'), fr: listPath(slug, 'fr') };
 }

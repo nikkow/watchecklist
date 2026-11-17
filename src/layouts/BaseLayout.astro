@@ -10,19 +10,23 @@ import navFont from '@fontsource/schibsted-grotesk/files/schibsted-grotesk-latin
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { locales, useTranslations, type Locale } from '../i18n';
-import { pagePath, type PageKey } from '../i18n/routes';
+import type { Alternates, PageKey } from '../i18n/routes';
 import { backgroundColor } from '../site';
 
 interface Props {
   locale: Locale;
-  page: PageKey;
+  /** The page's path in every locale. */
+  alternates: Alternates;
+  /** Navigation entry to mark as current, if the page belongs to one. */
+  current?: PageKey;
   title?: string;
+  description?: string;
 }
 
-const { locale, page, title } = Astro.props;
+const { locale, alternates, current, title, description } = Astro.props;
 const t = useTranslations(locale);
 const fullTitle = title ? `${title} · watchecklist` : `watchecklist · ${t.home.title}`;
-const canonical = new URL(pagePath(page, locale), Astro.site);
+const canonical = new URL(alternates[locale], Astro.site);
 ---
 
 <!doctype html>
@@ -39,18 +43,18 @@ const canonical = new URL(pagePath(page, locale), Astro.site);
       ))
     }
     <title>{fullTitle}</title>
-    <meta name="description" content={t.meta.description} />
+    <meta name="description" content={description ?? t.meta.description} />
     <link rel="canonical" href={canonical} />
     {locales.map((option) => (
-      <link rel="alternate" hreflang={option} href={new URL(pagePath(page, option), Astro.site)} />
+      <link rel="alternate" hreflang={option} href={new URL(alternates[option], Astro.site)} />
     ))}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   </head>
   <body>
-    <Header locale={locale} page={page} />
+    <Header locale={locale} alternates={alternates} current={current} />
     <main>
       <slot />
     </main>
-    <Footer locale={locale} page={page} />
+    <Footer locale={locale} alternates={alternates} />
   </body>
 </html>

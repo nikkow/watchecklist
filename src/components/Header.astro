@@ -4,14 +4,16 @@ import Logo from './Logo.astro';
 import MobileMenu from './MobileMenu.astro';
 import type { NavLink } from './nav';
 import { useTranslations, type Locale } from '../i18n';
-import { pagePath, type PageKey } from '../i18n/routes';
+import { pagePath, type Alternates, type PageKey } from '../i18n/routes';
 
 interface Props {
   locale: Locale;
-  page: PageKey;
+  alternates: Alternates;
+  /** Navigation entry of the current page, marked as such. */
+  current: PageKey | undefined;
 }
 
-const { locale, page } = Astro.props;
+const { locale, alternates, current } = Astro.props;
 const t = useTranslations(locale);
 const links: NavLink[] = [
   { key: 'home', label: t.header.lists },
@@ -26,15 +28,18 @@ const links: NavLink[] = [
   <div class="desktop">
     <nav aria-label={t.header.primaryNav}>
       {links.map((link) => (
-        <a href={pagePath(link.key, locale)} aria-current={link.key === page ? 'page' : undefined}>
+        <a
+          href={pagePath(link.key, locale)}
+          aria-current={link.key === current ? 'page' : undefined}
+        >
           {link.label}
         </a>
       ))}
     </nav>
-    <LanguageMenu locale={locale} page={page} variant="pill" />
+    <LanguageMenu locale={locale} alternates={alternates} variant="pill" />
   </div>
   <div class="mobile">
-    <MobileMenu locale={locale} page={page} links={links} />
+    <MobileMenu locale={locale} current={current} links={links} />
   </div>
 </header>
 
