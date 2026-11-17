@@ -1,0 +1,68 @@
+name: Deploy
+
+# Production lives on OVH shared hosting. Each merge to main ships the site; the monthly run
+# refreshes the TMDB data (names, dates, images) even when no code changed.
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 6 1 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build and upload to OVH
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment:
+      name: production
+      url: https://watchecklist.com
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 26
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Test
+        run: pnpm test
+
+      - name: Build with TMDB data
+        env:
+          TMDB_READ_ACCESS_TOKEN: ${{ secrets.TMDB_READ_ACCESS_TOKEN }}
+        run: pnpm build
+
+      # SFTP, since the hosting refuses FTPS. The host and its public key are repository
+      # variables; the key is pinned so the password only ever goes to OVH. lftp reads the
+      # password from LFTP_PASSWORD, never from the command line.
+      # Files are added and replaced, never deleted, so nothing else in www/ is touched.
+      - name: Upload over SFTP
+        env:
+          SFTP_HOST: ${{ vars.OVH_SFTP_HOST }}
+          SFTP_HOST_KEY: ${{ vars.OVH_SFTP_HOST_KEY }}
+          SFTP_USER: ${{ secrets.OVH_FTP_USERNAME }}
+          LFTP_PASSWORD: ${{ secrets.OVH_FTP_PASSWORD }}
+        run: |
+          : "${SFTP_HOST:?Set the OVH_SFTP_HOST repository variable}"
+          : "${SFTP_HOST_KEY:?Set the OVH_SFTP_HOST_KEY repository variable}"
+          sudo apt-get update -qq
+          sudo apt-get install --yes --no-install-recommends lftp
+          mkdir -p ~/.ssh
+          echo "$SFTP_HOST $SFTP_HOST_KEY" >> ~/.ssh/known_hosts
+          lftp --env-password -u "$SFTP_USER" "sftp://$SFTP_HOST" -e "
+            set sftp:connect-program 'ssh -a -x -o StrictHostKeyChecking=yes';
+            set net:max-retries 2;
+            mirror --reverse --verbose --parallel=4 dist/ www/;
+            bye"
