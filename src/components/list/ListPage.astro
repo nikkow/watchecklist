@@ -54,6 +54,7 @@ const githubUrl = (handle: string) => `https://github.com/${handle}`;
             widths={[400, 800, 1280]}
             sizes="(min-width: 1024px) 50vw, 100vw"
             loading="eager"
+            fetchpriority="high"
             style={`object-position: ${view.cover.focus}`}
           />
         )}

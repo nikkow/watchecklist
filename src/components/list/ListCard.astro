@@ -9,9 +9,11 @@ import { tmdbImage } from '../../tmdb/images';
 interface Props {
   locale: Locale;
   view: ListView;
+  /** The first card's image is the largest element on screen: load it at once. */
+  priority?: boolean;
 }
 
-const { locale, view } = Astro.props;
+const { locale, view, priority = false } = Astro.props;
 const cover = tmdbImage(view.cover.image);
 ---
 
@@ -23,6 +25,8 @@ const cover = tmdbImage(view.cover.image);
         alt=""
         widths={[400, 800]}
         sizes="(min-width: 1024px) 30vw, 100vw"
+        loading={priority ? 'eager' : 'lazy'}
+        fetchpriority={priority ? 'high' : 'auto'}
         style={`object-position: ${view.cover.focus}`}
       />
     ) : (
