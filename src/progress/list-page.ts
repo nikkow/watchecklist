@@ -23,11 +23,17 @@ export function startListPage(): void {
     id: item.dataset['item'] ?? '',
     series: item.dataset['series'] ?? '',
     importance: (item.dataset['importance'] ?? 'essential') as Importance,
+    crossover: item.hasAttribute('data-in-crossover'),
   }));
   const storage = browserStorage();
   let progress = storage ? loadProgress(storage) : emptyProgress();
   const hiddenSeries = new Set<string>();
-  const filters: Filters = { importance: 'all', hiddenSeries, hideWatched: false };
+  const filters: Filters = {
+    importance: 'all',
+    hiddenSeries,
+    hideWatched: false,
+    crossoversOnly: false,
+  };
   const isWatched = (id: string) => progress.watched[id] === true;
   const warning = root.querySelector<HTMLElement>('[data-storage-warning]');
   if (warning) warning.hidden = storage !== null;
@@ -50,13 +56,17 @@ export function startListPage(): void {
     for (const group of root?.querySelectorAll<HTMLElement>('[data-crossover]') ?? []) {
       group.hidden = [...group.querySelectorAll<HTMLElement>('[data-item]')].every((i) => i.hidden);
     }
-    for (const section of root?.querySelectorAll<HTMLElement>('[data-section]') ?? []) {
+    let anyVisible = false;
+    for (const section of sections()) {
       const own = [...section.querySelectorAll<HTMLElement>('[data-item]')];
       const watched = own.filter((item) => isWatched(item.dataset['item'] ?? '')).length;
       setText(section.querySelector('[data-section-count]'), `${watched} / ${own.length}`);
-      const empty = section.querySelector<HTMLElement>('[data-empty]');
-      if (empty) empty.hidden = own.some((item) => !item.hidden);
+      // A section the filters empty disappears, so filtered views stay short.
+      section.hidden = own.every((item) => item.hidden);
+      anyVisible ||= !section.hidden;
     }
+    const noMatch = root?.querySelector<HTMLElement>('[data-no-match]');
+    if (noMatch) noMatch.hidden = anyVisible;
     renderProgress();
     renderNext(next);
   }
@@ -124,11 +134,16 @@ export function startListPage(): void {
       render();
       return;
     }
-    const hideWatched = target.closest<HTMLElement>('[data-hide-watched]');
-    if (hideWatched) {
-      filters.hideWatched = !filters.hideWatched;
-      hideWatched.setAttribute('aria-pressed', String(filters.hideWatched));
+    const toggleSwitch = target.closest<HTMLElement>('[data-switch]');
+    const key = toggleSwitch?.dataset['switch'];
+    if (toggleSwitch && (key === 'hideWatched' || key === 'crossoversOnly')) {
+      filters[key] = !filters[key];
+      toggleSwitch.setAttribute('aria-pressed', String(filters[key]));
       render();
+      // Crossovers sit in many sections: open those left so the blocks show at once.
+      if (key === 'crossoversOnly' && filters.crossoversOnly) {
+        for (const section of sections()) if (!section.hidden) section.open = true;
+      }
     }
   });
 
@@ -143,6 +158,10 @@ export function startListPage(): void {
   if (filtersPanel) filtersPanel.hidden = false;
   render();
   openSectionOf(nextRow(rows, isWatched));
+
+  function sections(): HTMLDetailsElement[] {
+    return [...(root?.querySelectorAll<HTMLDetailsElement>('[data-section]') ?? [])];
+  }
 
   function openSectionOf(row: Row | null): void {
     const item = row && items[rows.indexOf(row)];

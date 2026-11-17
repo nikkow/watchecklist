@@ -87,7 +87,12 @@ describe('buildListView', () => {
     expect(first?.type === 'item' && first.item).toMatchObject({
       label: 'S01E01',
       fullName: 'Alpha S01E01',
+      inCrossover: false,
     });
+    expect(
+      section?.blocks[1]?.type === 'crossover' &&
+        section.blocks[1].items.every((i) => i.inCrossover),
+    ).toBe(true);
   });
 
   it('uses the French names and texts', () => {

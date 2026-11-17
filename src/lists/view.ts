@@ -62,6 +62,7 @@ export function buildListView(
         importance,
         importanceLabel: t.list.importance[importance],
         note: note === undefined ? null : localize(note, locale),
+        inCrossover: crossover !== undefined,
         crossoverHint: null,
         crossover: crossover ?? null,
         season: parsed.type === 'episode' ? { key, number: parsed.season } : null,
@@ -182,6 +183,7 @@ function toItemView(item: ResolvedItem): ItemView {
     importance: item.importance,
     importanceLabel: item.importanceLabel,
     note: item.note,
+    inCrossover: item.crossover !== null,
     crossoverHint: item.crossoverHint,
   };
 }

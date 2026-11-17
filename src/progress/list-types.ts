@@ -6,6 +6,8 @@ export interface Row {
   /** Title id of its show or film, such as `tv:1412`. */
   series: string;
   importance: Importance;
+  /** Whether the row is part of a crossover. */
+  crossover: boolean;
 }
 
 /** Importance segments: everything, everything but optional items, essentials only. */
@@ -16,4 +18,5 @@ export interface Filters {
   /** Title ids switched off in the series filter. */
   hiddenSeries: ReadonlySet<string>;
   hideWatched: boolean;
+  crossoversOnly: boolean;
 }

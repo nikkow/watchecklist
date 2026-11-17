@@ -51,6 +51,7 @@ export interface ItemView {
   importance: Importance;
   importanceLabel: string;
   note: string | null;
+  inCrossover: boolean;
   /** Shown in the next-up card when the item is part of a crossover. */
   crossoverHint: string | null;
 }

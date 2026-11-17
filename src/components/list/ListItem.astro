@@ -25,6 +25,7 @@ const poster = tmdbImage(item.poster);
   data-importance={item.importance}
   data-name={item.fullName}
   data-hint={item.crossoverHint ?? undefined}
+  data-in-crossover={item.inCrossover ? '' : undefined}
 >
   {poster ? (
     <Image class="list-row-poster" src={poster} alt="" widths={[80, 120]} sizes="40px" />

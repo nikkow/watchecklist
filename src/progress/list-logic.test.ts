@@ -3,11 +3,16 @@ import { isVisible, nextRow } from './list-logic';
 import type { Filters, Row } from './list-types';
 
 const rows: Row[] = [
-  { id: 'a', series: 'tv:1', importance: 'essential' },
-  { id: 'b', series: 'tv:2', importance: 'optional' },
-  { id: 'c', series: 'tv:1', importance: 'recommended' },
+  { id: 'a', series: 'tv:1', importance: 'essential', crossover: true },
+  { id: 'b', series: 'tv:2', importance: 'optional', crossover: false },
+  { id: 'c', series: 'tv:1', importance: 'recommended', crossover: false },
 ];
-const noFilter: Filters = { importance: 'all', hiddenSeries: new Set(), hideWatched: false };
+const noFilter: Filters = {
+  importance: 'all',
+  hiddenSeries: new Set(),
+  hideWatched: false,
+  crossoversOnly: false,
+};
 
 describe('isVisible', () => {
   it.each([
@@ -24,6 +29,11 @@ describe('isVisible', () => {
     expect(isVisible(rows[0] as Row, { ...noFilter, hideWatched: true }, true)).toBe(false);
     expect(isVisible(rows[0] as Row, noFilter, true)).toBe(true);
   });
+});
+
+it('keeps only crossover rows on demand', () => {
+  const filters = { ...noFilter, crossoversOnly: true };
+  expect(rows.map((row) => isVisible(row, filters, false))).toEqual([true, false, false]);
 });
 
 describe('nextRow', () => {

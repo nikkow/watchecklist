@@ -10,6 +10,7 @@ import type { Filters, Row } from './list-types.ts';
  */
 export function isVisible(row: Row, filters: Filters, watched: boolean): boolean {
   if (filters.hideWatched && watched) return false;
+  if (filters.crossoversOnly && !row.crossover) return false;
   if (filters.hiddenSeries.has(row.series)) return false;
   if (filters.importance === 'essential') return row.importance === 'essential';
   if (filters.importance === 'no-optional') return row.importance !== 'optional';
