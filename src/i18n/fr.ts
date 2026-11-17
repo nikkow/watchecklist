@@ -75,6 +75,13 @@ export const fr: Dictionary = {
     storageUnavailable:
       'Ce navigateur ne garde pas de données pour ce site : votre progression sera perdue en le quittant.',
   },
+  install: {
+    title: 'Installer watchecklist',
+    body: 'Ouvrez vos listes depuis l’écran d’accueil et cochez même hors ligne.',
+    iosSteps: 'Dans Safari, touchez Partager, puis Sur l’écran d’accueil.',
+    button: 'Installer l’app',
+    dismiss: 'Plus tard',
+  },
   footer: {
     localProgress: 'Gratuit et sans compte : votre progression reste sur cet appareil.',
     tmdbNotice:

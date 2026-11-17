@@ -123,6 +123,24 @@ const githubUrl = (handle: string) => `https://github.com/${handle}`;
         <p class="warning" data-storage-warning hidden>
           {t.list.storageUnavailable}
         </p>
+        <section class="install" aria-labelledby="install-title" data-install hidden>
+          <img class="install-icon" src="/icons/icon-192.png" width="48" height="48" alt="" />
+          <div class="install-text">
+            <h2 id="install-title">{t.install.title}</h2>
+            <p>{t.install.body}</p>
+            <p class="install-ios" data-install-ios hidden>
+              {t.install.iosSteps}
+            </p>
+          </div>
+          <div class="install-actions">
+            <button class="install-button" type="button" data-install-button hidden>
+              {t.install.button}
+            </button>
+            <button class="install-dismiss" type="button" data-install-dismiss>
+              {t.install.dismiss}
+            </button>
+          </div>
+        </section>
       </div>
     </section>
 
@@ -306,8 +324,10 @@ const githubUrl = (handle: string) => `https://github.com/${handle}`;
 </BaseLayout>
 
 <script>
+  import { startInstallPrompt } from '../../pwa/install-prompt';
   import { startListPage } from '../../progress/list-page';
   startListPage();
+  startInstallPrompt();
 </script>
 
 <style>
@@ -481,6 +501,59 @@ const githubUrl = (handle: string) => `https://github.com/${handle}`;
     color: var(--wcl-text-soft);
   }
 
+  .install {
+    margin-top: 16px;
+    padding: 16px;
+    border-radius: var(--wcl-radius-card);
+    background: var(--wcl-surface);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 12px 14px;
+    align-items: start;
+  }
+  .install[hidden] {
+    display: none;
+  }
+  .install-icon {
+    border-radius: var(--wcl-radius-small);
+  }
+  .install-text {
+    display: grid;
+    gap: 4px;
+  }
+  .install h2 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .install p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--wcl-text-soft);
+  }
+  .install-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .install-actions button {
+    min-height: 44px;
+    padding: 0 16px;
+    border: 0;
+    border-radius: var(--wcl-radius-button);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .install-button {
+    background: var(--wcl-surface-selected);
+    color: var(--wcl-text);
+  }
+  .install-dismiss {
+    background: transparent;
+    color: var(--wcl-muted);
+  }
   .filters {
     margin-top: 36px;
     display: grid;

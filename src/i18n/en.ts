@@ -73,6 +73,13 @@ export const en = {
     storageUnavailable:
       'This browser does not keep data for this site, so your progress will be lost when you leave.',
   },
+  install: {
+    title: 'Install watchecklist',
+    body: 'Open your lists from the home screen and tick episodes even offline.',
+    iosSteps: 'In Safari, tap Share, then Add to Home Screen.',
+    button: 'Install the app',
+    dismiss: 'Not now',
+  },
   footer: {
     localProgress: 'Free and account-free: your progress stays on this device.',
     tmdbNotice:
