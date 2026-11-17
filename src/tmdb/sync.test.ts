@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { listSchema } from '../lists/schema';
 import type { TmdbClient } from './types';
 import { TmdbError } from './errors';
-import { buildCatalog, collectReferences } from './sync';
+import { buildCatalog, collectReferences, episodeName } from './sync';
 
 const list = listSchema.parse({
   title: 'Test',
@@ -38,12 +38,22 @@ const fakeClient: TmdbClient = {
       },
       '/tv/1/season/1': {
         episodes: [
-          { season_number: 1, episode_number: 1, air_date: '2012-10-10' },
-          { season_number: 1, episode_number: 2, air_date: '' },
+          {
+            season_number: 1,
+            episode_number: 1,
+            air_date: '2012-10-10',
+            name: french ? 'Pilote' : 'Pilot',
+          },
+          {
+            season_number: 1,
+            episode_number: 2,
+            air_date: '',
+            name: french ? 'Épisode 2' : 'Second',
+          },
         ],
       },
       '/tv/1/season/100': {
-        episodes: [{ season_number: 100, episode_number: 1, air_date: '2030-01-01' }],
+        episodes: [{ season_number: 100, episode_number: 1, air_date: '2030-01-01', name: 'Far' }],
       },
       '/movie/7': {
         title: french ? 'Le Film' : 'The Movie',
@@ -93,9 +103,9 @@ describe('buildCatalog', () => {
           poster: 'tv-1-poster.jpg',
           backdrop: 'tv-1-backdrop.jpg',
           episodes: {
-            s01e01: { airDate: '2012-10-10' },
-            s01e02: { airDate: null },
-            s100e01: { airDate: '2030-01-01' },
+            s01e01: { airDate: '2012-10-10', name: { en: 'Pilot', fr: 'Pilote' } },
+            s01e02: { airDate: null, name: { en: 'Second', fr: 'Second' } },
+            s100e01: { airDate: '2030-01-01', name: { en: 'Far', fr: 'Far' } },
           },
         },
       },
@@ -124,4 +134,17 @@ describe('buildCatalog', () => {
     const result = await buildCatalog(references, fakeClient);
     expect(result.problems).toEqual(['tv:3 has no backdrop for its list cover']);
   });
+});
+
+describe('episodeName', () => {
+  it('keeps a real French title', () => {
+    expect(episodeName('Pilot', 'Pilote')).toEqual({ en: 'Pilot', fr: 'Pilote' });
+  });
+
+  it.each(['', '  ', 'Épisode 12', 'episode 3', 'Episode 7'])(
+    'falls back to the English title for %j',
+    (fr) => {
+      expect(episodeName('Pilot', fr)).toEqual({ en: 'Pilot', fr: 'Pilot' });
+    },
+  );
 });

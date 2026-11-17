@@ -11,7 +11,12 @@ export interface TmdbShow extends TmdbImagePaths {
 }
 
 export interface TmdbSeason {
-  episodes: { season_number: number; episode_number: number; air_date: string | null }[];
+  episodes: {
+    season_number: number;
+    episode_number: number;
+    air_date: string | null;
+    name: string;
+  }[];
 }
 
 export interface TmdbMovie extends TmdbImagePaths {

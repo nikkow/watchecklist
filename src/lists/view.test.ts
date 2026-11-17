@@ -29,13 +29,16 @@ const catalog: Catalog = {
       name: { en: 'Alpha', fr: 'Alpha FR' },
       poster: 'tv-1-poster.jpg',
       backdrop: 'tv-1-backdrop.jpg',
-      episodes: { s01e01: { airDate: '2012-10-10' }, s01e02: { airDate: '2012-10-17' } },
+      episodes: {
+        s01e01: { airDate: '2012-10-10', name: { en: 'Pilot', fr: 'Pilote' } },
+        s01e02: { airDate: '2012-10-17', name: { en: 'Second', fr: 'Second' } },
+      },
     },
     'tv:2': {
       name: { en: 'Beta', fr: 'Beta' },
       poster: null,
       backdrop: null,
-      episodes: { s03e01: { airDate: '2014-01-01' } },
+      episodes: { s03e01: { airDate: '2014-01-01', name: { en: 'Third', fr: 'Troisième' } } },
     },
   },
   movies: {
