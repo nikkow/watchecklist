@@ -28,8 +28,8 @@ const lists = await listViews(locale);
     </h2>
     {lists.length > 0 ? (
       <ul class="cards">
-        {lists.map((view) => (
-          <ListCard locale={locale} view={view} />
+        {lists.map((view, index) => (
+          <ListCard locale={locale} view={view} priority={index === 0} />
         ))}
       </ul>
     ) : (
