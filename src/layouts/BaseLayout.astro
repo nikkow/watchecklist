@@ -7,6 +7,8 @@ import '@fontsource/schibsted-grotesk/latin-700.css';
 import '../styles/global.css';
 import wordmarkFont from '@fontsource/big-shoulders-display/files/big-shoulders-display-latin-900-normal.woff2?url';
 import navFont from '@fontsource/schibsted-grotesk/files/schibsted-grotesk-latin-600-normal.woff2?url';
+import bodyFont from '@fontsource/schibsted-grotesk/files/schibsted-grotesk-latin-400-normal.woff2?url';
+import boldFont from '@fontsource/schibsted-grotesk/files/schibsted-grotesk-latin-700-normal.woff2?url';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { locales, useTranslations, type Locale } from '../i18n';
@@ -37,8 +39,9 @@ const canonical = new URL(alternates[locale], Astro.site);
     <meta name="color-scheme" content="dark" />
     <meta name="theme-color" content={backgroundColor} />
     {
-      /* Header fonts are preloaded so the wordmark and nav never render in a fallback face first. */
-      [wordmarkFont, navFont].map((href) => (
+      /* Fonts of the first screen are preloaded so text never renders in a fallback face first:
+         a late swap would resize paragraphs and push the footer down. */
+      [wordmarkFont, navFont, bodyFont, boldFont].map((href) => (
         <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />
       ))
     }
