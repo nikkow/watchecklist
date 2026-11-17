@@ -4,7 +4,8 @@ import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import type { Catalog } from './catalog.ts';
 
-const catalogPath = join(import.meta.dirname, '..', 'generated', 'tmdb', 'catalog.json');
+/** Resolved from the project root, where pnpm scripts and the Astro build run. */
+const catalogPath = join(process.cwd(), 'src', 'generated', 'tmdb', 'catalog.json');
 
 /**
  * Reads the TMDB catalog written by `pnpm sync:tmdb`.

@@ -1,0 +1,132 @@
+---
+import { Image } from 'astro:assets';
+import type { ItemView } from '../../lists/view-types';
+import { tmdbImage } from '../../tmdb/images';
+
+/**
+ * One row of a list: poster, code, series and importance, and the check on the right.
+ * The browser script reads its data attributes and flips `aria-pressed` on the check.
+ *
+ * A list renders hundreds of rows, so their styles are global classes under `list-row` (no
+ * per-element scoping attributes) and the tick is drawn once in CSS instead of an SVG per row.
+ */
+interface Props {
+  item: ItemView;
+}
+
+const { item } = Astro.props;
+const poster = tmdbImage(item.poster);
+---
+
+<li
+  class="list-row"
+  data-item={item.id}
+  data-series={item.seriesKey}
+  data-importance={item.importance}
+  data-name={item.fullName}
+  data-hint={item.crossoverHint ?? undefined}
+>
+  {poster ? (
+    <Image class="list-row-poster" src={poster} alt="" widths={[80, 120]} sizes="40px" />
+  ) : (
+    <span class="list-row-poster" aria-hidden="true" />
+  )}
+  <span class="list-row-text">
+    <span class="list-row-label">{item.label}</span>
+    <span class="list-row-meta">
+      {item.seriesName} · {item.importanceLabel}
+    </span>
+    {item.note && <span class="list-row-note">{item.note}</span>}
+  </span>
+  <button
+    class="list-row-check"
+    type="button"
+    aria-pressed="false"
+    aria-label={item.fullName}
+  ></button>
+</li>
+
+<style is:global>
+  .list-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 8px 4px 8px 8px;
+    border-radius: var(--wcl-radius-button);
+  }
+  .list-row[hidden] {
+    display: none;
+  }
+  .list-row-poster {
+    flex: none;
+    width: 40px;
+    height: 60px;
+    border-radius: var(--wcl-radius-small);
+    object-fit: cover;
+    background: var(--wcl-surface-2);
+  }
+  .list-row-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .list-row-label {
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .list-row-meta,
+  .list-row-note {
+    font-size: 13px;
+    color: var(--wcl-muted);
+  }
+  .list-row-note {
+    color: var(--wcl-text-soft);
+  }
+  .list-row-check {
+    position: relative;
+    flex: none;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .list-row-check::before {
+    content: '';
+    width: 28px;
+    height: 28px;
+    border-radius: var(--wcl-radius-check);
+    box-shadow: inset 0 0 0 2px var(--wcl-muted);
+  }
+  .list-row-check[aria-pressed='true']::before {
+    box-shadow: none;
+    background: var(--wcl-text);
+  }
+  /* The tick's shape comes from the mask, its colour from the token. */
+  .list-row-check[aria-pressed='true']::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: var(--wcl-bg);
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E")
+      center / contain no-repeat;
+  }
+  .list-row:has(.list-row-check[aria-pressed='true']) :is(.list-row-poster, .list-row-text) {
+    opacity: 0.4;
+  }
+  .list-row[data-next] .list-row-check[aria-pressed='false']::before {
+    box-shadow: inset 0 0 0 2.5px var(--wcl-vermilion);
+  }
+  @media (hover: hover) {
+    .list-row:hover {
+      background: var(--wcl-surface-2);
+    }
+  }
+</style>

@@ -6,7 +6,7 @@
   "packageManager": "pnpm@12.16.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "pnpm validate:data && astro build",
+    "build": "pnpm validate:data && pnpm sync:tmdb && astro build",
     "preview": "astro preview",
     "check": "astro check",
     "lint": "eslint . && prettier --check .",
