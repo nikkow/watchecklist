@@ -1,7 +1,7 @@
 title: Star Wars
 description:
   en: Every Star Wars film in story order, from the fall of the Republic to the last trilogy.
-  fr: Tous les films Star Wars dans l’ordre de l’histoire, de la chute de la République à la dernière trilogie.
+  fr: Tous les films Star Wars dans l'ordre de l'histoire, de la chute de la République à la dernière trilogie.
 authors: [nikkow]
 cover:
   backdrop: movie:11
@@ -15,7 +15,7 @@ sections:
       - movie:1894
       - id: movie:12180
         importance: optional
-        note: { en: 'Animated film.', fr: 'Film d’animation.' }
+        note: { en: 'Animated film.', fr: "Film d'animation." }
       - movie:1895
   - title:
       en: Before the original trilogy

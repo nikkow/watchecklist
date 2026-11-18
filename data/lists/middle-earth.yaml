@@ -3,7 +3,7 @@ title:
   fr: Terre du Milieu
 description:
   en: The Tolkien adaptations in story order, from The Rings of Power to The Lord of the Rings.
-  fr: Les adaptations de Tolkien dans l’ordre de l’histoire, des Anneaux de pouvoir au Seigneur des Anneaux.
+  fr: Les adaptations de Tolkien dans l'ordre de l'histoire, des Anneaux de pouvoir au Seigneur des Anneaux.
 authors: [nikkow]
 cover:
   backdrop: movie:120
@@ -51,7 +51,7 @@ sections:
     items:
       - id: movie:839033
         importance: optional
-        note: { en: 'Animated film.', fr: 'Film d’animation.' }
+        note: { en: 'Animated film.', fr: "Film d'animation." }
   - title:
       en: 'Third Age: The Hobbit'
       fr: 'Troisième Âge : Le Hobbit'
