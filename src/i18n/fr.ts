@@ -83,6 +83,11 @@ export const fr: Dictionary = {
     storageUnavailable:
       'Ce navigateur ne garde pas de données pour ce site : votre progression sera perdue en le quittant.',
   },
+  notFound: {
+    title: 'Page introuvable',
+    body: 'Cette page n’existe pas ou a changé d’adresse.',
+    home: 'Retour aux listes',
+  },
   install: {
     title: 'Installer watchecklist',
     body: 'Ouvrez vos listes depuis l’écran d’accueil et cochez même hors ligne.',

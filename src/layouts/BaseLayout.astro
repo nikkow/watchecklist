@@ -29,9 +29,11 @@ interface Props {
   description?: string;
   /** Picture shown when the page is shared; the app icon otherwise. */
   image?: ImageMetadata | null;
+  /** False for pages search engines must skip, such as the not-found page. */
+  indexable?: boolean;
 }
 
-const { locale, alternates, current, title, description, image } = Astro.props;
+const { locale, alternates, current, title, description, image, indexable = true } = Astro.props;
 const t = useTranslations(locale);
 const metaDescription = description ?? t.meta.description;
 const site = Astro.site;
@@ -60,15 +62,21 @@ const shareImage = image
     }
     <title>{fullTitle}</title>
     <meta name="description" content={metaDescription} />
-    <link rel="canonical" href={canonical} />
-    {alternateLinks(alternates, site).map(({ hreflang, href }) => (
-      <link rel="alternate" hreflang={hreflang} href={href} />
-    ))}
+    {indexable ? (
+      <>
+        <link rel="canonical" href={canonical} />
+        {alternateLinks(alternates, site).map(({ hreflang, href }) => (
+          <link rel="alternate" hreflang={hreflang} href={href} />
+        ))}
+      </>
+    ) : (
+      <meta name="robots" content="noindex" />
+    )}
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="watchecklist" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={metaDescription} />
-    <meta property="og:url" content={canonical} />
+    {indexable && <meta property="og:url" content={canonical} />}
     <meta property="og:image" content={shareImage} />
     <meta property="og:locale" content={openGraphLocale(locale)} />
     {locales

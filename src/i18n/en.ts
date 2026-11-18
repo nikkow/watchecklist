@@ -80,6 +80,11 @@ export const en = {
     storageUnavailable:
       'This browser does not keep data for this site, so your progress will be lost when you leave.',
   },
+  notFound: {
+    title: 'Page not found',
+    body: 'This page does not exist or has moved.',
+    home: 'Back to the lists',
+  },
   install: {
     title: 'Install watchecklist',
     body: 'Open your lists from the home screen and tick episodes even offline.',

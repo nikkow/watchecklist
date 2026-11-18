@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { defaultLocale, locales, useTranslations } from '../i18n';
+import { pagePath, pages } from '../i18n/routes';
+
+// The server answers every unknown address with this one page, whatever its language, so it
+// speaks both locales and leads back to each home page.
+const t = useTranslations(defaultLocale);
+---
+
+<BaseLayout
+  locale={defaultLocale}
+  alternates={pages.home}
+  title={t.notFound.title}
+  indexable={false}
+>
+  <section class="not-found wcl-container">
+    <h1 class="wcl-page-title">404</h1>
+    {locales.map((locale) => {
+      const strings = useTranslations(locale).notFound;
+      return (
+        <div class="message" lang={locale}>
+          <p class="title">{strings.title}</p>
+          <p>{strings.body}</p>
+          <a href={pagePath('home', locale)}>{strings.home}</a>
+        </div>
+      );
+    })}
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    padding-top: 32px;
+    display: grid;
+    gap: 24px;
+  }
+  .message {
+    display: grid;
+    gap: 6px;
+  }
+  .message p {
+    margin: 0;
+    color: var(--wcl-text-soft);
+  }
+  .message .title {
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--wcl-text);
+  }
+</style>
