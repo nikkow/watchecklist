@@ -1,0 +1,64 @@
+title:
+  en: Middle-earth
+  fr: Terre du Milieu
+description:
+  en: The Tolkien adaptations in release order, from The Lord of the Rings to The Rings of Power.
+  fr: Les adaptations de Tolkien dans l’ordre de sortie, du Seigneur des Anneaux aux Anneaux de pouvoir.
+authors: [nikkow]
+cover:
+  backdrop: movie:120
+
+sections:
+  - title:
+      en: The Lord of the Rings (2001-2003)
+      fr: Le Seigneur des Anneaux (2001-2003)
+    items:
+      - movie:120
+      - movie:121
+      - movie:122
+  - title:
+      en: The Hobbit (2012-2014)
+      fr: Le Hobbit (2012-2014)
+    items:
+      - movie:49051
+      - movie:57158
+      - movie:122917
+  - title:
+      en: The Rings of Power, season 1 (2022)
+      fr: Les Anneaux de pouvoir, saison 1 (2022)
+    items:
+      - { id: tv:84773:s01e01, importance: recommended }
+      - { id: tv:84773:s01e02, importance: recommended }
+      - { id: tv:84773:s01e03, importance: recommended }
+      - { id: tv:84773:s01e04, importance: recommended }
+      - { id: tv:84773:s01e05, importance: recommended }
+      - { id: tv:84773:s01e06, importance: recommended }
+      - { id: tv:84773:s01e07, importance: recommended }
+      - { id: tv:84773:s01e08, importance: recommended }
+  - title:
+      en: The Rings of Power, season 2, and The War of the Rohirrim (2024)
+      fr: Les Anneaux de pouvoir, saison 2, et La Guerre des Rohirrim (2024)
+    items:
+      - { id: tv:84773:s02e01, importance: recommended }
+      - { id: tv:84773:s02e02, importance: recommended }
+      - { id: tv:84773:s02e03, importance: recommended }
+      - { id: tv:84773:s02e04, importance: recommended }
+      - { id: tv:84773:s02e05, importance: recommended }
+      - { id: tv:84773:s02e06, importance: recommended }
+      - { id: tv:84773:s02e07, importance: recommended }
+      - { id: tv:84773:s02e08, importance: recommended }
+      - id: movie:839033
+        importance: optional
+        note: { en: 'Animated film.', fr: 'Film d’animation.' }
+  - title:
+      en: The Rings of Power, season 3 (2026)
+      fr: Les Anneaux de pouvoir, saison 3 (2026)
+    items:
+      - { id: tv:84773:s03e01, importance: recommended }
+      - { id: tv:84773:s03e02, importance: recommended }
+      - { id: tv:84773:s03e03, importance: recommended }
+      - { id: tv:84773:s03e04, importance: recommended }
+      - { id: tv:84773:s03e05, importance: recommended }
+      - { id: tv:84773:s03e06, importance: recommended }
+      - { id: tv:84773:s03e07, importance: recommended }
+      - { id: tv:84773:s03e08, importance: recommended }
