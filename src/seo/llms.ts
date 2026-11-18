@@ -33,7 +33,7 @@ export function buildLlmsTxt(content: LlmsContent, site: URL): string {
     '',
     `> ${content.description}`,
     '',
-    'Free website and installable app. No account, no tracking: progress stays on the device.',
+    'Free website and installable app. No account, no cookies: progress stays on the device.',
     'Lists are hand-curated and shared under CC BY-SA 4.0; episode data comes from TMDB.',
     'Pages exist in English (`/en/`) and French (`/fr/`).',
     '',

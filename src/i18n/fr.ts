@@ -31,9 +31,12 @@ export const fr: Dictionary = {
     title: 'À propos',
     intro:
       'watchecklist est une checklist gratuite pour regarder les épisodes et les films d’un univers partagé dans le bon ordre, crossovers compris.',
-    privacyTitle: 'Sans compte, sans pistage',
+    privacyTitle: 'Sans compte, sans cookie',
     privacy:
-      'Votre progression est enregistrée uniquement dans ce navigateur. Pas de compte, pas de mesure d’audience, pas de traceur.',
+      'Votre progression est enregistrée uniquement dans ce navigateur. Pas de compte, pas de cookie.',
+    stats:
+      'Les visites sont comptées de façon anonyme avec Matomo, hébergé par Keiko en France : pas de cookie, pas d’identifiant de visiteur, adresse IP masquée, données conservées 25 mois au plus, jamais partagées.',
+    statsChoice: 'Compter mes visites dans les statistiques anonymes',
     dataTitle: 'Sources des données',
     data: 'Les ordres de visionnage sont édités à la main et publiés sous CC BY-SA 4.0. Les titres, dates et images viennent de TMDB.',
     tmdbLink: 'The Movie Database (TMDB)',
