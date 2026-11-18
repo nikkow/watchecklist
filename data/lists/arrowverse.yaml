@@ -1,7 +1,7 @@
 title: Arrowverse
 description:
   en: Every episode of the Arrowverse series in airing order, with each crossover kept in one piece.
-  fr: Tous les épisodes des séries de l’Arrowverse dans l’ordre de diffusion, chaque crossover d’un seul tenant.
+  fr: Tous les épisodes des séries de l'Arrowverse dans l'ordre de diffusion, chaque crossover d'un seul tenant.
 authors: [nikkow]
 cover:
   backdrop: tv:1412
@@ -140,7 +140,7 @@ sections:
       - {
           id: tv:62125:s01e01,
           importance: optional,
-          note: { en: 'Animated web series.', fr: 'Websérie d’animation.' },
+          note: { en: 'Animated web series.', fr: "Websérie d'animation." },
         }
       - { id: tv:62125:s01e02, importance: optional }
       - { id: tv:62125:s01e03, importance: optional }
@@ -367,7 +367,7 @@ sections:
       - {
           id: tv:75486:s01e01,
           importance: optional,
-          note: { en: 'Animated web series.', fr: 'Websérie d’animation.' },
+          note: { en: 'Animated web series.', fr: "Websérie d'animation." },
         }
       - { id: tv:75486:s01e02, importance: optional }
       - { id: tv:75486:s01e03, importance: optional }
