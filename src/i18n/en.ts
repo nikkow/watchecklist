@@ -32,7 +32,7 @@ export const en = {
     privacyTitle: 'No account, no cookies',
     privacy: 'Your progress is stored in this browser only. There is no account and no cookie.',
     stats:
-      'Visits are counted anonymously with Matomo, hosted by Keiko in France: no cookie, no visitor identifier, masked IP address, data kept 25 months at most, never shared.',
+      'Visits are counted anonymously with an instance of Matomo hosted by Keiko, a France-based startup owned by the site author: no cookie, no visitor identifier, masked IP address, data kept 25 months at most, never shared.',
     statsChoice: 'Count my visits in the anonymous statistics',
     dataTitle: 'Data sources',
     data: 'Watch orders are edited by hand and published under CC BY-SA 4.0. Titles, dates and images come from TMDB.',

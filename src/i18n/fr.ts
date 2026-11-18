@@ -35,7 +35,7 @@ export const fr: Dictionary = {
     privacy:
       'Votre progression est enregistrée uniquement dans ce navigateur. Pas de compte, pas de cookie.',
     stats:
-      'Les visites sont comptées de façon anonyme avec Matomo, hébergé par Keiko en France : pas de cookie, pas d’identifiant de visiteur, adresse IP masquée, données conservées 25 mois au plus, jamais partagées.',
+      'Les visites sont comptées de façon anonyme avec une instance de Matomo hébergée par Keiko, une startup française appartenant à l’auteur du site : pas de cookie, pas d’identifiant de visiteur, adresse IP masquée, données conservées 25 mois au plus, jamais partagées.',
     statsChoice: 'Compter mes visites dans les statistiques anonymes',
     dataTitle: 'Sources des données',
     data: 'Les ordres de visionnage sont édités à la main et publiés sous CC BY-SA 4.0. Les titres, dates et images viennent de TMDB.',
