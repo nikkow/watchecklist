@@ -1,0 +1,44 @@
+title: Star Wars
+description:
+  en: Every Star Wars film in release order, the order that keeps the saga's surprises intact.
+  fr: Tous les films Star Wars dans l’ordre de sortie, celui qui préserve les surprises de la saga.
+authors: [nikkow]
+cover:
+  backdrop: movie:11
+
+sections:
+  - title:
+      en: Original trilogy (1977-1983)
+      fr: Trilogie originale (1977-1983)
+    items:
+      - movie:11
+      - movie:1891
+      - movie:1892
+  - title:
+      en: Prequel trilogy (1999-2008)
+      fr: Prélogie (1999-2008)
+    items:
+      - movie:1893
+      - movie:1894
+      - movie:1895
+      - id: movie:12180
+        importance: optional
+        note: { en: 'Animated film.', fr: 'Film d’animation.' }
+  - title:
+      en: Sequel trilogy and spin-offs (2015-2019)
+      fr: Postlogie et spin-offs (2015-2019)
+    items:
+      - movie:140607
+      - { id: movie:330459, importance: recommended }
+      - movie:181808
+      - { id: movie:348350, importance: optional }
+      - movie:181812
+  - title:
+      en: After the saga (2026)
+      fr: Après la saga (2026)
+    items:
+      - id: movie:1228710
+        importance: optional
+        note:
+          en: 'Follows the series The Mandalorian.'
+          fr: 'Fait suite à la série The Mandalorian.'
