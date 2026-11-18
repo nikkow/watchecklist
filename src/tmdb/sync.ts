@@ -84,6 +84,7 @@ export async function buildCatalog(
         known.set(episodeCode(episode.season_number, episode.episode_number), {
           airDate: episode.air_date || null,
           name: episodeName(episode.name, french.get(episode.episode_number) ?? ''),
+          runtime: episode.runtime || null,
         });
       }
     }
@@ -109,6 +110,7 @@ export async function buildCatalog(
     const movie: Movie = {
       name: localizedName(en.title, fr.title, en.original_title),
       releaseDate: en.release_date || null,
+      runtime: en.runtime || null,
       ...queueImages(result, key, en, references.covers.has(key)),
     };
     result.catalog.movies[key] = movie;

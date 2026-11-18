@@ -16,6 +16,8 @@ export interface TmdbSeason {
     episode_number: number;
     air_date: string | null;
     name: string;
+    /** Minutes, null or 0 when TMDB does not know it. */
+    runtime?: number | null;
   }[];
 }
 
@@ -23,4 +25,6 @@ export interface TmdbMovie extends TmdbImagePaths {
   title: string;
   original_title: string;
   release_date: string;
+  /** Minutes, null or 0 when TMDB does not know it. */
+  runtime?: number | null;
 }

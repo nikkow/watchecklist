@@ -56,6 +56,16 @@ export const fr: Dictionary = {
     movies: (count: number) => `${count} ${count === 1 ? 'film' : 'films'}`,
     years: (from: string, to: string) => (from === to ? from : `${from} à ${to}`),
     progress: 'Progression',
+    factsTitle: 'En bref',
+    watchTimeLabel: 'Durée',
+    watchTime: (hours: number) =>
+      `Environ ${hours.toLocaleString('fr')} ${hours === 1 ? 'heure' : 'heures'}`,
+    essentialsLabel: 'Essentiels seulement',
+    essentials: (count: number, hours: number | null) =>
+      hours === null
+        ? `${count.toLocaleString('fr')} à voir`
+        : `${count.toLocaleString('fr')} à voir, environ ${hours.toLocaleString('fr')} ${hours === 1 ? 'heure' : 'heures'}`,
+    startLabel: 'Commencer par',
     nextUp: 'À voir ensuite',
     markWatched: 'Marquer comme vu',
     allWatched: 'Tout est vu. Il ne reste rien dans cette liste.',

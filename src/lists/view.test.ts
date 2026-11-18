@@ -30,21 +30,24 @@ const catalog: Catalog = {
       poster: 'tv-1-poster.jpg',
       backdrop: 'tv-1-backdrop.jpg',
       episodes: {
-        s01e01: { airDate: '2012-10-10', name: { en: 'Pilot', fr: 'Pilote' } },
-        s01e02: { airDate: '2012-10-17', name: { en: 'Second', fr: 'Second' } },
+        s01e01: { airDate: '2012-10-10', name: { en: 'Pilot', fr: 'Pilote' }, runtime: 42 },
+        s01e02: { airDate: '2012-10-17', name: { en: 'Second', fr: 'Second' }, runtime: 44 },
       },
     },
     'tv:2': {
       name: { en: 'Beta', fr: 'Beta' },
       poster: null,
       backdrop: null,
-      episodes: { s03e01: { airDate: '2014-01-01', name: { en: 'Third', fr: 'Troisième' } } },
+      episodes: {
+        s03e01: { airDate: '2014-01-01', name: { en: 'Third', fr: 'Troisième' }, runtime: null },
+      },
     },
   },
   movies: {
     'movie:7': {
       name: { en: 'Gamma', fr: 'Gamma' },
       releaseDate: '2016-05-05',
+      runtime: 120,
       poster: null,
       backdrop: null,
     },
@@ -67,6 +70,27 @@ describe('buildListView', () => {
     expect(view.crossovers).toEqual([
       { slug: 'meet', name: 'The Meeting', sectionTitle: 'Part one', itemCount: 2 },
     ]);
+  });
+
+  it('gives spoiler-free facts: watch time, essentials, where to start', () => {
+    expect(view.facts).toEqual({
+      watchTime: 'About 3 hours',
+      essentials: '3 to watch, about 1 hour',
+      start: 'Alpha S01E01',
+    });
+    const french = buildListView('test', list, catalog, 'fr', useTranslations('fr'));
+    expect(french.facts.watchTime).toBe('Environ 3 heures');
+  });
+
+  it('leaves out the watch time when TMDB has no runtime', () => {
+    const unknown: Catalog = structuredClone(catalog);
+    for (const show of Object.values(unknown.shows)) {
+      for (const episode of Object.values(show.episodes)) episode.runtime = null;
+    }
+    for (const movie of Object.values(unknown.movies)) movie.runtime = null;
+    const view = buildListView('test', list, unknown, 'en', useTranslations('en'));
+    expect(view.facts.watchTime).toBeNull();
+    expect(view.facts.essentials).toBe('3 to watch');
   });
 
   it('names the seasons a section covers', () => {

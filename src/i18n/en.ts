@@ -53,6 +53,16 @@ export const en = {
     movies: (count: number) => `${count} ${count === 1 ? 'film' : 'films'}`,
     years: (from: string, to: string) => (from === to ? from : `${from} to ${to}`),
     progress: 'Progress',
+    factsTitle: 'At a glance',
+    watchTimeLabel: 'Watch time',
+    watchTime: (hours: number) =>
+      `About ${hours.toLocaleString('en')} ${hours === 1 ? 'hour' : 'hours'}`,
+    essentialsLabel: 'Essentials only',
+    essentials: (count: number, hours: number | null) =>
+      hours === null
+        ? `${count.toLocaleString('en')} to watch`
+        : `${count.toLocaleString('en')} to watch, about ${hours.toLocaleString('en')} ${hours === 1 ? 'hour' : 'hours'}`,
+    startLabel: 'Start with',
     nextUp: 'Up next',
     markWatched: 'Mark as watched',
     allWatched: 'All watched. Nothing left in this list.',

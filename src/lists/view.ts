@@ -6,6 +6,7 @@ import type {
   BlockView,
   CrossoverView,
   ItemView,
+  ListFacts,
   ListView,
   SectionView,
   SeriesView,
@@ -17,6 +18,8 @@ interface ResolvedItem extends ItemView {
   /** Show and season, such as `tv:1412` and 3, for the section's seasons line; null for a film. */
   season: { key: string; number: number } | null;
   date: string | null;
+  /** Minutes, null when TMDB has none. */
+  runtime: number | null;
 }
 
 /**
@@ -79,6 +82,10 @@ export function buildListView(
           episode === null
             ? (catalog.movies[key]?.releaseDate ?? null)
             : (catalog.shows[key]?.episodes[episode]?.airDate ?? null),
+        runtime:
+          (episode === null
+            ? catalog.movies[key]?.runtime
+            : catalog.shows[key]?.episodes[episode]?.runtime) ?? null,
       };
     }),
   );
@@ -114,6 +121,7 @@ export function buildListView(
     description: localize(list.description, locale),
     cover: { image: cover.images.backdrop, focus: list.cover.focus ?? '50% 50%' },
     stats: stats(items, list, t),
+    facts: facts(items, t),
     series,
     crossovers,
     sections: list.sections.map((section, index): SectionView => ({
@@ -127,6 +135,39 @@ export function buildListView(
     authors: list.authors,
     curators: list.curators,
   };
+}
+
+/**
+ * Words the spoiler-free figures of a list: watch time, what the essentials take, where to start.
+ *
+ * @param items - Every item of the list, in order.
+ * @param t - Dictionary of the page locale.
+ * @returns The facts, each null when it has nothing to say.
+ */
+function facts(items: readonly ResolvedItem[], t: Dictionary): ListFacts {
+  const total = watchHours(items);
+  const essentials = items.filter((item) => item.importance === 'essential');
+  return {
+    watchTime: total === null ? null : t.list.watchTime(total),
+    essentials:
+      essentials.length === items.length
+        ? null
+        : t.list.essentials(essentials.length, watchHours(essentials)),
+    start: items[0]?.fullName ?? null,
+  };
+}
+
+/**
+ * Adds up the runtimes TMDB knows, rounded to whole hours.
+ *
+ * @param items - Items to add up.
+ * @returns At least one hour, or null when no item has a runtime.
+ */
+function watchHours(items: readonly ResolvedItem[]): number | null {
+  const known = items.flatMap((item) => (item.runtime === null ? [] : [item.runtime]));
+  if (known.length === 0) return null;
+  const minutes = known.reduce((sum, runtime) => sum + runtime, 0);
+  return Math.max(1, Math.round(minutes / 60));
 }
 
 /**

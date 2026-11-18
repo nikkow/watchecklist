@@ -36,9 +36,13 @@ export interface Episode {
   airDate: string | null;
   /** The French title falls back to the English one when TMDB has none. */
   name: LocalizedName;
+  /** Minutes, null when TMDB has none. */
+  runtime: number | null;
 }
 
 export interface Movie extends TitleImages {
   name: LocalizedName;
   releaseDate: string | null;
+  /** Minutes, null when TMDB has none. */
+  runtime: number | null;
 }
