@@ -4,6 +4,7 @@ import ListCard from './list/ListCard.astro';
 import { listViews } from './list/listPaths';
 import { useTranslations, type Locale } from '../i18n';
 import { pages } from '../i18n/routes';
+import { websiteData } from '../seo/structured-data';
 import { suggestListUrl } from '../site';
 
 interface Props {
@@ -13,9 +14,10 @@ interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 const lists = await listViews(locale);
+const website = websiteData(new URL(pages.home[locale], Astro.site), locale, t.meta.description);
 ---
 
-<BaseLayout locale={locale} alternates={pages.home} current="home">
+<BaseLayout locale={locale} alternates={pages.home} current="home" structuredData={[website]}>
   <section class="hero wcl-container">
     <h1 class="wcl-page-title">{t.home.title}</h1>
     <p class="subtitle">{t.home.subtitle}</p>

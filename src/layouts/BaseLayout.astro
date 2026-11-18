@@ -16,6 +16,7 @@ import Header from '../components/Header.astro';
 import { locales, useTranslations, type Locale } from '../i18n';
 import type { Alternates, PageKey } from '../i18n/routes';
 import { alternateLinks, openGraphLocale } from '../seo/alternates';
+import { serializeStructuredData, type StructuredData } from '../seo/structured-data';
 import { backgroundColor } from '../site';
 
 interface Props {
@@ -31,9 +32,20 @@ interface Props {
   image?: ImageMetadata | null;
   /** False for pages search engines must skip, such as the not-found page. */
   indexable?: boolean;
+  /** schema.org nodes describing the page for search engines. */
+  structuredData?: readonly StructuredData[];
 }
 
-const { locale, alternates, current, title, description, image, indexable = true } = Astro.props;
+const {
+  locale,
+  alternates,
+  current,
+  title,
+  description,
+  image,
+  indexable = true,
+  structuredData = [],
+} = Astro.props;
 const t = useTranslations(locale);
 const metaDescription = description ?? t.meta.description;
 const site = Astro.site;
@@ -85,6 +97,9 @@ const shareImage = image
         <meta property="og:locale:alternate" content={openGraphLocale(option)} />
       ))}
     <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
+    {structuredData.map((data) => (
+      <script type="application/ld+json" is:inline set:html={serializeStructuredData(data)} />
+    ))}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />

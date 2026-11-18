@@ -8,12 +8,23 @@ export interface ListView {
   cover: { image: string | null; focus: string };
   /** Summary pieces, such as "11 series" and "2012 to 2024", joined by the page. */
   stats: string[];
+  facts: ListFacts;
   series: SeriesView[];
   crossovers: CrossoverView[];
   sections: SectionView[];
   itemCount: number;
   authors: string[];
   curators: string[];
+}
+
+/** Spoiler-free figures for the "at a glance" block, already worded. */
+export interface ListFacts {
+  /** Total watch time, such as "About 610 hours"; null when TMDB has no runtime. */
+  watchTime: string | null;
+  /** How much the essentials take, null when every item is essential. */
+  essentials: string | null;
+  /** First item, such as "Arrow S01E01"; null for an empty list. */
+  start: string | null;
 }
 
 /** A show or film of the list, used by the series filter. */

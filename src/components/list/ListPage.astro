@@ -5,6 +5,7 @@ import ListItem from './ListItem.astro';
 import { useTranslations, type Locale } from '../../i18n';
 import { listAlternates, pagePath } from '../../i18n/routes';
 import type { ListView } from '../../lists/view-types';
+import { breadcrumbData } from '../../seo/structured-data';
 import { tmdbImage } from '../../tmdb/images';
 
 /**
@@ -29,6 +30,15 @@ const importanceFilters = [
   { value: 'essential', label: t.list.essentialOnly },
 ] as const;
 const githubUrl = (handle: string) => `https://github.com/${handle}`;
+const facts = [
+  [t.list.watchTimeLabel, view.facts.watchTime],
+  [t.list.essentialsLabel, view.facts.essentials],
+  [t.list.startLabel, view.facts.start],
+].filter((fact): fact is [string, string] => fact[1] !== null);
+const breadcrumb = breadcrumbData([
+  { name: 'watchecklist', url: new URL(pagePath('home', locale), Astro.site) },
+  { name: view.title, url: new URL(listAlternates(view.slug)[locale], Astro.site) },
+]);
 ---
 
 <BaseLayout
@@ -38,6 +48,7 @@ const githubUrl = (handle: string) => `https://github.com/${handle}`;
   title={t.list.metaTitle(view.title)}
   description={view.description}
   image={cover}
+  structuredData={[breadcrumb]}
 >
   <div class="list" data-list={view.slug}>
     <section class="hero wcl-container">
@@ -71,6 +82,19 @@ const githubUrl = (handle: string) => `https://github.com/${handle}`;
         </h1>
         <p class="stats">{view.stats.join(' · ')}</p>
         <p class="description">{view.description}</p>
+        <section class="facts" aria-labelledby="facts-title">
+          <h2 id="facts-title" class="facts-title">
+            {t.list.factsTitle}
+          </h2>
+          <dl>
+            {facts.map(([label, value]) => (
+              <div>
+                <dt>{label}</dt>
+                <dd>{value}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
         <div class="progress">
           <div
             class="track"
@@ -407,6 +431,38 @@ const githubUrl = (handle: string) => `https://github.com/${handle}`;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--wcl-muted);
+  }
+  .facts {
+    padding: 14px 16px;
+    border-radius: var(--wcl-radius-card);
+    background: var(--wcl-surface);
+  }
+  .facts-title {
+    margin: 0 0 10px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--wcl-muted);
+  }
+  .facts dl {
+    margin: 0;
+    display: grid;
+    gap: 8px;
+  }
+  .facts dl > div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2px 12px;
+  }
+  .facts dt {
+    color: var(--wcl-text-soft);
+  }
+  .facts dd {
+    margin: 0;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
   }
   .stats {
     margin: 0;
