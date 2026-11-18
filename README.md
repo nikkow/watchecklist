@@ -16,7 +16,7 @@ universes with crossovers (episodes from several series interleaved with films).
 - Short spoiler-free editorial notes.
 - French and English.
 - Works offline once installed as a PWA.
-- No account, no tracking: progress stays on the device.
+- No account, no cookies: progress stays on the device; visits are counted anonymously (Matomo, cookieless, opt-out on the About page).
 
 ## Architecture
 

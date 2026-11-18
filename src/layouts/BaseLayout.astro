@@ -63,9 +63,11 @@ const canonical = new URL(alternates[locale], Astro.site);
     </main>
     <Footer locale={locale} alternates={alternates} />
     <script>
+      import { trackPageView } from '../analytics/matomo';
       import { registerServiceWorker } from '../pwa/register';
       // A worker in development would serve stale pages over the dev server.
       if (import.meta.env.PROD) registerServiceWorker();
+      trackPageView();
     </script>
   </body>
 </html>
