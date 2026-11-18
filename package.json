@@ -3,6 +3,10 @@
   "private": true,
   "type": "module",
   "license": "MIT",
+  "author": {
+    "name": "Nicolas Nunge",
+    "url": "https://github.com/nikkow"
+  },
   "packageManager": "pnpm@12.16.1",
   "scripts": {
     "dev": "astro dev",
