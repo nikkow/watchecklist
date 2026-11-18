@@ -2,6 +2,7 @@ import type { Dictionary } from './en';
 
 export const fr: Dictionary = {
   meta: {
+    title: 'watchecklist : ordres de visionnage des univers partagés',
     description:
       'Regardez chaque épisode et chaque film d’un univers partagé dans le bon ordre. Chaque crossover, chaque épisode, sans spoiler.',
   },
@@ -29,6 +30,8 @@ export const fr: Dictionary = {
   },
   about: {
     title: 'À propos',
+    description:
+      'Qui fait watchecklist, comment votre progression reste sur votre appareil, d’où viennent les ordres de visionnage et les données TMDB.',
     intro:
       'watchecklist est une checklist gratuite pour regarder les épisodes et les films d’un univers partagé dans le bon ordre, crossovers compris.',
     privacyTitle: 'Sans compte, sans cookie',
@@ -45,6 +48,8 @@ export const fr: Dictionary = {
   },
   list: {
     backToLists: 'Retour aux listes',
+    metaTitle: (name: string) => `${name} : ordre de visionnage sans spoiler`,
+    watchOrder: 'ordre de visionnage',
     series: (count: number) => `${count} ${count === 1 ? 'série' : 'séries'}`,
     crossovers: (count: number) => `${count} ${count === 1 ? 'crossover' : 'crossovers'}`,
     episodes: (count: number) => `${count} ${count === 1 ? 'épisode' : 'épisodes'}`,

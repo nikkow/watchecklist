@@ -12,7 +12,13 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 ---
 
-<BaseLayout locale={locale} alternates={pages.about} current="about" title={t.about.title}>
+<BaseLayout
+  locale={locale}
+  alternates={pages.about}
+  current="about"
+  title={t.about.title}
+  description={t.about.description}
+>
   <article class="wcl-container">
     <h1 class="wcl-page-title">{t.about.title}</h1>
     <p class="intro">{t.about.intro}</p>

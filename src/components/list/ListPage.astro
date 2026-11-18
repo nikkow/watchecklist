@@ -35,8 +35,9 @@ const githubUrl = (handle: string) => `https://github.com/${handle}`;
   locale={locale}
   alternates={listAlternates(view.slug)}
   current="home"
-  title={view.title}
+  title={t.list.metaTitle(view.title)}
   description={view.description}
+  image={cover}
 >
   <div class="list" data-list={view.slug}>
     <section class="hero wcl-container">
@@ -64,7 +65,10 @@ const githubUrl = (handle: string) => `https://github.com/${handle}`;
         </svg>
       </div>
       <div class="intro">
-        <h1 class="wcl-page-title">{view.title}</h1>
+        <h1 class="wcl-page-title">
+          {view.title}
+          <span class="title-kicker"> {t.list.watchOrder}</span>
+        </h1>
         <p class="stats">{view.stats.join(' · ')}</p>
         <p class="description">{view.description}</p>
         <div class="progress">
@@ -391,6 +395,18 @@ const githubUrl = (handle: string) => `https://github.com/${handle}`;
     display: grid;
     gap: 12px;
     align-content: start;
+  }
+  /* Names what the page is, for readers and search engines, without competing with the title. */
+  .title-kicker {
+    display: block;
+    margin-top: 6px;
+    font-family: var(--wcl-font-ui);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.3;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--wcl-muted);
   }
   .stats {
     margin: 0;
