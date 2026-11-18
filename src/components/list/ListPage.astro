@@ -5,6 +5,7 @@ import ListItem from './ListItem.astro';
 import { useTranslations, type Locale } from '../../i18n';
 import { listAlternates, pagePath } from '../../i18n/routes';
 import type { ListView } from '../../lists/view-types';
+import { breadcrumbData } from '../../seo/structured-data';
 import { tmdbImage } from '../../tmdb/images';
 
 /**
@@ -34,6 +35,10 @@ const facts = [
   [t.list.essentialsLabel, view.facts.essentials],
   [t.list.startLabel, view.facts.start],
 ].filter((fact): fact is [string, string] => fact[1] !== null);
+const breadcrumb = breadcrumbData([
+  { name: 'watchecklist', url: new URL(pagePath('home', locale), Astro.site) },
+  { name: view.title, url: new URL(listAlternates(view.slug)[locale], Astro.site) },
+]);
 ---
 
 <BaseLayout
@@ -43,6 +48,7 @@ const facts = [
   title={t.list.metaTitle(view.title)}
   description={view.description}
   image={cover}
+  structuredData={[breadcrumb]}
 >
   <div class="list" data-list={view.slug}>
     <section class="hero wcl-container">
