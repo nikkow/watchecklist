@@ -14,7 +14,20 @@
   RewriteCond %{HTTP:X-Forwarded-Proto} !=https
   RewriteCond %{SERVER_PORT} !=443
   RewriteRule ^ https://watchecklist.com%{REQUEST_URI} [R=301,L]
+
+  # Folders get their trailing slash here instead of from mod_dir, whose redirect names the
+  # internal port (https://watchecklist.com:443/...) behind the hosting front end.
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteCond %{REQUEST_URI} !/$
+  RewriteRule ^ https://watchecklist.com%{REQUEST_URI}/ [R=301,L]
 </IfModule>
+
+<IfModule mod_dir.c>
+  DirectorySlash Off
+</IfModule>
+
+# Unknown addresses get the site's own page, still with a 404 status.
+ErrorDocument 404 /404.html
 
 <IfModule mod_mime.c>
   AddType application/manifest+json .webmanifest

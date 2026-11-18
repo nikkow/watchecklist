@@ -1,5 +1,6 @@
 export const en = {
   meta: {
+    title: 'watchecklist: Watch Orders for Shared TV Universes',
     description:
       'Watch every episode and film of a shared universe in the right order. Every crossover, every episode, spoiler-free.',
   },
@@ -27,6 +28,8 @@ export const en = {
   },
   about: {
     title: 'About',
+    description:
+      'Who makes watchecklist, how your progress stays on your device, where the watch orders and the TMDB data come from.',
     intro:
       'watchecklist is a free checklist for watching the episodes and films of a shared universe in the right order, crossovers included.',
     privacyTitle: 'No account, no cookies',
@@ -42,6 +45,8 @@ export const en = {
   },
   list: {
     backToLists: 'Back to lists',
+    metaTitle: (name: string) => `${name} Watch Order, Spoiler-Free`,
+    watchOrder: 'watch order',
     series: (count: number) => `${count} series`,
     crossovers: (count: number) => `${count} ${count === 1 ? 'crossover' : 'crossovers'}`,
     episodes: (count: number) => `${count} ${count === 1 ? 'episode' : 'episodes'}`,
@@ -74,6 +79,11 @@ export const en = {
     githubProfile: (handle: string) => `${handle} on GitHub`,
     storageUnavailable:
       'This browser does not keep data for this site, so your progress will be lost when you leave.',
+  },
+  notFound: {
+    title: 'Page not found',
+    body: 'This page does not exist or has moved.',
+    home: 'Back to the lists',
   },
   install: {
     title: 'Install watchecklist',
