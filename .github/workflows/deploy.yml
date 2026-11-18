@@ -25,7 +25,10 @@ jobs:
       name: production
       url: https://watchecklist.com
     steps:
+      # Full history, so the sitemap dates each list by its last commit.
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       - uses: pnpm/action-setup@v6
 

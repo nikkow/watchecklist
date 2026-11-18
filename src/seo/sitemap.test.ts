@@ -4,7 +4,7 @@ import { buildSitemap } from './sitemap';
 const site = new URL('https://watchecklist.com');
 
 describe('buildSitemap', () => {
-  const xml = buildSitemap([{ en: '/en/about/', fr: '/fr/a-propos/' }], site);
+  const xml = buildSitemap([{ alternates: { en: '/en/about/', fr: '/fr/a-propos/' } }], site);
 
   it('lists the page once per locale', () => {
     expect(xml.match(/<loc>/g)).toHaveLength(2);
@@ -19,6 +19,15 @@ describe('buildSitemap', () => {
     expect(
       xml.match(/hreflang="x-default" href="https:\/\/watchecklist.com\/en\/about\/"/g),
     ).toHaveLength(2);
+  });
+
+  it('dates a page only when its last change is known', () => {
+    expect(xml).not.toContain('<lastmod>');
+    const dated = buildSitemap(
+      [{ alternates: { en: '/en/lists/a/', fr: '/fr/listes/a/' }, lastmod: '2026-11-18' }],
+      site,
+    );
+    expect(dated.match(/<lastmod>2026-11-18<\/lastmod>/g)).toHaveLength(2);
   });
 
   it('is an empty url set without pages', () => {
