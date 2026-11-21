@@ -1,0 +1,68 @@
+title:
+  en: Middle-earth
+  fr: Terre du Milieu
+description:
+  en: The Tolkien adaptations in story order, from The Rings of Power to The Lord of the Rings.
+  fr: Les adaptations de Tolkien dans l'ordre de l'histoire, des Anneaux de pouvoir au Seigneur des Anneaux.
+authors: [nikkow]
+cover:
+  backdrop: movie:120
+
+sections:
+  - title:
+      en: 'Second Age: The Rings of Power, season 1'
+      fr: 'Deuxième Âge : Les Anneaux de pouvoir, saison 1'
+    items:
+      - { id: tv:84773:s01e01, importance: recommended }
+      - { id: tv:84773:s01e02, importance: recommended }
+      - { id: tv:84773:s01e03, importance: recommended }
+      - { id: tv:84773:s01e04, importance: recommended }
+      - { id: tv:84773:s01e05, importance: recommended }
+      - { id: tv:84773:s01e06, importance: recommended }
+      - { id: tv:84773:s01e07, importance: recommended }
+      - { id: tv:84773:s01e08, importance: recommended }
+  - title:
+      en: 'Second Age: The Rings of Power, season 2'
+      fr: 'Deuxième Âge : Les Anneaux de pouvoir, saison 2'
+    items:
+      - { id: tv:84773:s02e01, importance: recommended }
+      - { id: tv:84773:s02e02, importance: recommended }
+      - { id: tv:84773:s02e03, importance: recommended }
+      - { id: tv:84773:s02e04, importance: recommended }
+      - { id: tv:84773:s02e05, importance: recommended }
+      - { id: tv:84773:s02e06, importance: recommended }
+      - { id: tv:84773:s02e07, importance: recommended }
+      - { id: tv:84773:s02e08, importance: recommended }
+  - title:
+      en: 'Second Age: The Rings of Power, season 3'
+      fr: 'Deuxième Âge : Les Anneaux de pouvoir, saison 3'
+    items:
+      - { id: tv:84773:s03e01, importance: recommended }
+      - { id: tv:84773:s03e02, importance: recommended }
+      - { id: tv:84773:s03e03, importance: recommended }
+      - { id: tv:84773:s03e04, importance: recommended }
+      - { id: tv:84773:s03e05, importance: recommended }
+      - { id: tv:84773:s03e06, importance: recommended }
+      - { id: tv:84773:s03e07, importance: recommended }
+      - { id: tv:84773:s03e08, importance: recommended }
+  - title:
+      en: 'Third Age: The War of the Rohirrim'
+      fr: 'Troisième Âge : La Guerre des Rohirrim'
+    items:
+      - id: movie:839033
+        importance: optional
+        note: { en: 'Animated film.', fr: "Film d'animation." }
+  - title:
+      en: 'Third Age: The Hobbit'
+      fr: 'Troisième Âge : Le Hobbit'
+    items:
+      - movie:49051
+      - movie:57158
+      - movie:122917
+  - title:
+      en: 'Third Age: The Lord of the Rings'
+      fr: 'Troisième Âge : Le Seigneur des Anneaux'
+    items:
+      - movie:120
+      - movie:121
+      - movie:122

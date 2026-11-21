@@ -1,0 +1,48 @@
+title: Star Wars
+description:
+  en: Every Star Wars film in story order, from the fall of the Republic to the last trilogy.
+  fr: Tous les films Star Wars dans l'ordre de l'histoire, de la chute de la République à la dernière trilogie.
+authors: [nikkow]
+cover:
+  backdrop: movie:11
+
+sections:
+  - title:
+      en: Prequel trilogy
+      fr: Prélogie
+    items:
+      - movie:1893
+      - movie:1894
+      - id: movie:12180
+        importance: optional
+        note: { en: 'Animated film.', fr: "Film d'animation." }
+      - movie:1895
+  - title:
+      en: Before the original trilogy
+      fr: Avant la trilogie originale
+    items:
+      - { id: movie:348350, importance: optional }
+      - { id: movie:330459, importance: recommended }
+  - title:
+      en: Original trilogy
+      fr: Trilogie originale
+    items:
+      - movie:11
+      - movie:1891
+      - movie:1892
+  - title:
+      en: Between the trilogies
+      fr: Entre les trilogies
+    items:
+      - id: movie:1228710
+        importance: optional
+        note:
+          en: 'Follows the series The Mandalorian.'
+          fr: 'Fait suite à la série The Mandalorian.'
+  - title:
+      en: Sequel trilogy
+      fr: Postlogie
+    items:
+      - movie:140607
+      - movie:181808
+      - movie:181812
